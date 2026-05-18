@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="500" prefWidth="500" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controlador.NuevaConsultaControlador">
+
+    <VBox spacing="12" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+
+        <Label text="Nueva Consulta Médica" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
+
+        <VBox spacing="5">
+            <Label text="Cita asociada" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <ComboBox fx:id="cbCita" prefWidth="440" promptText="Seleccionar cita completada" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Síntomas" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <TextArea fx:id="txtSintomas" prefHeight="70" promptText="Describa los síntomas" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Diagnóstico" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <TextArea fx:id="txtDiagnostico" prefHeight="70" promptText="Diagnóstico del veterinario" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Tratamiento" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <TextArea fx:id="txtTratamiento" prefHeight="70" promptText="Tratamiento indicado" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+        </VBox>
+
+        <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button onAction="#handleGuardar" text="Guardar" prefHeight="40" prefWidth="140" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+            <Button onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        </HBox>
+
+    </VBox>
+
+</AnchorPane>
