@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane style="-fx-background-color: #F0F4F0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controlador.FacturacionControlador">
+
+    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+
+        <Label text="Facturación" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Propietario:" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <ComboBox fx:id="cbPropietario" prefWidth="200" promptText="Seleccionar" />
+            <Label text="Estado:" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <ComboBox fx:id="cbEstadoPago" prefWidth="150" promptText="Todos" />
+            <Button onAction="#handleBuscar" text="Buscar" prefHeight="35" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+        </HBox>
+
+        <TableView fx:id="tablaFacturas" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50" />
+                <TableColumn fx:id="colPropietario" text="Propietario" prefWidth="140" />
+                <TableColumn fx:id="colPaciente" text="Paciente" prefWidth="120" />
+                <TableColumn fx:id="colFecha" text="Fecha" prefWidth="100" />
+                <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="100" />
+                <TableColumn fx:id="colImpuesto" text="IVA (19%)" prefWidth="90" />
+                <TableColumn fx:id="colTotal" text="Total" prefWidth="100" />
+                <TableColumn fx:id="colEstado" text="Estado" prefWidth="100" />
+                <TableColumn fx:id="colMetodoPago" text="Método Pago" prefWidth="110" />
+            </columns>
+        </TableView>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button onAction="#handleNueva" text="Nueva Factura" prefHeight="38" prefWidth="160" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+            <Button onAction="#handleVerDetalle" text="Ver Detalle" prefHeight="38" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+            <Button onAction="#handleAnular" text="Anular" prefHeight="38" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        </HBox>
+
+    </VBox>
+
+</AnchorPane>

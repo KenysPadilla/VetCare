@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="480" prefWidth="450" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controlador.NuevoBanoControlador">
+
+    <VBox spacing="12" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+
+        <Label text="Nuevo Servicio de Baño" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
+
+        <VBox spacing="5">
+            <Label text="Paciente" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <ComboBox fx:id="cbPaciente" prefWidth="390" promptText="Seleccionar mascota" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Estilista" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <ComboBox fx:id="cbEstilista" prefWidth="390" promptText="Seleccionar estilista" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+        </VBox>
+
+        <HBox spacing="15">
+            <VBox spacing="5">
+                <Label text="Fecha" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+                <DatePicker fx:id="dpFecha" prefWidth="185" />
+            </VBox>
+            <VBox spacing="5">
+                <Label text="Hora" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+                <ComboBox fx:id="cbHora" prefWidth="185" promptText="Seleccionar" />
+            </VBox>
+        </HBox>
+
+        <VBox spacing="5">
+            <Label text="Tipo de baño" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <ComboBox fx:id="cbTipoBano" prefWidth="390" promptText="Seleccionar tipo" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+        </VBox>
+
+        <HBox spacing="20">
+            <CheckBox fx:id="chkSecado" text="Incluye secado" style="-fx-text-fill: #333333;" />
+            <CheckBox fx:id="chkPerfume" text="Incluye perfume" style="-fx-text-fill: #333333;" />
+        </HBox>
+
+        <VBox spacing="5">
+            <Label text="Observaciones" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <TextArea fx:id="txtObservaciones" prefHeight="50" promptText="Observaciones especiales" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+        </VBox>
+
+        <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button onAction="#handleGuardar" text="Guardar" prefHeight="40" prefWidth="140" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+            <Button onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        </HBox>
+
+    </VBox>
+
+</AnchorPane>

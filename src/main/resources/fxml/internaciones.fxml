@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane style="-fx-background-color: #F0F4F0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controlador.InternacionesControlador">
+
+    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+
+        <Label text="Gestión de Internaciones" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <TextField fx:id="txtBuscar" prefWidth="300" prefHeight="35" promptText="Buscar por paciente" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
+            <Button onAction="#handleBuscar" text="Buscar" prefHeight="35" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+        </HBox>
+
+        <TableView fx:id="tablaInternaciones" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50" />
+                <TableColumn fx:id="colPaciente" text="Paciente" prefWidth="120" />
+                <TableColumn fx:id="colVeterinario" text="Veterinario" prefWidth="130" />
+                <TableColumn fx:id="colFechaIngreso" text="Fecha Ingreso" prefWidth="120" />
+                <TableColumn fx:id="colFechaEgreso" text="Fecha Egreso" prefWidth="120" />
+                <TableColumn fx:id="colEstado" text="Estado" prefWidth="100" />
+                <TableColumn fx:id="colCostoDia" text="Costo/Día" prefWidth="90" />
+                <TableColumn fx:id="colCostoTotal" text="Costo Total" prefWidth="100" />
+            </columns>
+        </TableView>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button onAction="#handleNueva" text="Nueva Internación" prefHeight="38" prefWidth="170" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+            <Button onAction="#handleDarEgreso" text="Dar Egreso" prefHeight="38" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+            <Button onAction="#handleVerDetalle" text="Ver Detalle" prefHeight="38" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        </HBox>
+
+    </VBox>
+
+</AnchorPane>
