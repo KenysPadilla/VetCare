@@ -51,7 +51,8 @@ public class PrincipalControlador implements Initializable {
     @FXML private void handleServicios() { cargarVista("serviciosEsteticos.fxml", "Servicios de Baño y Motilada"); }
     @FXML private void handleFacturacion() { cargarVista("facturacion.fxml", "Facturación"); }
     @FXML private void handleUsuarios() { cargarVista("usuarios.fxml", "Gestión de Usuarios"); }
-
+    @FXML private void handleMedicamentos() { cargarVista("medicamentos.fxml", "Gestión de Medicamentos"); }
+    
     @FXML
     private void handleCerrarSesion() {
         try {

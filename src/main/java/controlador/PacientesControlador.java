@@ -74,13 +74,25 @@ public class PacientesControlador implements Initializable {
         System.out.println("Eliminar paciente");
     }
 
-    @FXML
+   @FXML
     private void handleHistorial() {
         if (tablaPacientes.getSelectionModel().getSelectedItem() == null) {
             mostrarAlerta("Seleccione un paciente para ver su historial.");
             return;
         }
-        System.out.println("Ver historial clínico");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/historialClinico.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Historial Clínico");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void mostrarAlerta(String mensaje) {

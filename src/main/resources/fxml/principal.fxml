@@ -34,7 +34,8 @@
             <Button fx:id="btnCirugias" onAction="#handleCirugias" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Cirugías" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
             <Button fx:id="btnInternaciones" onAction="#handleInternaciones" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Internaciones" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
             <Button fx:id="btnLaboratorio" onAction="#handleLaboratorio" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Laboratorio" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-
+            <Button fx:id="btnMedicamentos" onAction="#handleMedicamentos" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Medicamentos" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
+        
             <Separator style="-fx-background-color: #2E8B3E; -fx-opacity: 0.3; -fx-padding: 5 0 5 0;" />
 
             <Button fx:id="btnServicios" onAction="#handleServicios" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Baño y Motilada" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
