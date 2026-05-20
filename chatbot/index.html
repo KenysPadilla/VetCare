@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetBot - Clínica Veterinaria Mr Vet</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Segoe UI, Tahoma, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a1a0f 0%, #1a3a1f 40%, #0d2614 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 480px;
+            height: 90vh;
+            max-height: 700px;
+            background: #ffffff;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1B6B2F, #145223);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .header-title { color: white; font-size: 18px; font-weight: 800; }
+        .header-subtitle { color: #A8D5B5; font-size: 12px; font-weight: 600; }
+
+        .online-dot {
+            margin-left: auto;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4ADE80;
+            box-shadow: 0 0 8px #4ADE80;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #f7faf8;
+        }
+
+        .message { display: flex; animation: fadeIn 0.3s ease; }
+        .message.user { justify-content: flex-end; }
+        .message.bot { justify-content: flex-start; }
+
+        .message .bubble {
+            max-width: 82%;
+            padding: 12px 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message.user .bubble {
+            border-radius: 18px 18px 4px 18px;
+            background: linear-gradient(135deg, #1B6B2F, #228B3B);
+            color: white;
+            box-shadow: 0 2px 8px rgba(27,107,47,0.3);
+        }
+
+        .message.bot .bubble {
+            border-radius: 18px 18px 18px 4px;
+            background: #ffffff;
+            color: #2D2D2D;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid #e8f0ea;
+        }
+
+        .typing {
+            display: flex;
+            gap: 6px;
+            padding: 14px 20px;
+            border-radius: 18px 18px 18px 4px;
+            background: #ffffff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid #e8f0ea;
+            width: fit-content;
+        }
+
+        .typing span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #1B6B2F;
+            opacity: 0.4;
+            animation: pulse 1.2s ease-in-out infinite;
+        }
+
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        .quick-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+        .quick-btn {
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 1.5px solid #D6EAD8;
+            background: white;
+            color: #1B6B2F;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: Segoe UI, Tahoma, sans-serif;
+            transition: all 0.2s;
+        }
+
+        .quick-btn:hover { background: #1B6B2F; color: white; border-color: #1B6B2F; }
+
+        .input-area {
+            padding: 16px;
+            border-top: 1px solid #e8f0ea;
+            background: white;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1.5px solid #D6EAD8;
+            font-size: 14px;
+            font-family: Segoe UI, Tahoma, sans-serif;
+            outline: none;
+            background: #f7faf8;
+            transition: border-color 0.2s;
+        }
+
+        .input-area input:focus { border-color: #1B6B2F; }
+
+        .send-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, #1B6B2F, #228B3B);
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(27,107,47,0.3);
+            transition: all 0.2s;
+        }
+
+        .send-btn:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
+
+        .footer {
+            text-align: center;
+            padding: 8px;
+            font-size: 10px;
+            color: #aaa;
+            background: #fafafa;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .messages::-webkit-scrollbar { width: 4px; }
+        .messages::-webkit-scrollbar-track { background: transparent; }
+        .messages::-webkit-scrollbar-thumb { background: #D6EAD8; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+
+    <div class="header">
+        <div class="header-icon">🐾</div>
+        <div>
+            <div class="header-title">VetBot</div>
+            <div class="header-subtitle">Clínica Veterinaria Mr Vet - En línea</div>
+        </div>
+        <div class="online-dot"></div>
+    </div>
+
+    <div class="messages" id="messages">
+        <div class="message bot">
+            <div class="bubble">¡Hola! Soy VetBot, el asistente virtual de la Clínica Veterinaria Mr Vet 🐾 ¿En qué puedo ayudarte hoy con tu mascota?</div>
+        </div>
+        <div class="quick-buttons" id="quickButtons">
+            <button class="quick-btn" onclick="sendQuick(this)">¿Cuándo debo vacunar a mi perro?</button>
+            <button class="quick-btn" onclick="sendQuick(this)">Mi gato no quiere comer</button>
+            <button class="quick-btn" onclick="sendQuick(this)">¿Qué servicios ofrecen?</button>
+            <button class="quick-btn" onclick="sendQuick(this)">Quiero agendar una cita</button>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendMessage()">
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+    </div>
+
+    <div class="footer">VetCare System © 2025 - Clínica Veterinaria Mr Vet</div>
+
+</div>
+
+<script>
+    var API_KEY = prompt('Ingresa tu API Key de Groq:');
+
+    var SYSTEM_PROMPT = 'Eres VetBot, el asistente virtual de la Clínica Veterinaria Mr Vet ubicada en Valledupar, Cesar, Colombia. Tu rol es ayudar a los propietarios de mascotas con información general sobre: cuidados básicos de mascotas (perros, gatos, aves, reptiles), información sobre vacunación y desparasitación, síntomas comunes y cuándo acudir al veterinario, nutrición y alimentación adecuada, servicios de la clínica (citas médicas, baño, motilada, cirugías, vacunaciones, internaciones, laboratorio). Horarios: Lunes a Viernes 8:00 AM - 6:00 PM, Sábados 8:00 AM - 1:00 PM. Dirección: Valledupar, Cesar, Colombia. Teléfono: 3001234567. Reglas: responde siempre en español, sé amable y profesional, no diagnostiques enfermedades, recomienda siempre visitar al veterinario, mantén respuestas concisas (máximo 3-4 oraciones), si no sabes algo sugiere llamar a la clínica, puedes usar emojis ocasionalmente.';
+
+    var conversationHistory = [];
+
+    function addMessage(text, role) {
+        var messagesDiv = document.getElementById('messages');
+        var messageDiv = document.createElement('div');
+        messageDiv.className = 'message ' + (role === 'user' ? 'user' : 'bot');
+        messageDiv.innerHTML = '<div class="bubble">' + text + '</div>';
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function showTyping() {
+        var messagesDiv = document.getElementById('messages');
+        var typingDiv = document.createElement('div');
+        typingDiv.id = 'typing';
+        typingDiv.className = 'message bot';
+        typingDiv.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+        messagesDiv.appendChild(typingDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function hideTyping() {
+        var typing = document.getElementById('typing');
+        if (typing) typing.remove();
+    }
+
+    function removeQuickButtons() {
+        var qb = document.getElementById('quickButtons');
+        if (qb) qb.remove();
+    }
+
+    function sendToAPI(userText) {
+        conversationHistory.push({ role: 'user', content: userText });
+
+        var messages = [{ role: 'system', content: SYSTEM_PROMPT }];
+        for (var i = 0; i < conversationHistory.length; i++) {
+            messages.push(conversationHistory[i]);
+        }
+
+        return fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + API_KEY
+            },
+            body: JSON.stringify({
+                model: 'llama-3.3-70b-versatile',
+                messages: messages,
+                max_tokens: 500,
+                temperature: 0.7
+            })
+        })
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+            var assistantText = data.choices[0].message.content;
+            conversationHistory.push({ role: 'assistant', content: assistantText });
+            return assistantText;
+        })
+        .catch(function() {
+            return 'Lo siento, hubo un error de conexión. Por favor intenta de nuevo o llámanos al 3001234567.';
+        });
+    }
+
+    function sendMessage() {
+        var input = document.getElementById('userInput');
+        var text = input.value.trim();
+        if (!text) return;
+
+        input.value = '';
+        input.disabled = true;
+        document.getElementById('sendBtn').disabled = true;
+        removeQuickButtons();
+
+        addMessage(text, 'user');
+        showTyping();
+
+        sendToAPI(text).then(function(response) {
+            hideTyping();
+            addMessage(response, 'bot');
+            input.disabled = false;
+            document.getElementById('sendBtn').disabled = false;
+            input.focus();
+        });
+    }
+
+    function sendQuick(btn) {
+        document.getElementById('userInput').value = btn.textContent;
+        sendMessage();
+    }
+</script>
+
+</body>
+</html>
