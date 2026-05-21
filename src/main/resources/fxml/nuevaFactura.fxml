@@ -2,62 +2,30 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-<AnchorPane prefHeight="550" prefWidth="600" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controlador.NuevaFacturaControlador">
-
+<AnchorPane prefHeight="400" prefWidth="500" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controlador.NuevaFacturaControlador">
     <VBox spacing="12" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
-
         <Label text="Nueva Factura" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
         <HBox spacing="15">
             <VBox spacing="5">
                 <Label text="Propietario" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <ComboBox fx:id="cbPropietario" prefWidth="250" promptText="Seleccionar propietario" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+                <ComboBox fx:id="cbPropietario" prefWidth="200" promptText="Seleccionar" />
             </VBox>
             <VBox spacing="5">
                 <Label text="Paciente" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <ComboBox fx:id="cbPaciente" prefWidth="250" promptText="Seleccionar paciente" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+                <ComboBox fx:id="cbPaciente" prefWidth="200" promptText="Seleccionar" />
             </VBox>
         </HBox>
-
         <VBox spacing="5">
-            <Label text="Método de pago" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbMetodoPago" prefWidth="250" promptText="Seleccionar" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+            <Label text="Metodo de pago" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
+            <ComboBox fx:id="cbMetodoPago" prefWidth="200" promptText="Seleccionar" />
         </VBox>
-
-        <Label text="Servicios a facturar" style="-fx-font-weight: bold; -fx-text-fill: #333333; -fx-font-size: 14px;" />
-
-        <TableView fx:id="tablaDetalles" prefHeight="200" style="-fx-background-color: white;">
-            <columns>
-                <TableColumn fx:id="colConcepto" text="Concepto" prefWidth="200" />
-                <TableColumn fx:id="colTipo" text="Tipo" prefWidth="100" />
-                <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="80" />
-                <TableColumn fx:id="colPrecio" text="Precio Unit." prefWidth="100" />
-                <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="100" />
-            </columns>
-        </TableView>
-
-        <HBox spacing="20" alignment="CENTER_RIGHT" style="-fx-padding: 5 0 0 0;">
-            <Label text="Subtotal:" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <Label fx:id="lblSubtotal" text="$0" style="-fx-text-fill: #333333;" />
-            <Label text="IVA (19%):" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <Label fx:id="lblIva" text="$0" style="-fx-text-fill: #333333;" />
-            <Label text="Total:" style="-fx-font-weight: bold; -fx-text-fill: #1B6B2F; -fx-font-size: 16px;" />
-            <Label fx:id="lblTotal" text="$0" style="-fx-text-fill: #1B6B2F; -fx-font-size: 16px; -fx-font-weight: bold;" />
-        </HBox>
-
         <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
-
         <HBox spacing="10" alignment="CENTER_RIGHT">
             <Button onAction="#handleGenerarFactura" text="Generar Factura" prefHeight="40" prefWidth="160" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
             <Button onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
         </HBox>
-
     </VBox>
-
 </AnchorPane>
