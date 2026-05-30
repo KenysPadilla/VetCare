@@ -1,41 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane style="-fx-background-color: #F0F4F0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.CirugiasController">
+<AnchorPane styleClass="module-page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CirugiasController">
 
-    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Gestión de Cirugías" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
+        <Label style="-fx-font-size: 13px;" styleClass="module-page-subtitle" text="Registro de procedimientos quirúrgicos realizados" />
 
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <TextField fx:id="txtBuscar" prefWidth="300" prefHeight="35" promptText="Buscar por paciente o tipo" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-            <Button onAction="#handleBuscar" text="Buscar" prefHeight="35" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox alignment="CENTER_LEFT" styleClass="module-page-header">
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleNueva" prefHeight="40" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary btn-add" text="+  Nueva Cirugía" />
         </HBox>
 
-        <TableView fx:id="tablaCirugias" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
-            <columns>
-                <TableColumn fx:id="colId" text="ID" prefWidth="50" />
-                <TableColumn fx:id="colPaciente" text="Paciente" prefWidth="120" />
-                <TableColumn fx:id="colVeterinario" text="Veterinario" prefWidth="130" />
-                <TableColumn fx:id="colTipo" text="Tipo Cirugía" prefWidth="140" />
-                <TableColumn fx:id="colFechaHora" text="Fecha/Hora" prefWidth="140" />
-                <TableColumn fx:id="colAnestesia" text="Anestesia" prefWidth="100" />
-                <TableColumn fx:id="colResultado" text="Resultado" prefWidth="120" />
-                <TableColumn fx:id="colCosto" text="Costo" prefWidth="90" />
-            </columns>
-        </TableView>
-
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button onAction="#handleNueva" text="Nueva Cirugía" prefHeight="38" prefWidth="160" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleVerDetalle" text="Ver Detalle" prefHeight="38" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox spacing="16">
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Total Cirugías" />
+                <Label fx:id="lblStatTotal" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2b87a0;" styleClass="mini-stat-value mini-stat-teal" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Exitosas" />
+                <Label fx:id="lblStatExitosas" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" styleClass="mini-stat-value mini-stat-green" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Con Complicación" />
+                <Label fx:id="lblStatComplicadas" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #e53e3e;" styleClass="mini-stat-value mini-stat-red" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Este Mes" />
+                <Label fx:id="lblStatMes" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;" styleClass="mini-stat-value mini-stat-purple" text="0" />
+            </VBox>
         </HBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-toolbar-row">
+            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
+                <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
+                <TextField fx:id="txtBuscar" onAction="#handleBuscar" prefHeight="36" prefWidth="280" promptText="Buscar paciente o tipo de cirugía..." />
+            </HBox>
+            <Button onAction="#handleBuscar" prefHeight="36" style="-fx-background-color: white; -fx-text-fill: #2b87a0; -fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-outline" text="Buscar" />
+            <ComboBox fx:id="cbResultado" prefHeight="36" prefWidth="170" styleClass="filter-combo" />
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+
+        <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tablaCirugias">
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="80" minWidth="70" text="ID" />
+                    <TableColumn fx:id="colPacienteProp" prefWidth="140" text="PACIENTE / PROPIETARIO" />
+                    <TableColumn fx:id="colTipo" prefWidth="140" text="TIPO CIRUGÍA" />
+                    <TableColumn fx:id="colVeterinario" prefWidth="120" text="VETERINARIO" />
+                    <TableColumn fx:id="colFechaHora" prefWidth="110" text="FECHA" />
+                    <TableColumn fx:id="colAnestesia" prefWidth="100" text="ANESTESIA" />
+                    <TableColumn fx:id="colEstado" prefWidth="120" text="ESTADO" />
+                    <TableColumn fx:id="colCosto" prefWidth="90" text="COSTO" />
+                    <TableColumn fx:id="colResultado" prefWidth="80" text="DETALLES" />
+                    <TableColumn fx:id="colOperaciones" prefWidth="110" text="" />
+                </columns>
+            </TableView>
+        </StackPane>
 
     </VBox>
 
