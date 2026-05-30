@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefWidth="680" prefHeight="460" styleClass="detail-dialog"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="controller.AgendaEstilistaController">
+
+    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <!-- HEADER -->
+        <VBox styleClass="detail-header" spacing="4">
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="detail-header-brand">
+                <HBox alignment="CENTER" styleClass="detail-header-logo-box">
+                    <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="detail-header-logo">
+                        <image><Image url="@../images/logo-white.png" /></image>
+                    </ImageView>
+                </HBox>
+                <VBox spacing="4">
+                    <Label text="Agenda de Servicios" style="-fx-font-size: 18px; -fx-font-weight: bold;" styleClass="detail-header-title" />
+                    <Label fx:id="lblNombreEstilista" styleClass="detail-header-subtitle" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- TABLE -->
+        <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS"
+                   style="-fx-padding: 16 20 0 20;">
+            <TableView fx:id="tablaAgenda">
+                <columns>
+                    <TableColumn fx:id="colFecha" prefWidth="110" text="FECHA" />
+                    <TableColumn fx:id="colHora" prefWidth="70" text="HORA" />
+                    <TableColumn fx:id="colPaciente" prefWidth="160" text="PACIENTE" />
+                    <TableColumn fx:id="colTipoServicio" prefWidth="130" text="TIPO DE SERVICIO" />
+                    <TableColumn fx:id="colEstado" prefWidth="105" text="ESTADO" />
+                </columns>
+                <placeholder>
+                    <Label text="Sin servicios registrados para este estilista." styleClass="cell-subtext" />
+                </placeholder>
+            </TableView>
+        </StackPane>
+
+        <!-- FOOTER -->
+        <HBox alignment="CENTER_RIGHT" styleClass="detail-footer">
+            <Button text="Cerrar" onAction="#handleCerrar" prefHeight="36" prefWidth="100"
+                    style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary" />
+        </HBox>
+
+    </VBox>
+</AnchorPane>
+
