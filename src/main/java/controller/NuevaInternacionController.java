@@ -2,44 +2,184 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import model.Consulta;
+import model.Internacion;
+import model.Paciente;
+import model.Veterinario;
+import service.ConsultaService;
+import service.InternacionService;
+import service.PacienteService;
+import service.VeterinarioService;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador del formulario de registro de nueva internacion.
+ *
+ * <p>El {@link ComboBox} de consultas ({@code cbConsulta}) permanece
+ * deshabilitado hasta que el usuario selecciona un paciente. Al hacerlo,
+ * se cargan unicamente las consultas de ese paciente, evitando mostrar
+ * consultas de otros pacientes.</p>
+ *
+ * <p>La consulta sigue siendo opcional: el usuario puede marcar
+ * {@code chkSinConsulta} para indicar una internacion directa sin consulta
+ * previa. En ese caso la internacion se guarda con {@code consulta = null}.</p>
+ *
+ * <p>GRASP Indireccion: delega la logica de negocio en
+ * {@link InternacionService} y {@link ConsultaService}.</p>
+ */
 public class NuevaInternacionController implements Initializable {
 
-    @FXML private ComboBox<String> cbPaciente;
-    @FXML private ComboBox<String> cbVeterinario;
-    @FXML private ComboBox<String> cbConsulta;
-    @FXML private DatePicker dpFechaIngreso;
-    @FXML private TextField txtCostoDia;
-    @FXML private Label lblMensaje;
+    @FXML private ComboBox<Paciente>    cbPaciente;
+    @FXML private ComboBox<Veterinario> cbVeterinario;
+    @FXML private ComboBox<Consulta>    cbConsulta;
+    @FXML private CheckBox              chkSinConsulta;
+    @FXML private DatePicker            dpFechaIngreso;
+    @FXML private TextField             txtCostoDia;
+    @FXML private Label                 lblMensaje;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbPaciente.getItems().addAll("Max - Perro", "Luna - Gato", "Rocky - Perro");
-        cbVeterinario.getItems().addAll("Dr. Pérez", "Dra. López", "Dr. Martínez");
-        cbConsulta.getItems().addAll("Consulta #1 - Max", "Consulta #2 - Luna", "Consulta #3 - Rocky");
+        // Converter: muestra id + fecha de la consulta en el ComboBox
+        cbConsulta.setConverter(new StringConverter<Consulta>() {
+            @Override
+            public String toString(Consulta c) {
+            }
+            @Override
+            public Consulta fromString(String s) { return null; }
+        });
+
+        // cbConsulta deshabilitado hasta que el paciente sea seleccionado
+        cbConsulta.setDisable(true);
+
+        dpFechaIngreso.setValue(java.time.LocalDate.now());
+
+        try {
+            cbPaciente.getItems().setAll(new PacienteService().listarTodos());
+            cbVeterinario.getItems().setAll(new VeterinarioService().listarActivos());
+        } catch (java.sql.SQLException e) {
+            mostrarMensaje("Error al cargar datos: " + e.getMessage(), "#D32F2F");
+        }
+
+        // Listener: al cambiar el paciente, recargar consultas filtradas
+        cbPaciente.setOnAction(event -> {
+            cbConsulta.getItems().clear();
+            cbConsulta.setValue(null);
+            chkSinConsulta.setSelected(false);
+
+            Paciente pacSeleccionado = cbPaciente.getValue();
+            if (pacSeleccionado != null) {
+                cargarConsultasDePaciente(pacSeleccionado.getId());
+            } else {
+                cbConsulta.setDisable(true);
+                cbConsulta.setPromptText("Primero selecciona un paciente");
+            }
+        });
+
+        // Listener del CheckBox: cuando se marca, deshabilita cbConsulta
+        chkSinConsulta.setOnAction(event -> {
+            if (chkSinConsulta.isSelected()) {
+                cbConsulta.getItems().clear();
+                cbConsulta.setValue(null);
+                cbConsulta.setDisable(true);
+                cbConsulta.setPromptText("Sin consulta asociada");
+            } else {
+                // Al desmarcar, si hay paciente seleccionado recargar consultas
+                Paciente p = cbPaciente.getValue();
+                if (p != null) {
+                    cargarConsultasDePaciente(p.getId());
+                } else {
+                    cbConsulta.setDisable(true);
+                    cbConsulta.setPromptText("Primero selecciona un paciente");
+                }
+            }
+        });
+    }
+
+    /**
+     * Carga en {@code cbConsulta} las consultas del paciente indicado.
+     * Habilita el combo si hay consultas; lo deshabilita con mensaje si no hay.
+     *
+     * @param idPaciente identificador del paciente seleccionado
+     */
+    private void cargarConsultasDePaciente(int idPaciente) {
+        try {
+            ArrayList<Consulta> consultas =
+                    new ConsultaService().listarPorPaciente(idPaciente);
+            cbConsulta.getItems().clear();
+
+            if (consultas.isEmpty()) {
+                cbConsulta.setDisable(true);
+                cbConsulta.setPromptText("Este paciente no tiene consultas registradas");
+            } else {
+                cbConsulta.getItems().addAll(consultas);
+                cbConsulta.setDisable(false);
+                cbConsulta.setPromptText("Selecciona la consulta asociada");
+            }
+        } catch (java.sql.SQLException e) {
+            mostrarMensaje("Error al cargar consultas: " + e.getMessage(), "#D32F2F");
+            cbConsulta.setDisable(true);
+            cbConsulta.setPromptText("Error al cargar consultas");
+        }
     }
 
     @FXML
     private void handleGuardar() {
         if (cbPaciente.getValue() == null || cbVeterinario.getValue() == null
-                || dpFechaIngreso.getValue() == null || txtCostoDia.getText().trim().isEmpty()) {
+                || dpFechaIngreso.getValue() == null
+                || txtCostoDia.getText().trim().isEmpty()) {
             mostrarMensaje("Paciente, veterinario, fecha y costo son obligatorios.", "#D32F2F");
             return;
         }
 
-        mostrarMensaje("Internación registrada exitosamente.", "#1B6B2F");
+        double costoDia;
+        try {
+            costoDia = Double.parseDouble(txtCostoDia.getText().trim());
+        } catch (NumberFormatException e) {
+            mostrarMensaje("El costo diario debe ser un valor numérico.", "#D32F2F");
+            return;
+        }
+
+        // La consulta es null si: cbConsulta está deshabilitado, o si no se seleccionó ninguna
+        Consulta consultaAsociada = (cbConsulta.isDisabled() || cbConsulta.getValue() == null)
+                ? null : cbConsulta.getValue();
+
+        try {
+            Internacion i = new Internacion();
+            i.setPaciente(cbPaciente.getValue());
+            i.setVeterinario(cbVeterinario.getValue());
+            i.setConsulta(consultaAsociada);
+            i.setFechaHoraIngreso(dpFechaIngreso.getValue().atStartOfDay());
+            i.setFechaHoraEgreso(null);
+            i.setMotivo("");
+            i.setDiagnostico("");
+            i.setCostoDia(costoDia);
+            i.setObservaciones("");
+
+            new InternacionService().guardar(i);
+
+            mostrarMensaje("Internación registrada exitosamente.", "#1B6B2F");
+            cerrarVentana();
+        } catch (java.sql.SQLException e) {
+            mostrarMensaje("Error al guardar: " + e.getMessage(), "#D32F2F");
+        }
     }
 
     @FXML
     private void handleCancelar() {
+        cerrarVentana();
+    }
+
+    private void cerrarVentana() {
         Stage stage = (Stage) lblMensaje.getScene().getWindow();
         stage.close();
     }
