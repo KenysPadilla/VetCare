@@ -8,45 +8,114 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import model.Estilista;
+import model.Paciente;
+import model.ServicioEstetico;
+import service.EstilistaService;
+import service.PacienteService;
+import service.ServicioEsteticoService;
 
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador del formulario de registro de nuevo servicio de bano.
+ *
+ * <p>Carga pacientes y estilistas desde la base de datos en
+ * {@code initialize()}. Los combos los muestran usando su {@code toString()}.
+ * El tipo de bano, la hora y los servicios adicionales se seleccionan de
+ * listas fijas. El precio queda fijo en {@code 50000.0}.</p>
+ *
+ * <p>El valor almacenado para {@code tipo_bano} sigue la convencion Oracle
+ * en mayusculas; la presentacion al usuario usa nombres legibles con tildes.
+ * La conversion se realiza en {@link #mapearTipoBano(String)}.</p>
+ */
 public class NuevoBanoController implements Initializable {
 
-    @FXML private ComboBox<String> cbPaciente;
-    @FXML private ComboBox<String> cbEstilista;
-    @FXML private DatePicker dpFecha;
-    @FXML private ComboBox<String> cbHora;
-    @FXML private ComboBox<String> cbTipoBano;
-    @FXML private CheckBox chkSecado;
-    @FXML private CheckBox chkPerfume;
-    @FXML private TextArea txtObservaciones;
-    @FXML private Label lblMensaje;
+    @FXML private ComboBox<Paciente>  cbPaciente;
+    @FXML private ComboBox<Estilista> cbEstilista;
+    @FXML private DatePicker          dpFecha;
+    @FXML private ComboBox<String>    cbHora;
+    @FXML private ComboBox<String>    cbTipoBano;
+    @FXML private CheckBox            chkSecado;
+    @FXML private CheckBox            chkPerfume;
+    @FXML private TextArea            txtObservaciones;
+    @FXML private Label               lblMensaje;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbPaciente.getItems().addAll("Max - Perro", "Luna - Gato", "Rocky - Perro");
-        cbEstilista.getItems().addAll("Ana García - Baño", "Pedro Ruiz - Ambos");
-        cbHora.getItems().addAll("08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
+        cbHora.getItems().addAll(
+                "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
                 "11:00", "11:30", "14:00", "14:30", "15:00", "15:30", "16:00");
+
         cbTipoBano.getItems().addAll("Básico", "Medicado", "Antipulgas", "Hidratante");
+
+        try {
+            cbPaciente.getItems().setAll(new PacienteService().listarTodos());
+            cbEstilista.getItems().setAll(new EstilistaService().listarParaBano());
+        } catch (java.sql.SQLException e) {
+            mostrarMensaje("Error al cargar datos: " + e.getMessage(), "#D32F2F");
+        }
     }
 
     @FXML
     private void handleGuardar() {
         if (cbPaciente.getValue() == null || cbEstilista.getValue() == null
-                || dpFecha.getValue() == null || cbHora.getValue() == null
+                || dpFecha.getValue() == null
+                || cbHora.getValue() == null
                 || cbTipoBano.getValue() == null) {
             mostrarMensaje("Paciente, estilista, fecha, hora y tipo son obligatorios.", "#D32F2F");
             return;
         }
 
-        mostrarMensaje("Baño programado exitosamente.", "#1B6B2F");
+        try {
+            ServicioEstetico s = new ServicioEstetico();
+            s.setTipoServicio("BANO");
+            s.setPaciente(cbPaciente.getValue());
+            s.setEstilista(cbEstilista.getValue());
+            s.setFechaHora(dpFecha.getValue().atTime(LocalTime.parse(cbHora.getValue())));
+            s.setPrecio(50000.0);
+            s.setEstadoServicio("PROGRAMADO");
+            s.setTipoBano(mapearTipoBano(cbTipoBano.getValue()));
+            s.setIncluyeSecado(chkSecado.isSelected());
+            s.setIncluyePerfume(chkPerfume.isSelected());
+            s.setObservaciones(txtObservaciones.getText().trim());
+
+            new ServicioEsteticoService().guardar(s);
+            mostrarMensaje("Baño programado exitosamente.", "#1B6B2F");
+            cerrarVentana();
+        } catch (java.sql.SQLException e) {
+            mostrarMensaje("Error al guardar: " + e.getMessage(), "#D32F2F");
+        }
     }
 
     @FXML
     private void handleCancelar() {
+        cerrarVentana();
+    }
+
+    // -------------------------------------------------------------------------
+    // Mapeo de valores de presentacion a codigos Oracle
+    // -------------------------------------------------------------------------
+
+    /**
+     * Convierte el valor legible del combo a su codigo Oracle en mayusculas.
+     *
+     * @param display texto mostrado al usuario
+     * @return codigo Oracle para {@code tipo_bano}
+     */
+    private String mapearTipoBano(String display) {
+        switch (display) {
+            case "Básico":     return "BASICO";
+            case "Medicado":   return "MEDICADO";
+            case "Antipulgas": return "ANTIPULGAS";
+            case "Hidratante": return "HIDRATANTE";
+            default:           return display.toUpperCase();
+        }
+    }
+
+    private void cerrarVentana() {
         Stage stage = (Stage) lblMensaje.getScene().getWindow();
         stage.close();
     }

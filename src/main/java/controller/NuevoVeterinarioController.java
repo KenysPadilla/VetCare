@@ -2,11 +2,15 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Veterinario;
+import service.VeterinarioService;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NuevoVeterinarioController implements Initializable {
@@ -18,10 +22,31 @@ public class NuevoVeterinarioController implements Initializable {
     @FXML private TextField txtLicencia;
     @FXML private TextField txtTelefono;
     @FXML private TextField txtCorreo;
-    @FXML private Label lblMensaje;
+    @FXML private Button    btnGuardar;
+    @FXML private Label     lblMensaje;
+
+    /** No nulo cuando el formulario abre en modo edicion. */
+    private Veterinario veterinarioEnEdicion = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    }
+
+    /**
+     * Pre-rellena el formulario con los datos del veterinario a editar,
+     * deshabilita la cedula (PK) y cambia el boton a "Actualizar".
+     */
+    public void setModoEdicion(Veterinario v) {
+        this.veterinarioEnEdicion = v;
+        txtCedula.setText(v.getCedula());
+        txtCedula.setDisable(true);
+        txtNombre.setText(v.getNombre());
+        txtApellido.setText(v.getApellido());
+        txtEspecialidad.setText(v.getEspecialidad() != null ? v.getEspecialidad() : "");
+        txtLicencia.setText(v.getNumeroLicencia() != null ? v.getNumeroLicencia() : "");
+        txtTelefono.setText(v.getTelefono() != null ? v.getTelefono() : "");
+        txtCorreo.setText(v.getEmail() != null ? v.getEmail() : "");
+        btnGuardar.setText("Actualizar");
     }
 
     @FXML
@@ -32,13 +57,33 @@ public class NuevoVeterinarioController implements Initializable {
             return;
         }
 
-        mostrarMensaje("Veterinario guardado exitosamente.", "#1B6B2F");
+        try {
+            Veterinario v = new Veterinario(
+                    txtCedula.getText().trim(),
+                    txtNombre.getText().trim(),
+                    txtApellido.getText().trim(),
+                    txtTelefono.getText().trim(),
+                    txtCorreo.getText().trim(),
+                    txtEspecialidad.getText().trim(),
+                    txtLicencia.getText().trim()
+            );
+
+            if (veterinarioEnEdicion == null) {
+                new VeterinarioService().guardar(v);
+                mostrarMensaje("Veterinario guardado exitosamente.", "#1B6B2F");
+            } else {
+                new VeterinarioService().actualizar(v);
+                mostrarMensaje("Veterinario actualizado exitosamente.", "#1B6B2F");
+            }
+            ((Stage) lblMensaje.getScene().getWindow()).close();
+        } catch (SQLException e) {
+            mostrarMensaje("Error: " + e.getMessage(), "#D32F2F");
+        }
     }
 
     @FXML
     private void handleCancelar() {
-        Stage stage = (Stage) lblMensaje.getScene().getWindow();
-        stage.close();
+        ((Stage) lblMensaje.getScene().getWindow()).close();
     }
 
     private void mostrarMensaje(String texto, String color) {
