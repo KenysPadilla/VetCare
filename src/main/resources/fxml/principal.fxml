@@ -1,107 +1,263 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.Label?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700" prefWidth="1200" style="-fx-background-color: #F0F4F0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.PrincipalController">
+<BorderPane prefHeight="800" prefWidth="1280" styleClass="app-content" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PrincipalController">
 
-    <VBox prefWidth="240" spacing="0" style="-fx-background-color: #1B6B2F;" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
-
-        <VBox alignment="CENTER" spacing="5" style="-fx-padding: 25 20 20 20;">
-            <Label style="-fx-font-size: 40px;" text="🐾" />
-            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" text="VetCare System" />
-            <Label style="-fx-font-size: 11px; -fx-text-fill: #A8D5B5;" text="Clínica Veterinaria Mr Vet" />
-        </VBox>
-
-        <Separator style="-fx-background-color: #2E8B3E; -fx-opacity: 0.4;" />
-
-        <VBox spacing="2" style="-fx-padding: 15 10 10 10;">
-            <Button fx:id="btnPropietarios" onAction="#handlePropietarios" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Propietarios" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnPacientes" onAction="#handlePacientes" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Pacientes" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnVeterinarios" onAction="#handleVeterinarios" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Veterinarios" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnEstilistas" onAction="#handleEstilistas" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Estilistas" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-
-            <Separator style="-fx-background-color: #2E8B3E; -fx-opacity: 0.3; -fx-padding: 5 0 5 0;" />
-
-            <Button fx:id="btnCitas" onAction="#handleCitas" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Citas Médicas" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnConsultas" onAction="#handleConsultas" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Consultas" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnVacunaciones" onAction="#handleVacunaciones" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Vacunaciones" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnCirugias" onAction="#handleCirugias" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Cirugías" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnInternaciones" onAction="#handleInternaciones" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Internaciones" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnLaboratorio" onAction="#handleLaboratorio" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Laboratorio" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnMedicamentos" onAction="#handleMedicamentos" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Medicamentos" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-        
-            <Separator style="-fx-background-color: #2E8B3E; -fx-opacity: 0.3; -fx-padding: 5 0 5 0;" />
-
-            <Button fx:id="btnServicios" onAction="#handleServicios" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Baño y Motilada" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnFacturacion" onAction="#handleFacturacion" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Facturación" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-            <Button fx:id="btnUsuarios" onAction="#handleUsuarios" prefWidth="220" prefHeight="38" alignment="CENTER_LEFT" text="   Usuarios" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; -fx-background-radius: 6;" />
-        </VBox>
-
-        <VBox VBox.vgrow="ALWAYS" />
-
-        <VBox style="-fx-padding: 10 10 15 10;">
-            <Button fx:id="btnCerrarSesion" onAction="#handleCerrarSesion" prefWidth="220" prefHeight="38" text="Cerrar Sesión" style="-fx-background-color: #D32F2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-        </VBox>
-
-    </VBox>
-
-    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="240" AnchorPane.rightAnchor="0">
-
-        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: white; -fx-padding: 15 25 15 25;">
-            <Label fx:id="lblTituloPagina" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2D2D2D;" text="Inicio" />
-            <HBox HBox.hgrow="ALWAYS" />
-            <Label fx:id="lblUsuarioActual" style="-fx-font-size: 12px; -fx-text-fill: #888888;" text="Usuario: admin" />
-            <Label fx:id="lblRolActual" style="-fx-font-size: 12px; -fx-text-fill: #1B6B2F; -fx-font-weight: bold;" text="ADMIN" />
-        </HBox>
-
-        <StackPane fx:id="contenedorPrincipal" VBox.vgrow="ALWAYS" style="-fx-padding: 25;">
-            <VBox alignment="TOP_CENTER" spacing="30">
-                <Label style="-fx-font-size: 18px; -fx-text-fill: #555555;" text="Bienvenido a VetCare System" />
-                <FlowPane hgap="20" vgap="20" alignment="CENTER">
-                    <VBox alignment="CENTER" spacing="10" prefWidth="180" prefHeight="140" style="-fx-background-color: white; -fx-background-radius: 10; -fx-cursor: hand;" onMouseClicked="#handleCitas">
-                        <Label style="-fx-font-size: 32px;" text="📅" />
-                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" text="Citas" />
-                        <Label style="-fx-font-size: 11px; -fx-text-fill: #888888;" text="Gestionar citas" />
-                    </VBox>
-                    <VBox alignment="CENTER" spacing="10" prefWidth="180" prefHeight="140" style="-fx-background-color: white; -fx-background-radius: 10; -fx-cursor: hand;" onMouseClicked="#handlePacientes">
-                        <Label style="-fx-font-size: 32px;" text="🐕" />
-                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" text="Pacientes" />
-                        <Label style="-fx-font-size: 11px; -fx-text-fill: #888888;" text="Registro de animales" />
-                    </VBox>
-                    <VBox alignment="CENTER" spacing="10" prefWidth="180" prefHeight="140" style="-fx-background-color: white; -fx-background-radius: 10; -fx-cursor: hand;" onMouseClicked="#handleConsultas">
-                        <Label style="-fx-font-size: 32px;" text="🩺" />
-                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" text="Consultas" />
-                        <Label style="-fx-font-size: 11px; -fx-text-fill: #888888;" text="Historial clínico" />
-                    </VBox>
-                    <VBox alignment="CENTER" spacing="10" prefWidth="180" prefHeight="140" style="-fx-background-color: white; -fx-background-radius: 10; -fx-cursor: hand;" onMouseClicked="#handleServicios">
-                        <Label style="-fx-font-size: 32px;" text="✂" />
-                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" text="Baño y Motilada" />
-                        <Label style="-fx-font-size: 11px; -fx-text-fill: #888888;" text="Servicios estéticos" />
-                    </VBox>
-                    <VBox alignment="CENTER" spacing="10" prefWidth="180" prefHeight="140" style="-fx-background-color: white; -fx-background-radius: 10; -fx-cursor: hand;" onMouseClicked="#handleFacturacion">
-                        <Label style="-fx-font-size: 32px;" text="💰" />
-                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" text="Facturación" />
-                        <Label style="-fx-font-size: 11px; -fx-text-fill: #888888;" text="Generar facturas" />
-                    </VBox>
-                    <VBox alignment="CENTER" spacing="10" prefWidth="180" prefHeight="140" style="-fx-background-color: white; -fx-background-radius: 10; -fx-cursor: hand;" onMouseClicked="#handleVacunaciones">
-                        <Label style="-fx-font-size: 32px;" text="💉" />
-                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" text="Vacunaciones" />
-                        <Label style="-fx-font-size: 11px; -fx-text-fill: #888888;" text="Control de vacunas" />
-                    </VBox>
-                </FlowPane>
+    <!-- Sidebar -->
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox alignment="CENTER" styleClass="sidebar-brand">
+                <StackPane styleClass="sidebar-logo-box">
+                    <ImageView fitHeight="60" fitWidth="60" pickOnBounds="true" preserveRatio="true" smooth="true" styleClass="logo-blue-sidebar">
+                        <image>
+                            <Image url="@../images/logo-blue.png" />
+                        </image>
+                    </ImageView>
+                </StackPane>
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" styleClass="sidebar-brand-title" text="VetCare" />
+                <Label styleClass="sidebar-brand-subtitle" text="Clínica Veterinaria" />
             </VBox>
-        </StackPane>
 
-        <HBox alignment="CENTER" style="-fx-background-color: white; -fx-padding: 8 20 8 20; -fx-border-color: #E0E0E0; -fx-border-width: 1 0 0 0;">
-            <Label style="-fx-font-size: 10px; -fx-text-fill: #AAAAAA;" text="VetCare System v1.0 - Universidad Popular del Cesar - 2025" />
-        </HBox>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                <VBox styleClass="sidebar-nav">
+                    <Button fx:id="btnInicio" maxWidth="Infinity" onAction="#handleInicio" styleClass="nav-item-active" text="Inicio">
+                        <graphic><FontIcon iconLiteral="fas-home" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnPropietarios" maxWidth="Infinity" onAction="#handlePropietarios" styleClass="nav-item" text="Propietarios">
+                        <graphic><FontIcon iconLiteral="fas-users" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnPacientes" maxWidth="Infinity" onAction="#handlePacientes" styleClass="nav-item" text="Pacientes">
+                        <graphic><FontIcon iconLiteral="fas-paw" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnVeterinarios" maxWidth="Infinity" onAction="#handleVeterinarios" styleClass="nav-item" text="Veterinarios">
+                        <graphic><FontIcon iconLiteral="fas-user-md" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnEstilistas" maxWidth="Infinity" onAction="#handleEstilistas" styleClass="nav-item" text="Estilistas">
+                        <graphic><FontIcon iconLiteral="fas-cut" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
 
-    </VBox>
+                    <Separator>
+                        <padding>
+                            <Insets bottom="6" top="6" />
+                        </padding>
+                    </Separator>
 
-</AnchorPane>
+                    <Button fx:id="btnCitas" maxWidth="Infinity" onAction="#handleCitas" styleClass="nav-item" text="Citas Médicas">
+                        <graphic><FontIcon iconLiteral="fas-calendar-alt" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnConsultas" maxWidth="Infinity" onAction="#handleConsultas" styleClass="nav-item" text="Consultas">
+                        <graphic><FontIcon iconLiteral="fas-stethoscope" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnVacunaciones" maxWidth="Infinity" onAction="#handleVacunaciones" styleClass="nav-item" text="Vacunaciones">
+                        <graphic><FontIcon iconLiteral="fas-syringe" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnCirugias" maxWidth="Infinity" onAction="#handleCirugias" styleClass="nav-item" text="Cirugías">
+                        <graphic><FontIcon iconLiteral="fas-procedures" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnInternaciones" maxWidth="Infinity" onAction="#handleInternaciones" styleClass="nav-item" text="Internaciones">
+                        <graphic><FontIcon iconLiteral="fas-bed" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnLaboratorio" maxWidth="Infinity" onAction="#handleLaboratorio" styleClass="nav-item" text="Laboratorio">
+                        <graphic><FontIcon iconLiteral="fas-flask" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnMedicamentos" maxWidth="Infinity" onAction="#handleMedicamentos" styleClass="nav-item" text="Medicamentos">
+                        <graphic><FontIcon iconLiteral="fas-pills" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnVacunas" maxWidth="Infinity" onAction="#handleVacunas" styleClass="nav-item" text="Vacunas">
+                        <graphic><FontIcon iconLiteral="fas-shield-alt" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+
+                    <Separator>
+                        <padding>
+                            <Insets bottom="6" top="6" />
+                        </padding>
+                    </Separator>
+
+                    <Button fx:id="btnServicios" maxWidth="Infinity" onAction="#handleServicios" styleClass="nav-item" text="Baño y Motilada">
+                        <graphic><FontIcon iconLiteral="fas-shower" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnFacturacion" maxWidth="Infinity" onAction="#handleFacturacion" styleClass="nav-item" text="Facturación">
+                        <graphic><FontIcon iconLiteral="fas-file-invoice" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnUsuarios" maxWidth="Infinity" onAction="#handleUsuarios" styleClass="nav-item" text="Usuarios">
+                        <graphic><FontIcon iconLiteral="fas-user-cog" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                    <Button fx:id="btnSolicitudes" maxWidth="Infinity" onAction="#handleSolicitudes" styleClass="nav-item" text="Solicitudes Chatbot">
+                        <graphic><FontIcon iconLiteral="fas-comments" iconSize="15" styleClass="nav-icon" /></graphic>
+                    </Button>
+                </VBox>
+            </ScrollPane>
+
+            <VBox styleClass="sidebar-footer">
+                <Button fx:id="btnCerrarSesion" maxWidth="Infinity" onAction="#handleCerrarSesion" prefHeight="40" style="-fx-background-color: #e53e3e; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-color: transparent; -fx-padding: 8 16 8 16; -fx-cursor: hand;" styleClass="btn-danger-filled" text="Cerrar Sesión" />
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- Área principal -->
+    <center>
+        <VBox spacing="0">
+
+            <HBox alignment="CENTER_LEFT" styleClass="content-header">
+                <VBox fx:id="panelWelcomeHeader" spacing="4">
+                    <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" styleClass="page-title" text="Bienvenido a VetCare" />
+                    <Label styleClass="page-subtitle" text="Panel de administración - Resumen general del sistema" />
+                </VBox>
+                <Label fx:id="lblTituloPagina" managed="false" style="-fx-font-size: 22px; -fx-font-weight: bold;" styleClass="page-title" text="" visible="false" />
+                <Region HBox.hgrow="ALWAYS" />
+                <HBox alignment="CENTER" spacing="12">
+                    <VBox alignment="CENTER_RIGHT" spacing="4">
+                        <Label fx:id="lblUsuarioActual" styleClass="user-info-text" text="admin" />
+                        <Label fx:id="lblRolActual" styleClass="user-info-role" text="ADMIN" />
+                    </VBox>
+                    <StackPane styleClass="user-avatar-circle">
+                        <Label fx:id="lblAvatarInicial" styleClass="user-avatar-initial" text="A" />
+                    </StackPane>
+                </HBox>
+            </HBox>
+
+            <StackPane fx:id="contenedorPrincipal" VBox.vgrow="ALWAYS">
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="dashboard-scroll">
+                    <VBox spacing="20">
+                        <padding>
+                            <Insets top="20" bottom="12" />
+                        </padding>
+
+                        <!-- KPI cards -->
+                        <GridPane hgap="16" styleClass="stats-grid" vgap="16">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                            </columnConstraints>
+
+                            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="stat-card" GridPane.columnIndex="0" GridPane.rowIndex="0" onMouseClicked="#handleCitas">
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="stat-card-title" text="Citas Hoy" />
+                                    <Label fx:id="lblCitasHoy" styleClass="stat-card-value stat-card-value-teal" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="—" />
+                                </VBox>
+                                <StackPane prefWidth="46" prefHeight="46" alignment="CENTER" style="-fx-background-color: #2b87a0; -fx-background-radius: 12;">
+                                    <FontIcon iconLiteral="fas-calendar-alt" iconSize="20" iconColor="WHITE" />
+                                </StackPane>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="stat-card" GridPane.columnIndex="1" GridPane.rowIndex="0" onMouseClicked="#handlePacientes">
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="stat-card-title" text="Pacientes Activos" />
+                                    <Label fx:id="lblPacientesActivos" styleClass="stat-card-value stat-card-value-green" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="—" />
+                                </VBox>
+                                <StackPane prefWidth="46" prefHeight="46" alignment="CENTER" style="-fx-background-color: #4caf7d; -fx-background-radius: 12;">
+                                    <FontIcon iconLiteral="fas-heartbeat" iconSize="20" iconColor="WHITE" />
+                                </StackPane>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="stat-card" GridPane.columnIndex="2" GridPane.rowIndex="0" onMouseClicked="#handleConsultas">
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="stat-card-title" text="Consultas Mes" />
+                                    <Label fx:id="lblConsultasMes" styleClass="stat-card-value stat-card-value-blue" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="—" />
+                                </VBox>
+                                <StackPane prefWidth="46" prefHeight="46" alignment="CENTER" style="-fx-background-color: #4db6d4; -fx-background-radius: 12;">
+                                    <FontIcon iconLiteral="fas-stethoscope" iconSize="20" iconColor="WHITE" />
+                                </StackPane>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="stat-card" GridPane.columnIndex="3" GridPane.rowIndex="0" onMouseClicked="#handleCitas">
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="stat-card-title" text="Próxima Cita" />
+                                    <Label fx:id="lblProximaCita" styleClass="stat-card-value stat-card-value-orange" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="—" />
+                                </VBox>
+                                <StackPane prefWidth="46" prefHeight="46" alignment="CENTER" style="-fx-background-color: #f5a623; -fx-background-radius: 12;">
+                                    <FontIcon iconLiteral="fas-clock" iconSize="20" iconColor="WHITE" />
+                                </StackPane>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="stat-card" GridPane.columnIndex="0" GridPane.rowIndex="1" onMouseClicked="#handleInternaciones">
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="stat-card-title" text="Internaciones" />
+                                    <Label fx:id="lblInternaciones" styleClass="stat-card-value stat-card-value-red" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="—" />
+                                </VBox>
+                                <StackPane prefWidth="46" prefHeight="46" alignment="CENTER" style="-fx-background-color: #e74c3c; -fx-background-radius: 12;">
+                                    <FontIcon iconLiteral="fas-procedures" iconSize="20" iconColor="WHITE" />
+                                </StackPane>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="stat-card" GridPane.columnIndex="1" GridPane.rowIndex="1" onMouseClicked="#handleCirugias">
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="stat-card-title" text="Cirugías Registradas" />
+                                    <Label fx:id="lblCirugias" styleClass="stat-card-value stat-card-value-orange" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="—" />
+                                </VBox>
+                                <StackPane prefWidth="46" prefHeight="46" alignment="CENTER" style="-fx-background-color: #e67e22; -fx-background-radius: 12;">
+                                    <FontIcon iconLiteral="fas-cut" iconSize="20" iconColor="WHITE" />
+                                </StackPane>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="stat-card" GridPane.columnIndex="2" GridPane.rowIndex="1" onMouseClicked="#handleFacturacion">
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="stat-card-title" text="Facturación Hoy" />
+                                    <Label fx:id="lblFacturacionHoy" styleClass="stat-card-value stat-card-value-green-money" style="-fx-font-size: 22px; -fx-font-weight: bold;" text="—" />
+                                </VBox>
+                                <StackPane prefWidth="46" prefHeight="46" alignment="CENTER" style="-fx-background-color: #27ae60; -fx-background-radius: 12;">
+                                    <FontIcon iconLiteral="fas-dollar-sign" iconSize="20" iconColor="WHITE" />
+                                </StackPane>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="stat-card" GridPane.columnIndex="3" GridPane.rowIndex="1" onMouseClicked="#handleVeterinarios">
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="stat-card-title" text="Veterinarios Activos" />
+                                    <Label fx:id="lblVeterinariosActivos" styleClass="stat-card-value stat-card-value-blue-dark" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="—" />
+                                </VBox>
+                                <StackPane prefWidth="46" prefHeight="46" alignment="CENTER" style="-fx-background-color: #2980b9; -fx-background-radius: 12;">
+                                    <FontIcon iconLiteral="fas-user-md" iconSize="20" iconColor="WHITE" />
+                                </StackPane>
+                            </HBox>
+                        </GridPane>
+
+                        <!-- Paneles inferiores -->
+                        <HBox spacing="20" styleClass="panels-row">
+                            <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="card">
+                                <HBox alignment="CENTER_LEFT">
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" styleClass="panel-card-title" text="Citas de Hoy" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label fx:id="lblMetaCitas" styleClass="panel-card-meta" text="" />
+                                </HBox>
+                                <VBox fx:id="vboxCitasHoy" spacing="8" />
+                            </VBox>
+
+                            <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="card">
+                                <HBox alignment="CENTER_LEFT">
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" styleClass="panel-card-title" text="Actividad Reciente" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <FontIcon iconLiteral="fas-arrow-up" iconSize="12" styleClass="panel-trend-icon" />
+                                </HBox>
+                                <VBox fx:id="vboxActividad" spacing="8" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </StackPane>
+
+            <HBox styleClass="app-footer">
+                <Label styleClass="app-footer-text" text="VetCare v1.0 - Universidad Popular del Cesar - 2025" />
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

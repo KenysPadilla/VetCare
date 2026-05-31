@@ -1,51 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400" prefWidth="450" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.NuevaInternacionController">
+<AnchorPane prefHeight="720" prefWidth="480" styleClass="form-dialog" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NuevaInternacionController">
 
-    <VBox spacing="12" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+    <VBox styleClass="form-shell" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Nueva Internación" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <VBox spacing="5">
-            <Label text="Paciente" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbPaciente" prefWidth="390" promptText="Seleccionar paciente" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Veterinario supervisor" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbVeterinario" prefWidth="390" promptText="Seleccionar veterinario" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Consulta que origina la internación" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbConsulta" prefWidth="390" promptText="Seleccionar consulta" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <HBox spacing="15">
-            <VBox spacing="5">
-                <Label text="Fecha de ingreso" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <DatePicker fx:id="dpFechaIngreso" prefWidth="185" />
-            </VBox>
-            <VBox spacing="5">
-                <Label text="Costo por día" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <TextField fx:id="txtCostoDia" prefHeight="35" prefWidth="185" promptText="Ej: 50000" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-            </VBox>
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="form-header">
+            <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="logo-blue-inline">
+                <image>
+                    <Image url="@../images/logo-blue.png" />
+                </image>
+            </ImageView>
+            <Label styleClass="form-title" text="Nueva Internación" />
         </HBox>
 
-        <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox spacing="12" styleClass="form-body-scroll">
 
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button onAction="#handleGuardar" text="Guardar" prefHeight="40" prefWidth="140" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-        </HBox>
+                <VBox spacing="6" styleClass="field-group">
+                    <Label styleClass="field-label" text="Paciente" />
+                    <ComboBox fx:id="cbPaciente" maxWidth="Infinity" promptText="Seleccionar paciente" />
+                </VBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label styleClass="field-label" text="Veterinario supervisor" />
+                    <ComboBox fx:id="cbVeterinario" maxWidth="Infinity" promptText="Seleccionar veterinario" />
+                </VBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label styleClass="field-label" text="Consulta que origina la internación" />
+                    <ComboBox fx:id="cbConsulta" maxWidth="Infinity" promptText="Primero selecciona un paciente" />
+                    <CheckBox fx:id="chkSinConsulta" styleClass="cell-subtext" text="Sin consulta asociada (internación directa)" />
+                </VBox>
+
+                <HBox spacing="15">
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label styleClass="field-label" text="Fecha de ingreso" />
+                        <DatePicker fx:id="dpFechaIngreso" maxWidth="Infinity" />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label styleClass="field-label" text="Costo por día" />
+                        <TextField fx:id="txtCostoDia" prefHeight="40" promptText="Ej: 50000" />
+                    </VBox>
+                </HBox>
+
+            </VBox>
+        </ScrollPane>
+
+        <VBox spacing="10" styleClass="form-footer">
+            <Label fx:id="lblMensaje" styleClass="form-message" text="" />
+            <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="form-actions">
+                <Button onAction="#handleGuardar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" text="Guardar" />
+                <Button onAction="#handleCancelar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" text="Cancelar" />
+            </HBox>
+        </VBox>
 
     </VBox>
 

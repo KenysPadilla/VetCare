@@ -3,59 +3,84 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
 
-<AnchorPane prefHeight="480" prefWidth="450" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.NuevoMedicamentoController">
+<AnchorPane prefHeight="720" prefWidth="460" styleClass="form-dialog"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="controller.NuevoMedicamentoController">
 
-    <VBox spacing="12" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+    <VBox styleClass="form-shell" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Nuevo Medicamento" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <VBox spacing="5">
-            <Label text="Nombre comercial" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtNombre" prefHeight="35" promptText="Nombre del medicamento" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Principio activo" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtPrincipio" prefHeight="35" promptText="Sustancia activa" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Presentación" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbPresentacion" prefWidth="390" promptText="Seleccionar" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Dosis estándar" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtDosis" prefHeight="35" promptText="Ej: 1 tableta cada 12 horas" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <HBox spacing="15">
-            <VBox spacing="5">
-                <Label text="Stock" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <TextField fx:id="txtStock" prefHeight="35" prefWidth="120" promptText="Cantidad" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-            </VBox>
-            <VBox spacing="5">
-                <Label text="Precio unitario" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <TextField fx:id="txtPrecio" prefHeight="35" prefWidth="120" promptText="Ej: 15000" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-            </VBox>
-            <VBox spacing="5">
-                <Label text="Vencimiento" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <DatePicker fx:id="dpVencimiento" prefWidth="140" />
-            </VBox>
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="form-header">
+            <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="logo-blue-inline">
+                <image><Image url="@../images/logo-blue.png" /></image>
+            </ImageView>
+            <Label fx:id="lblTitulo" text="Nuevo Medicamento" styleClass="form-title" />
         </HBox>
 
-        <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox spacing="10" styleClass="form-body-scroll">
 
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button onAction="#handleGuardar" text="Guardar" prefHeight="40" prefWidth="140" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-        </HBox>
+                <Label text="INFORMACIÓN DEL PRODUCTO" styleClass="form-section-header" />
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Nombre comercial" styleClass="field-label" />
+                    <TextField fx:id="txtNombre" prefHeight="40" promptText="Nombre del medicamento" />
+                </VBox>
+                <HBox spacing="14">
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Principio activo" styleClass="field-label" />
+                        <TextField fx:id="txtPrincipio" prefHeight="40" promptText="Sustancia activa" />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Concentración" styleClass="field-label" />
+                        <TextField fx:id="txtConcentracion" prefHeight="40" promptText="Ej: 500 mg" />
+                    </VBox>
+                </HBox>
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Presentación" styleClass="field-label" />
+                    <ComboBox fx:id="cbPresentacion" prefWidth="400" promptText="Seleccionar" />
+                </VBox>
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Dosis estándar" styleClass="field-label" />
+                    <TextField fx:id="txtDosis" prefHeight="40" promptText="Ej: 1 tableta cada 12 horas" />
+                </VBox>
+
+                <Separator style="-fx-opacity: 0.4;" />
+                <Label text="INVENTARIO" styleClass="form-section-header" />
+                <HBox spacing="14">
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Stock inicial" styleClass="field-label" />
+                        <TextField fx:id="txtStock" prefHeight="40" promptText="Cantidad" />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Precio unitario" styleClass="field-label" />
+                        <TextField fx:id="txtPrecio" prefHeight="40" promptText="Ej: 15000" />
+                    </VBox>
+                </HBox>
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Fecha de vencimiento" styleClass="field-label" />
+                    <DatePicker fx:id="dpVencimiento" prefWidth="200" />
+                </VBox>
+        </VBox>
+        </ScrollPane>
+
+        <VBox styleClass="form-footer">
+            <Label fx:id="lblMensaje" text="" styleClass="form-message" />
+            <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="form-actions">
+                <Button fx:id="btnGuardar" onAction="#handleGuardar" text="Guardar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" />
+                <Button onAction="#handleCancelar" text="Cancelar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" />
+            </HBox>
+        </VBox>
 
     </VBox>
-
 </AnchorPane>

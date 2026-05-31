@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefWidth="630" prefHeight="720" styleClass="detail-dialog"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="controller.DetalleFacturaController">
+
+    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <VBox styleClass="detail-header" spacing="4">
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="detail-header-brand">
+                <HBox alignment="CENTER" styleClass="detail-header-logo-box">
+                    <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="detail-header-logo">
+                        <image><Image url="@../images/logo-white.png" /></image>
+                    </ImageView>
+                </HBox>
+                <VBox spacing="3">
+                    <Label text="Detalle de Factura" styleClass="detail-header-title" />
+                    <Label fx:id="lblNumeroFactura" styleClass="detail-header-subtitle" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox styleClass="detail-content" spacing="14">
+
+                <Label text="INFORMACIÓN DE LA FACTURA" styleClass="detail-section-title" />
+                <GridPane hgap="12" vgap="9">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="140" prefWidth="140" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                        <ColumnConstraints minWidth="100" prefWidth="100" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <Label text="Propietario:" styleClass="detail-field-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <Label fx:id="lblPropietario" styleClass="detail-field-value" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    <Label text="Paciente:"    styleClass="detail-field-label" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+                    <Label fx:id="lblPaciente" styleClass="detail-field-value" GridPane.rowIndex="0" GridPane.columnIndex="3" />
+                    <Label text="Fecha:"       styleClass="detail-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <Label fx:id="lblFecha"    styleClass="detail-field-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="Estado:"      styleClass="detail-field-label" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+                    <Label fx:id="lblEstado"   styleClass="detail-field-value-bold" GridPane.rowIndex="1" GridPane.columnIndex="3" />
+                </GridPane>
+
+                <Label text="LÍNEAS DE DETALLE" styleClass="detail-section-title" />
+                <StackPane styleClass="module-table-wrap">
+                    <TableView fx:id="tablaDetalles" focusTraversable="false">
+                        <columns>
+                            <TableColumn fx:id="colDescripcion"    prefWidth="220" text="DESCRIPCIÓN" />
+                            <TableColumn fx:id="colTipo"           prefWidth="100" text="TIPO" />
+                            <TableColumn fx:id="colCantidad"       prefWidth="60"  text="CANT." />
+                            <TableColumn fx:id="colPrecioUnitario" prefWidth="110" text="PRECIO UNIT." />
+                            <TableColumn fx:id="colSubtotal"       prefWidth="110" text="SUBTOTAL" />
+                        </columns>
+                        <placeholder>
+                            <Label text="Sin líneas de detalle" styleClass="cell-subtext" />
+                        </placeholder>
+                    </TableView>
+                </StackPane>
+
+                <Label text="TOTALES" styleClass="detail-section-title" />
+                <GridPane hgap="12" vgap="8">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" />
+                        <ColumnConstraints minWidth="130" prefWidth="130" />
+                    </columnConstraints>
+                    <Label text="Subtotal (sin IVA):" styleClass="detail-field-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <Label fx:id="lblSubtotal"        styleClass="detail-field-value" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    <Label text="IVA (19%):"          styleClass="detail-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <Label fx:id="lblIva"             styleClass="detail-field-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="TOTAL:" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a2e3b;"
+                           GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <Label fx:id="lblTotal" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"
+                           GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                </GridPane>
+
+        </VBox>
+        </ScrollPane>
+
+        <HBox alignment="CENTER_RIGHT" styleClass="detail-footer">
+            <Button text="Cerrar" onAction="#handleCerrar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="90"
+                    styleClass="btn-cerrar" />
+        </HBox>
+
+    </VBox>
+</AnchorPane>

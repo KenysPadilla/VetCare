@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefWidth="520" prefHeight="720" styleClass="detail-dialog"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="controller.DetalleInternacionController">
+
+    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <VBox styleClass="detail-header" spacing="4">
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="detail-header-brand">
+                <HBox alignment="CENTER" styleClass="detail-header-logo-box">
+                    <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="detail-header-logo">
+                        <image><Image url="@../images/logo-white.png" /></image>
+                    </ImageView>
+                </HBox>
+                <VBox spacing="3">
+                    <Label text="Detalle de Internación" styleClass="detail-header-title" />
+                    <Label fx:id="lblHeaderPaciente" styleClass="detail-header-subtitle" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox styleClass="detail-content" spacing="14">
+
+                <Label text="PACIENTE" styleClass="detail-section-title" />
+                <GridPane hgap="12" vgap="9">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="130" prefWidth="130" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <Label text="Nombre:"      styleClass="detail-field-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <Label fx:id="lblNombrePac" styleClass="detail-field-value-bold" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    <Label text="Especie:"     styleClass="detail-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <Label fx:id="lblEspecie"  styleClass="detail-field-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="Propietario:" styleClass="detail-field-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <Label fx:id="lblPropietario" styleClass="detail-field-value" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                </GridPane>
+
+                <Label text="DATOS DE LA INTERNACIÓN" styleClass="detail-section-title" />
+                <GridPane hgap="12" vgap="9">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="130" prefWidth="130" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <Label text="Estado:"      styleClass="detail-field-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <Label fx:id="lblEstado"   styleClass="detail-field-value-bold" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    <Label text="Ingreso:"     styleClass="detail-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <Label fx:id="lblIngreso"  styleClass="detail-field-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="Egreso:"      styleClass="detail-field-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <Label fx:id="lblEgreso"   styleClass="detail-field-value" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                    <Label text="Veterinario:" styleClass="detail-field-label" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                    <Label fx:id="lblVeterinario" styleClass="detail-field-value" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                    <Label text="Costo / día:"          styleClass="detail-field-label" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                    <Label fx:id="lblCostoDia"          styleClass="detail-field-value" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                    <Label text="Subtotal días:"        styleClass="detail-field-label" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                    <Label fx:id="lblCostoDias"         styleClass="detail-field-value" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                    <Label text="Costo medicamentos:"   styleClass="detail-field-label" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+                    <Label fx:id="lblCostoMeds"         styleClass="detail-field-value" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                    <Label text="Costo total:"          styleClass="detail-field-label" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+                    <Label fx:id="lblCostoTotal" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+                </GridPane>
+
+                <Label text="MEDICAMENTOS APLICADOS" styleClass="detail-section-title" />
+                <VBox fx:id="vboxMedicamentos" styleClass="lab-obs-panel" spacing="4" minHeight="36" />
+
+                <Label text="DETALLES CLÍNICOS" styleClass="detail-section-title" />
+
+                <Label text="Motivo de internación:" styleClass="detail-field-label" />
+                <VBox styleClass="lab-obs-panel">
+                    <TextArea fx:id="taMotivo" prefHeight="75" editable="false" wrapText="true"
+                              style="-fx-background-color: transparent; -fx-border-color: transparent;
+                                     -fx-font-size: 12px; -fx-text-fill: #3d5a6a; -fx-padding: 0;" />
+                </VBox>
+
+                <Label text="Diagnóstico:" styleClass="detail-field-label" />
+                <VBox styleClass="lab-obs-panel">
+                    <TextArea fx:id="taDiagnostico" prefHeight="75" editable="false" wrapText="true"
+                              style="-fx-background-color: transparent; -fx-border-color: transparent;
+                                     -fx-font-size: 12px; -fx-text-fill: #3d5a6a; -fx-padding: 0;" />
+                </VBox>
+
+                <Label text="Observaciones:" styleClass="detail-field-label" />
+                <VBox styleClass="lab-obs-panel">
+                    <TextArea fx:id="taObservaciones" prefHeight="75" editable="false" wrapText="true"
+                              style="-fx-background-color: transparent; -fx-border-color: transparent;
+                                     -fx-font-size: 12px; -fx-text-fill: #5a7585; -fx-padding: 0;" />
+                </VBox>
+
+        </VBox>
+        </ScrollPane>
+
+        <HBox alignment="CENTER_RIGHT" styleClass="detail-footer">
+            <Button text="Cerrar" onAction="#handleCerrar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="90"
+                    styleClass="btn-cerrar" />
+        </HBox>
+
+    </VBox>
+</AnchorPane>

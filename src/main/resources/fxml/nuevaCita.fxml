@@ -3,56 +3,89 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500" prefWidth="500" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.NuevaCitaController">
+<AnchorPane prefHeight="720" prefWidth="500" styleClass="form-dialog"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="controller.NuevaCitaController">
 
-    <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+    <VBox styleClass="form-shell" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Nueva Cita Médica" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <VBox spacing="6">
-            <Label text="Paciente" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbPaciente" prefWidth="440" promptText="Seleccionar paciente" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <VBox spacing="6">
-            <Label text="Veterinario" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbVeterinario" prefWidth="440" promptText="Seleccionar veterinario" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <HBox spacing="15">
-            <VBox spacing="6">
-                <Label text="Fecha" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <DatePicker fx:id="dpFecha" prefWidth="210" />
-            </VBox>
-            <VBox spacing="6">
-                <Label text="Hora" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <ComboBox fx:id="cbHora" prefWidth="210" promptText="Seleccionar hora" />
-            </VBox>
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="form-header">
+            <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="logo-blue-inline">
+                <image><Image url="@../images/logo-blue.png" /></image>
+            </ImageView>
+            <Label text="Nueva Cita Médica" styleClass="form-title" />
         </HBox>
 
-        <VBox spacing="6">
-            <Label text="Tipo de Cita" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbTipo" prefWidth="440" promptText="Seleccionar tipo" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox spacing="12" styleClass="form-body-scroll">
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Paciente" styleClass="field-label" />
+                    <ComboBox fx:id="cbPaciente" prefWidth="440" promptText="Seleccionar paciente" />
+                </VBox>
+
+                <HBox spacing="15">
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Especie" styleClass="field-label" style="-fx-font-size: 11px;" />
+                        <Label fx:id="lblEspecie" text="—" style="-fx-text-fill: #2b87a0; -fx-font-weight: bold; -fx-padding: 4 8;" />
+                    </VBox>
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Raza" styleClass="field-label" style="-fx-font-size: 11px;" />
+                        <Label fx:id="lblRaza" text="—" style="-fx-text-fill: #6b7f8e; -fx-padding: 4 8;" />
+                    </VBox>
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Sexo" styleClass="field-label" style="-fx-font-size: 11px;" />
+                        <Label fx:id="lblSexo" text="—" style="-fx-text-fill: #6b7f8e; -fx-padding: 4 8;" />
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Veterinario" styleClass="field-label" />
+                    <ComboBox fx:id="cbVeterinario" prefWidth="440" promptText="Seleccionar veterinario" />
+                </VBox>
+
+                <HBox spacing="15">
+                    <VBox spacing="6" styleClass="field-group">
+                        <Label text="Fecha" styleClass="field-label" />
+                        <DatePicker fx:id="dpFecha" prefWidth="210" />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group">
+                        <Label text="Hora" styleClass="field-label" />
+                        <ComboBox fx:id="cbHora" prefWidth="210" promptText="Seleccionar hora" />
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Tipo de Cita" styleClass="field-label" />
+                    <ComboBox fx:id="cbTipo" prefWidth="440" promptText="Seleccionar tipo" />
+                </VBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Motivo" styleClass="field-label" />
+                    <TextArea fx:id="txtMotivo" prefHeight="80" promptText="Describa el motivo de la cita" styleClass="text-area-input" />
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+
+        <VBox styleClass="form-footer">
+            <Label fx:id="lblMensaje" text="" styleClass="form-message" />
+            <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="form-actions">
+                <Button fx:id="btnGuardar" onAction="#handleGuardar" text="Guardar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" />
+                <Button fx:id="btnCancelar" onAction="#handleCancelar" text="Cancelar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" />
+            </HBox>
         </VBox>
-
-        <VBox spacing="6">
-            <Label text="Motivo" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextArea fx:id="txtMotivo" prefHeight="80" promptText="Describa el motivo de la cita" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
-
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button fx:id="btnGuardar" onAction="#handleGuardar" text="Guardar" prefHeight="40" prefWidth="140" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button fx:id="btnCancelar" onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-        </HBox>
 
     </VBox>
-
 </AnchorPane>

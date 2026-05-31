@@ -1,54 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane style="-fx-background-color: #F0F4F0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.CitasController">
+<AnchorPane styleClass="module-page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CitasController">
 
-    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox spacing="12" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Gestión de Citas Médicas" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <HBox spacing="15" alignment="CENTER_LEFT">
-            <Label text="Fecha:" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <DatePicker fx:id="dpFecha" prefWidth="160" />
-
-            <Label text="Veterinario:" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbVeterinario" prefWidth="180" promptText="Seleccionar" />
-
-            <Label text="Estado:" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbEstado" prefWidth="160" promptText="Todos" />
-
-            <Button fx:id="btnBuscar" onAction="#handleBuscar" text="Buscar" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox alignment="CENTER_LEFT" styleClass="module-page-header">
+            <Label style="-fx-font-size: 13px;" styleClass="module-page-subtitle" text="Agenda y programación de consultas" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnNueva" onAction="#handleNuevaCita" prefHeight="40" minHeight="40" maxHeight="40" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary btn-add" text="+  Nueva Cita" />
         </HBox>
 
-        <TableView fx:id="tablaCitas" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
-            <columns>
-                <TableColumn fx:id="colId" text="ID" prefWidth="50" />
-                <TableColumn fx:id="colFechaHora" text="Fecha/Hora" prefWidth="140" />
-                <TableColumn fx:id="colPaciente" text="Paciente" prefWidth="120" />
-                <TableColumn fx:id="colPropietario" text="Propietario" prefWidth="130" />
-                <TableColumn fx:id="colVeterinario" text="Veterinario" prefWidth="130" />
-                <TableColumn fx:id="colTipo" text="Tipo" prefWidth="120" />
-                <TableColumn fx:id="colMotivo" text="Motivo" prefWidth="150" />
-                <TableColumn fx:id="colEstado" text="Estado" prefWidth="110" />
-            </columns>
-        </TableView>
-
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button fx:id="btnNueva" onAction="#handleNuevaCita" text="Nueva Cita" prefHeight="38" prefWidth="140" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button fx:id="btnModificar" onAction="#handleModificar" text="Modificar" prefHeight="38" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button fx:id="btnCancelar" onAction="#handleCancelarCita" text="Cancelar Cita" prefHeight="38" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button fx:id="btnHistorial" onAction="#handleVerHistorial" text="Ver Historial" prefHeight="38" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox spacing="16">
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Citas Hoy" />
+                <Label fx:id="lblStatHoy" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2b87a0;" styleClass="mini-stat-value mini-stat-teal" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Realizadas" />
+                <Label fx:id="lblStatConfirmadas" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" styleClass="mini-stat-value mini-stat-green" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Pendientes" />
+                <Label fx:id="lblStatPendientes" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" styleClass="mini-stat-value mini-stat-orange" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Canceladas" />
+                <Label fx:id="lblStatCanceladas" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #e53e3e;" styleClass="mini-stat-value mini-stat-red" text="0" />
+            </VBox>
         </HBox>
+
+        <GridPane hgap="20" styleClass="citas-layout" vgap="0" VBox.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints minWidth="280" prefWidth="300" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" />
+            </rowConstraints>
+
+            <VBox styleClass="calendar-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label fx:id="lblMesCita" style="-fx-font-size: 15px; -fx-font-weight: bold;" styleClass="calendar-month-title" text="Agenda" />
+                <Label styleClass="calendar-legend-label" text="Seleccione la fecha:" />
+                <DatePicker fx:id="dpFecha" maxWidth="Infinity" prefHeight="40" />
+                <VBox spacing="8">
+                    <Label styleClass="calendar-legend-label" text="FILTROS" />
+                    <Label styleClass="filter-label" text="Veterinario" />
+                    <ComboBox fx:id="cbVeterinario" maxWidth="Infinity" prefHeight="36" promptText="Todos" styleClass="filter-combo" />
+                    <Label styleClass="filter-label" text="Estado" />
+                    <ComboBox fx:id="cbEstado" maxWidth="Infinity" prefHeight="36" promptText="Todos" styleClass="filter-combo" />
+                    <Button fx:id="btnBuscar" onAction="#handleBuscar" maxWidth="Infinity" prefHeight="40" style="-fx-background-color: #f0f4f7; -fx-text-fill: #5a7585; -fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" text="Aplicar filtros" />
+                    <Button fx:id="btnVerTodas" onAction="#handleVerTodas" maxWidth="Infinity" prefHeight="40" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" text="Ver todas las citas" />
+                </VBox>
+                <VBox spacing="6">
+                    <Label styleClass="calendar-legend-label" text="LEYENDA" />
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region prefHeight="12" prefWidth="12" style="-fx-background-color: #e8f4f8; -fx-background-radius: 3;" />
+                        <Label styleClass="calendar-legend-label" text="Fecha seleccionada" />
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region prefHeight="12" prefWidth="12" style="-fx-background-color: #2b87a0; -fx-background-radius: 3;" />
+                        <Label styleClass="calendar-legend-label" text="Todas las citas" />
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <VBox spacing="0" styleClass="citas-list-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="citas-list-header">
+                    <Label fx:id="lblCitasDia" style="-fx-font-size: 15px; -fx-font-weight: bold;" styleClass="citas-list-title" text="Citas del día" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
+                        <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
+                        <TextField fx:id="txtBuscarCita" onAction="#handleBuscar" prefHeight="32" prefWidth="180" promptText="Buscar..." />
+                    </HBox>
+                </HBox>
+                <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="tablaCitas">
+                        <columns>
+                            <TableColumn fx:id="colHora" prefWidth="80" text="HORA" />
+                            <TableColumn fx:id="colPaciente" prefWidth="140" text="PACIENTE" />
+                            <TableColumn fx:id="colPropietario" prefWidth="130" text="PROPIETARIO" />
+                            <TableColumn fx:id="colMotivo" prefWidth="150" text="MOTIVO" />
+                            <TableColumn fx:id="colVeterinario" prefWidth="120" text="VETERINARIO" />
+                            <TableColumn fx:id="colEstado" prefWidth="115" text="ESTADO" />
+                        </columns>
+                    </TableView>
+                </StackPane>
+                <HBox spacing="10" styleClass="citas-actions-bar">
+                    <Button fx:id="btnVerDetalle" onAction="#handleVerDetalle" prefHeight="36" minHeight="36" maxHeight="36"
+                            style="-fx-background-color: #e8f4f8; -fx-text-fill: #2b87a0; -fx-border-color: #2b87a0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;"
+                            text="Ver Detalle" />
+                    <Button fx:id="btnModificar" onAction="#handleModificar" prefHeight="36" minHeight="36" maxHeight="36"
+                            style="-fx-background-color: #e8f4f8; -fx-text-fill: #2b87a0; -fx-border-color: #2b87a0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;"
+                            text="Modificar" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button fx:id="btnEnCurso" onAction="#handleMarcarEnCurso" prefHeight="36" minHeight="36" maxHeight="36"
+                            style="-fx-background-color: #fef1e0; -fx-text-fill: #e67e22; -fx-border-color: #e67e22; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;"
+                            text="En Curso" />
+                    <Button fx:id="btnCancelar" onAction="#handleCancelarCita" prefHeight="36" minHeight="36" maxHeight="36"
+                            style="-fx-background-color: #fde8e8; -fx-text-fill: #e53e3e; -fx-border-color: #e53e3e; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;"
+                            text="Cancelar" />
+                </HBox>
+            </VBox>
+        </GridPane>
 
     </VBox>
 

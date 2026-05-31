@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefWidth="560" prefHeight="720" styleClass="detail-dialog"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="controller.ModificarConsultaController">
+
+    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <VBox styleClass="detail-header" spacing="4">
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="detail-header-brand">
+                <HBox alignment="CENTER" styleClass="detail-header-logo-box">
+                    <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="detail-header-logo">
+                        <image><Image url="@../images/logo-white.png" /></image>
+                    </ImageView>
+                </HBox>
+                <VBox spacing="3">
+                    <Label text="Modificar Consulta" styleClass="detail-header-title" />
+                    <Label fx:id="lblHeaderSubtitle" styleClass="detail-header-subtitle" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox spacing="14" styleClass="detail-content">
+
+                <Label text="INFORMACIÓN GENERAL" styleClass="detail-section-title" />
+                <GridPane hgap="12" vgap="9">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="110" prefWidth="110" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <Label text="Paciente:"    styleClass="detail-field-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <Label fx:id="lblPaciente" styleClass="detail-field-value-bold" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    <Label text="Veterinario:" styleClass="detail-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <Label fx:id="lblVeterinario" styleClass="detail-field-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="Fecha:"       styleClass="detail-field-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <Label fx:id="lblFecha"    styleClass="detail-field-value" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                </GridPane>
+
+                <Separator />
+
+                <Label text="DATOS A MODIFICAR" styleClass="detail-section-title" />
+
+                <VBox spacing="5" styleClass="field-group">
+                    <Label styleClass="field-label" text="Síntomas *" />
+                    <TextArea fx:id="txtSintomas" prefHeight="80" wrapText="true"
+                              promptText="Síntomas presentados..." styleClass="text-area-input" />
+                </VBox>
+
+                <VBox spacing="5" styleClass="field-group">
+                    <Label styleClass="field-label" text="Diagnóstico *" />
+                    <TextArea fx:id="txtDiagnostico" prefHeight="80" wrapText="true"
+                              promptText="Diagnóstico clínico..." styleClass="text-area-input" />
+                </VBox>
+
+                <VBox spacing="5" styleClass="field-group">
+                    <Label styleClass="field-label" text="Tratamiento / Notas" />
+                    <TextArea fx:id="txtTratamiento" prefHeight="100" wrapText="true"
+                              promptText="Plan de tratamiento y notas adicionales..." styleClass="text-area-input" />
+                </VBox>
+
+                <VBox spacing="5" styleClass="field-group" maxWidth="200">
+                    <Label styleClass="field-label" text="Costo ($)" />
+                    <TextField fx:id="txtCosto" prefHeight="36" prefWidth="180" promptText="0.00" />
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+
+        <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="detail-footer">
+            <Label fx:id="lblMensaje" style="-fx-font-size: 12px;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Cancelar" onAction="#handleCancelar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="100" styleClass="btn-cancelar" />
+            <Button text="Guardar cambios" onAction="#handleGuardar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" />
+        </HBox>
+
+    </VBox>
+</AnchorPane>

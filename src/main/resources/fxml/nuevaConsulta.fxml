@@ -1,44 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500" prefWidth="500" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.NuevaConsultaController">
+<AnchorPane prefHeight="720" prefWidth="560" styleClass="form-dialog" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NuevaConsultaController">
 
-    <VBox spacing="12" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+    <VBox styleClass="form-shell" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Nueva Consulta Médica" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <VBox spacing="5">
-            <Label text="Cita asociada" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbCita" prefWidth="440" promptText="Seleccionar cita completada" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Síntomas" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextArea fx:id="txtSintomas" prefHeight="70" promptText="Describa los síntomas" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Diagnóstico" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextArea fx:id="txtDiagnostico" prefHeight="70" promptText="Diagnóstico del veterinario" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Tratamiento" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextArea fx:id="txtTratamiento" prefHeight="70" promptText="Tratamiento indicado" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
-
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button onAction="#handleGuardar" text="Guardar" prefHeight="40" prefWidth="140" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="form-header">
+            <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="logo-blue-inline">
+                <image>
+                    <Image url="@../images/logo-blue.png" />
+                </image>
+            </ImageView>
+            <Label styleClass="form-title" text="Nueva Consulta Médica" />
         </HBox>
+
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox spacing="10" styleClass="form-body-scroll">
+
+                <CheckBox fx:id="chkSinCita" onAction="#handleToggleModo"
+                          text="Sin cita previa — registrar consulta directa"
+                          style="-fx-font-size: 12px; -fx-text-fill: #5a7585; -fx-cursor: hand;" />
+
+                <VBox fx:id="vboxConCita" spacing="6" styleClass="field-group">
+                    <Label styleClass="field-label" text="Cita asociada" />
+                    <ComboBox fx:id="cbCita" prefWidth="480" promptText="Seleccionar cita..." />
+                </VBox>
+
+                <VBox fx:id="vboxSinCita" spacing="10" managed="false" visible="false">
+                    <VBox spacing="6" styleClass="field-group">
+                        <Label styleClass="field-label" text="Paciente" />
+                        <ComboBox fx:id="cbPaciente" prefWidth="480" promptText="Seleccionar paciente..." />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group">
+                        <Label styleClass="field-label" text="Veterinario" />
+                        <ComboBox fx:id="cbVeterinario" prefWidth="480" promptText="Seleccionar veterinario..." />
+                    </VBox>
+                </VBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label styleClass="field-label" text="Síntomas" />
+                    <TextArea fx:id="txtSintomas" prefHeight="65" promptText="Describa los síntomas" styleClass="text-area-input" />
+                </VBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label styleClass="field-label" text="Diagnóstico" />
+                    <TextArea fx:id="txtDiagnostico" prefHeight="65" promptText="Diagnóstico del veterinario" styleClass="text-area-input" />
+                </VBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label styleClass="field-label" text="Precio de la consulta ($)" />
+                    <TextField fx:id="txtPrecioConsulta" prefHeight="36" promptText="Ej: 50000" />
+                </VBox>
+
+                <Separator />
+
+                <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" styleClass="form-section-title" text="Prescripción de Medicamentos" />
+
+                <VBox spacing="4">
+                    <Label styleClass="field-label" text="Buscar medicamento" />
+                    <TextField fx:id="txtBuscarMed" prefHeight="36" promptText="Escriba el nombre del medicamento..." />
+                    <ListView fx:id="lvMedicamentos" prefHeight="90" styleClass="list-view-form" />
+                </VBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <VBox HBox.hgrow="ALWAYS" spacing="4">
+                        <Label styleClass="field-label" text="Dosis / instrucciones" />
+                        <TextField fx:id="txtDosisEspecifica" prefHeight="36" promptText="Ej: 1 tableta cada 12 h por 7 días" />
+                    </VBox>
+                    <Button onAction="#handleAgregarMedicamento"
+                            prefHeight="28" minHeight="28" maxHeight="28" prefWidth="100"
+                            styleClass="btn-cerrar" text="Agregar" />
+                </HBox>
+
+                <VBox spacing="4">
+                    <Label styleClass="field-label" text="Medicamentos prescritos" />
+                    <ListView fx:id="lvPrescritos" prefHeight="80" styleClass="list-view-form-prescribed" />
+                    <Button onAction="#handleQuitarMedicamento" prefHeight="28" minHeight="28" maxHeight="28" styleClass="btn-danger btn-small" text="Quitar seleccionado" />
+                </VBox>
+
+                <VBox spacing="6" style="-fx-background-color: #f0f6ff; -fx-border-color: #b8cfe8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 10 14 10 14;">
+                    <HBox alignment="CENTER_RIGHT" spacing="8">
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #5a7585;" text="Precio de la consulta:" />
+                        <Label fx:id="lblResumenConsulta" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;" text="" />
+                    </HBox>
+                    <Separator />
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: #5a7585; -fx-wrap-text: true;"
+                           text="Los medicamentos prescritos quedan registrados en el historial clínico. Su cobro se gestiona desde el módulo de Facturas." />
+                </VBox>
+
+                <Separator />
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label styleClass="field-label" text="Tratamiento / Notas adicionales" />
+                    <TextArea fx:id="txtTratamiento" prefHeight="60" promptText="Tratamiento adicional o notas" styleClass="text-area-input" />
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+
+        <VBox spacing="10" styleClass="form-footer">
+            <Label fx:id="lblMensaje" styleClass="form-message" text="" />
+            <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="form-actions">
+                <Button onAction="#handleGuardar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140"
+                        styleClass="btn-cerrar" text="Guardar" />
+                <Button onAction="#handleCancelar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140"
+                        styleClass="btn-cancelar" text="Cancelar" />
+            </HBox>
+        </VBox>
 
     </VBox>
 

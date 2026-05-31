@@ -1,41 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane style="-fx-background-color: #F0F4F0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.ConsultasController">
+<AnchorPane styleClass="module-page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConsultasController">
 
-    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox spacing="12" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Gestión de Consultas" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <TextField fx:id="txtBuscar" prefWidth="300" prefHeight="35" promptText="Buscar por paciente o diagnóstico" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-            <Button onAction="#handleBuscar" text="Buscar" prefHeight="35" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox alignment="CENTER_LEFT" styleClass="module-page-header">
+            <Label style="-fx-font-size: 13px;" styleClass="module-page-subtitle" text="Registro de consultas médicas realizadas" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleNueva" prefHeight="40" minHeight="40" maxHeight="40" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary btn-add" text="+  Nueva Consulta" />
         </HBox>
 
-        <TableView fx:id="tablaConsultas" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
-            <columns>
-                <TableColumn fx:id="colId" text="ID" prefWidth="50" />
-                <TableColumn fx:id="colFechaHora" text="Fecha/Hora" prefWidth="140" />
-                <TableColumn fx:id="colPaciente" text="Paciente" prefWidth="120" />
-                <TableColumn fx:id="colVeterinario" text="Veterinario" prefWidth="130" />
-                <TableColumn fx:id="colSintomas" text="Síntomas" prefWidth="160" />
-                <TableColumn fx:id="colDiagnostico" text="Diagnóstico" prefWidth="160" />
-                <TableColumn fx:id="colTratamiento" text="Tratamiento" prefWidth="160" />
-            </columns>
-        </TableView>
-
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button onAction="#handleNueva" text="Nueva Consulta" prefHeight="38" prefWidth="160" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleVerDetalle" text="Ver Detalle" prefHeight="38" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handlePrescripcion" text="Prescripción" prefHeight="38" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox spacing="16">
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Total Consultas" />
+                <Label fx:id="lblStatTotal" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2b87a0;" styleClass="mini-stat-value mini-stat-teal" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Este Mes" />
+                <Label fx:id="lblStatMes" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" styleClass="mini-stat-value mini-stat-green" text="0" />
+            </VBox>
         </HBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-toolbar-row">
+            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
+                <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
+                <TextField fx:id="txtBuscar" onAction="#handleBuscar" prefHeight="36" prefWidth="280" promptText="Buscar consulta, diagnóstico..." />
+            </HBox>
+            <Button onAction="#handleBuscar" prefHeight="36" minHeight="36" maxHeight="36" style="-fx-background-color: white; -fx-text-fill: #2b87a0; -fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-outline" text="Buscar" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnEditar" disable="true" onAction="#handleEditar" prefHeight="36" minHeight="36" maxHeight="36" style="-fx-background-color: #ece8fd; -fx-text-fill: #7c3aed; -fx-border-color: #7c3aed; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" text="Modificar" />
+        </HBox>
+
+        <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tablaConsultas">
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="80" minWidth="70" text="ID" />
+                    <TableColumn fx:id="colFecha" prefWidth="100" text="FECHA" />
+                    <TableColumn fx:id="colPacienteProp" prefWidth="150" text="PACIENTE / PROPIETARIO" />
+                    <TableColumn fx:id="colVeterinario" prefWidth="120" text="VETERINARIO" />
+                    <TableColumn fx:id="colDiagnostico" prefWidth="150" text="DIAGNÓSTICO" />
+                    <TableColumn fx:id="colTratamiento" prefWidth="150" text="TRATAMIENTO" />
+                    <TableColumn fx:id="colCosto" prefWidth="100" minWidth="80" text="COSTO" />
+                    <TableColumn fx:id="colAcciones" prefWidth="80" minWidth="60" text="DETALLES" />
+                </columns>
+            </TableView>
+        </StackPane>
 
     </VBox>
 

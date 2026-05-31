@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -9,55 +9,96 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane style="-fx-background-color: #F0F4F0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.ServiciosEsteticosController">
+<AnchorPane styleClass="module-page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ServiciosEsteticosController">
 
-    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox spacing="12" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Servicios de Baño y Motilada" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-page-header">
+            <Label style="-fx-font-size: 13px;" styleClass="module-page-subtitle" text="Servicios de baño y motilada programados" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleNuevoBano" prefHeight="40" minHeight="40" maxHeight="40" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary btn-add" text="+  Nuevo Baño" />
+            <Button onAction="#handleNuevaMotilada" prefHeight="40" minHeight="40" maxHeight="40" style="-fx-background-color: white; -fx-text-fill: #2b87a0; -fx-border-color: #2b87a0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-outline" text="+  Nueva Motilada" />
+        </HBox>
 
-        <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
+        <HBox spacing="16">
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Total Servicios" />
+                <Label fx:id="lblStatTotal" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2b87a0;" styleClass="mini-stat-value mini-stat-teal" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Programados" />
+                <Label fx:id="lblStatProgramados" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" styleClass="mini-stat-value mini-stat-orange" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Realizados" />
+                <Label fx:id="lblStatRealizados" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" styleClass="mini-stat-value mini-stat-green" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Cancelados" />
+                <Label fx:id="lblStatCancelados" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #e53e3e;" styleClass="mini-stat-value mini-stat-red" text="0" />
+            </VBox>
+        </HBox>
 
-            <Tab text="Baño" closable="false">
-                <VBox spacing="10" style="-fx-padding: 10;">
-                    <TableView fx:id="tablaBanos" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
-                        <columns>
-                            <TableColumn fx:id="colBanoId" text="ID" prefWidth="50" />
-                            <TableColumn fx:id="colBanoPaciente" text="Paciente" prefWidth="120" />
-                            <TableColumn fx:id="colBanoEstilista" text="Estilista" prefWidth="120" />
-                            <TableColumn fx:id="colBanoFecha" text="Fecha/Hora" prefWidth="140" />
-                            <TableColumn fx:id="colBanoTipo" text="Tipo Baño" prefWidth="120" />
-                            <TableColumn fx:id="colBanoEstado" text="Estado" prefWidth="100" />
-                            <TableColumn fx:id="colBanoCosto" text="Costo" prefWidth="90" />
-                        </columns>
-                    </TableView>
-                    <HBox spacing="10">
-                        <Button onAction="#handleNuevoBano" text="Nuevo Baño" prefHeight="38" prefWidth="150" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-                        <Button onAction="#handleCancelarBano" text="Cancelar" prefHeight="38" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-                        <Button onAction="#handleCompletarBano" text="Completar" prefHeight="38" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <TabPane fx:id="tabPane" styleClass="module-tab-pane" VBox.vgrow="ALWAYS">
+
+            <Tab closable="false" text="Baño">
+                <VBox spacing="12">
+                    <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-toolbar-row">
+                        <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
+                            <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
+                            <TextField fx:id="txtBuscarBano" onAction="#handleBuscarBano" prefHeight="36" prefWidth="260" promptText="Buscar paciente o estilista..." />
+                        </HBox>
+                        <Button onAction="#handleBuscarBano" prefHeight="36" style="-fx-background-color: white; -fx-text-fill: #2b87a0; -fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-outline" text="Buscar" />
+                        <Region HBox.hgrow="ALWAYS" />
                     </HBox>
+                    <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="tablaBanos">
+                            <columns>
+                                <TableColumn fx:id="colBanoId" prefWidth="70" minWidth="60" text="ID" />
+                                <TableColumn fx:id="colBanoPacienteProp" prefWidth="140" text="PACIENTE / PROPIETARIO" />
+                                <TableColumn fx:id="colBanoEstilista" prefWidth="120" text="ESTILISTA" />
+                                <TableColumn fx:id="colBanoFecha" prefWidth="100" text="FECHA" />
+                                <TableColumn fx:id="colBanoHora" prefWidth="70" text="HORA" />
+                                <TableColumn fx:id="colBanoPrecio" prefWidth="80" text="PRECIO" />
+                                <TableColumn fx:id="colBanoEstado" prefWidth="115" text="ESTADO" />
+                                <TableColumn fx:id="colBanoAcciones" prefWidth="80" text="DETALLES" />
+                                <TableColumn fx:id="colBanoOperaciones" prefWidth="210" text="" />
+                            </columns>
+                        </TableView>
+                    </StackPane>
                 </VBox>
             </Tab>
 
-            <Tab text="Motilada" closable="false">
-                <VBox spacing="10" style="-fx-padding: 10;">
-                    <TableView fx:id="tablaMotiladas" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
-                        <columns>
-                            <TableColumn fx:id="colMotiladaId" text="ID" prefWidth="50" />
-                            <TableColumn fx:id="colMotiladaPaciente" text="Paciente" prefWidth="120" />
-                            <TableColumn fx:id="colMotiladaEstilista" text="Estilista" prefWidth="120" />
-                            <TableColumn fx:id="colMotiladaFecha" text="Fecha/Hora" prefWidth="140" />
-                            <TableColumn fx:id="colMotiladaEstilo" text="Estilo" prefWidth="120" />
-                            <TableColumn fx:id="colMotiladaEstado" text="Estado" prefWidth="100" />
-                            <TableColumn fx:id="colMotiladaCosto" text="Costo" prefWidth="90" />
-                        </columns>
-                    </TableView>
-                    <HBox spacing="10">
-                        <Button onAction="#handleNuevaMotilada" text="Nueva Motilada" prefHeight="38" prefWidth="160" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-                        <Button onAction="#handleCancelarMotilada" text="Cancelar" prefHeight="38" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-                        <Button onAction="#handleCompletarMotilada" text="Completar" prefHeight="38" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+            <Tab closable="false" text="Motilada">
+                <VBox spacing="12">
+                    <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-toolbar-row">
+                        <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
+                            <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
+                            <TextField fx:id="txtBuscarMotilada" onAction="#handleBuscarMotilada" prefHeight="36" prefWidth="260" promptText="Buscar paciente o estilista..." />
+                        </HBox>
+                        <Button onAction="#handleBuscarMotilada" prefHeight="36" style="-fx-background-color: white; -fx-text-fill: #2b87a0; -fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-outline" text="Buscar" />
+                        <Region HBox.hgrow="ALWAYS" />
                     </HBox>
+                    <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="tablaMotiladas">
+                            <columns>
+                                <TableColumn fx:id="colMotId" prefWidth="70" minWidth="60" text="ID" />
+                                <TableColumn fx:id="colMotPacienteProp" prefWidth="140" text="PACIENTE / PROPIETARIO" />
+                                <TableColumn fx:id="colMotEstilista" prefWidth="120" text="ESTILISTA" />
+                                <TableColumn fx:id="colMotFecha" prefWidth="100" text="FECHA" />
+                                <TableColumn fx:id="colMotHora" prefWidth="70" text="HORA" />
+                                <TableColumn fx:id="colMotPrecio" prefWidth="80" text="PRECIO" />
+                                <TableColumn fx:id="colMotEstado" prefWidth="115" text="ESTADO" />
+                                <TableColumn fx:id="colMotAcciones" prefWidth="80" text="DETALLES" />
+                                <TableColumn fx:id="colMotOperaciones" prefWidth="210" text="" />
+                            </columns>
+                        </TableView>
+                    </StackPane>
                 </VBox>
             </Tab>
 

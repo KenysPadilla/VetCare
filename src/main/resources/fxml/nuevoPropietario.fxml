@@ -1,54 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
 
-<AnchorPane prefHeight="450" prefWidth="450" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.NuevoPropietarioController">
+<AnchorPane prefHeight="720" prefWidth="460" styleClass="form-dialog"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="controller.NuevoPropietarioController">
 
-    <VBox spacing="12" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+    <VBox styleClass="form-shell" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Nuevo Propietario" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <VBox spacing="5">
-            <Label text="Cédula" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtCedula" prefHeight="35" promptText="Número de cédula" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Nombre" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtNombre" prefHeight="35" promptText="Nombre(s)" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Apellido" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtApellido" prefHeight="35" promptText="Apellido(s)" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Teléfono" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtTelefono" prefHeight="35" promptText="Número de contacto" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Correo" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtCorreo" prefHeight="35" promptText="correo@ejemplo.com" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Dirección" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtDireccion" prefHeight="35" promptText="Dirección de residencia" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
-
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button onAction="#handleGuardar" text="Guardar" prefHeight="40" prefWidth="140" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="form-header">
+            <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="logo-blue-inline">
+                <image><Image url="@../images/logo-blue.png" /></image>
+            </ImageView>
+            <Label fx:id="lblTitulo" text="Nuevo Propietario" styleClass="form-title" />
         </HBox>
 
-    </VBox>
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox spacing="10" styleClass="form-body-scroll">
 
+                <Label text="DATOS PERSONALES" styleClass="form-section-header" />
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Cédula" styleClass="field-label" />
+                    <TextField fx:id="txtCedula" prefHeight="40" promptText="Número de cédula" />
+                </VBox>
+                <HBox spacing="14">
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Nombre" styleClass="field-label" />
+                        <TextField fx:id="txtNombre" prefHeight="40" promptText="Nombre(s)" />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Apellido" styleClass="field-label" />
+                        <TextField fx:id="txtApellido" prefHeight="40" promptText="Apellido(s)" />
+                    </VBox>
+                </HBox>
+
+                <Separator style="-fx-opacity: 0.4;" />
+                <Label text="CONTACTO" styleClass="form-section-header" />
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Teléfono" styleClass="field-label" />
+                    <TextField fx:id="txtTelefono" prefHeight="40" promptText="Número de contacto" />
+                </VBox>
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Correo electrónico" styleClass="field-label" />
+                    <TextField fx:id="txtCorreo" prefHeight="40" promptText="correo@ejemplo.com" />
+                </VBox>
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Dirección" styleClass="field-label" />
+                    <TextField fx:id="txtDireccion" prefHeight="40" promptText="Dirección de residencia" />
+                </VBox>
+        </VBox>
+        </ScrollPane>
+
+        <VBox styleClass="form-footer">
+            <Label fx:id="lblMensaje" text="" styleClass="form-message" />
+            <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="form-actions">
+                <Button fx:id="btnGuardar" onAction="#handleGuardar" text="Guardar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" />
+                <Button onAction="#handleCancelar" text="Cancelar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" />
+            </HBox>
+        </VBox>
+
+    </VBox>
 </AnchorPane>

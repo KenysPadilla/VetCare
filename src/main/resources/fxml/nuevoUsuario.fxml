@@ -3,44 +3,110 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="350" prefWidth="420" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.NuevoUsuarioController">
+<AnchorPane prefHeight="720" prefWidth="480" styleClass="form-dialog"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="controller.NuevoUsuarioController">
 
-    <VBox spacing="12" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+    <VBox styleClass="form-shell" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Nuevo Usuario" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <VBox spacing="5">
-            <Label text="Username" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtUsername" prefHeight="35" promptText="Nombre de usuario" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Contraseña" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <PasswordField fx:id="txtPassword" prefHeight="35" promptText="Contraseña" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Confirmar contraseña" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <PasswordField fx:id="txtConfirmar" prefHeight="35" promptText="Confirmar contraseña" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Rol" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbRol" prefWidth="360" promptText="Seleccionar rol" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
-
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button onAction="#handleGuardar" text="Guardar" prefHeight="40" prefWidth="140" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="form-header">
+            <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="logo-blue-inline">
+                <image><Image url="@../images/logo-blue.png" /></image>
+            </ImageView>
+            <Label fx:id="lblTitulo" text="Nuevo Usuario" styleClass="form-title" />
         </HBox>
 
-    </VBox>
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox spacing="10" styleClass="form-body-scroll">
 
+                <!-- ── ACCESO AL SISTEMA ── -->
+                <Label text="ACCESO AL SISTEMA" styleClass="form-section-header" />
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Nombre de usuario" styleClass="field-label" />
+                    <TextField fx:id="txtUsername" prefHeight="40" promptText="Username" />
+                </VBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Rol" styleClass="field-label" />
+                    <ComboBox fx:id="cbRol" prefWidth="Infinity" maxWidth="Infinity" promptText="Seleccionar rol" />
+                </VBox>
+
+                <!-- Solo visible para VETERINARIO / ESTILISTA -->
+                <VBox fx:id="pnlEmpleado" spacing="6" styleClass="field-group" managed="false" visible="false">
+                    <Label fx:id="lblEmpleado" text="Empleado vinculado" styleClass="field-label" />
+                    <ComboBox fx:id="cbEmpleado" prefWidth="Infinity" maxWidth="Infinity"
+                              promptText="Seleccionar empleado..." />
+                    <Label fx:id="lblEmpleadoHint" style="-fx-text-fill: #6b7f8e; -fx-font-size: 11px;"
+                           text="Al seleccionar el empleado se cargan sus datos automáticamente" />
+                </VBox>
+
+                <!-- ── DATOS PERSONALES ── -->
+                <Separator style="-fx-opacity: 0.4;" />
+                <Label text="DATOS PERSONALES" styleClass="form-section-header" />
+
+                <HBox spacing="12">
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Nombre" styleClass="field-label" />
+                        <TextField fx:id="txtNombre" prefHeight="40" promptText="Nombre" />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Apellido" styleClass="field-label" />
+                        <TextField fx:id="txtApellido" prefHeight="40" promptText="Apellido" />
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="12">
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Cédula" styleClass="field-label" />
+                        <TextField fx:id="txtCedula" prefHeight="40" promptText="Número de cédula" />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Teléfono" styleClass="field-label" />
+                        <TextField fx:id="txtTelefono" prefHeight="40" promptText="Teléfono" />
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Email" styleClass="field-label" />
+                    <TextField fx:id="txtEmail" prefHeight="40" promptText="correo@ejemplo.com" />
+                </VBox>
+
+                <!-- ── SEGURIDAD ── -->
+                <Separator style="-fx-opacity: 0.4;" />
+                <Label text="SEGURIDAD" styleClass="form-section-header" />
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Contraseña" styleClass="field-label" />
+                    <PasswordField fx:id="txtPassword" prefHeight="40" promptText="Contraseña" />
+                </VBox>
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Confirmar contraseña" styleClass="field-label" />
+                    <PasswordField fx:id="txtConfirmar" prefHeight="40" promptText="Repita la contraseña" />
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+
+        <VBox styleClass="form-footer">
+            <Label fx:id="lblMensaje" text="" styleClass="form-message" />
+            <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="form-actions">
+                <Button fx:id="btnGuardar" onAction="#handleGuardar" text="Guardar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" />
+                <Button onAction="#handleCancelar" text="Cancelar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" />
+            </HBox>
+        </VBox>
+
+    </VBox>
 </AnchorPane>

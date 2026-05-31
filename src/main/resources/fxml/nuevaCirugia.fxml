@@ -3,61 +3,81 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="550" prefWidth="480" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.NuevaCirugiaController">
+<AnchorPane prefHeight="720" prefWidth="490" styleClass="form-dialog"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="controller.NuevaCirugiaController">
 
-    <VBox spacing="12" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+    <VBox styleClass="form-shell" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Nueva Cirugía" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <VBox spacing="5">
-            <Label text="Paciente" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbPaciente" prefWidth="420" promptText="Seleccionar paciente" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Veterinario" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbVeterinario" prefWidth="420" promptText="Seleccionar cirujano" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <VBox spacing="5">
-            <Label text="Tipo de cirugía" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtTipo" prefHeight="35" promptText="Ej: Esterilización, Extracción dental" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-        </VBox>
-
-        <HBox spacing="15">
-            <VBox spacing="5">
-                <Label text="Fecha" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <DatePicker fx:id="dpFecha" prefWidth="200" />
-            </VBox>
-            <VBox spacing="5">
-                <Label text="Anestesia" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <ComboBox fx:id="cbAnestesia" prefWidth="200" promptText="Seleccionar" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-            </VBox>
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="form-header">
+            <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="logo-blue-inline">
+                <image><Image url="@../images/logo-blue.png" /></image>
+            </ImageView>
+            <Label text="Nueva Cirugía" styleClass="form-title" />
         </HBox>
 
-        <VBox spacing="5">
-            <Label text="Costo" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextField fx:id="txtCosto" prefHeight="35" promptText="Ej: 250000" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox spacing="10" styleClass="form-body-scroll">
+
+                <Label text="PARTICIPANTES" styleClass="form-section-header" />
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Paciente" styleClass="field-label" />
+                    <ComboBox fx:id="cbPaciente" prefWidth="430" promptText="Seleccionar paciente" />
+                </VBox>
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Cirujano / Veterinario" styleClass="field-label" />
+                    <ComboBox fx:id="cbVeterinario" prefWidth="430" promptText="Seleccionar cirujano" />
+                </VBox>
+
+                <Separator style="-fx-opacity: 0.4;" />
+                <Label text="PROCEDIMIENTO" styleClass="form-section-header" />
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Tipo de cirugía" styleClass="field-label" />
+                    <TextField fx:id="txtTipo" prefHeight="40" promptText="Ej: Esterilización, Extracción dental" />
+                </VBox>
+                <HBox spacing="14">
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Fecha" styleClass="field-label" />
+                        <DatePicker fx:id="dpFecha" prefWidth="205" />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Anestesia" styleClass="field-label" />
+                        <ComboBox fx:id="cbAnestesia" prefWidth="205" promptText="Seleccionar" />
+                    </VBox>
+                </HBox>
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Costo estimado" styleClass="field-label" />
+                    <TextField fx:id="txtCosto" prefHeight="40" promptText="Ej: 250000" />
+                </VBox>
+                <VBox spacing="6" styleClass="field-group">
+                    <Label text="Descripción del procedimiento" styleClass="field-label" />
+                    <TextArea fx:id="txtDescripcion" prefHeight="80"
+                              promptText="Descripción del procedimiento" styleClass="text-area-input" />
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+
+        <VBox styleClass="form-footer">
+            <Label fx:id="lblMensaje" text="" styleClass="form-message" />
+            <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="form-actions">
+                <Button onAction="#handleGuardar" text="Guardar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" />
+                <Button onAction="#handleCancelar" text="Cancelar"
+                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" />
+            </HBox>
         </VBox>
-
-        <VBox spacing="5">
-            <Label text="Descripción" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <TextArea fx:id="txtDescripcion" prefHeight="60" promptText="Descripción del procedimiento" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6;" />
-        </VBox>
-
-        <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
-
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button onAction="#handleGuardar" text="Guardar" prefHeight="40" prefWidth="140" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-        </HBox>
 
     </VBox>
-
 </AnchorPane>

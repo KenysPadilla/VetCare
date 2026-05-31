@@ -1,107 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600" prefWidth="800" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.HistorialClinicoController">
+<AnchorPane prefHeight="720" prefWidth="860" styleClass="historial-dialog" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HistorialClinicoController">
 
-    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox spacing="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Historial Clínico del Paciente" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
+        <VBox styleClass="detail-header" spacing="4">
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="detail-header-brand">
+                <HBox alignment="CENTER" styleClass="detail-header-logo-box">
+                    <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="detail-header-logo">
+                        <image>
+                            <Image url="@../images/logo-white.png" />
+                        </image>
+                    </ImageView>
+                </HBox>
+                <VBox spacing="2">
+                    <Label text="Historial Clínico" style="-fx-font-size: 18px; -fx-font-weight: bold;" styleClass="detail-header-title" />
+                    <Label fx:id="lblHeaderPaciente" styleClass="detail-header-subtitle" text="Paciente" />
+                </VBox>
+            </HBox>
+        </VBox>
 
-        <HBox spacing="30" style="-fx-background-color: #F0F4F0; -fx-padding: 15; -fx-background-radius: 8;">
-            <VBox spacing="5">
-                <Label text="Nombre" style="-fx-font-weight: bold; -fx-text-fill: #555555; -fx-font-size: 11px;" />
-                <Label fx:id="lblNombre" text="---" style="-fx-text-fill: #1B6B2F; -fx-font-size: 14px; -fx-font-weight: bold;" />
-            </VBox>
-            <VBox spacing="5">
-                <Label text="Especie" style="-fx-font-weight: bold; -fx-text-fill: #555555; -fx-font-size: 11px;" />
-                <Label fx:id="lblEspecie" text="---" style="-fx-text-fill: #333333; -fx-font-size: 14px;" />
-            </VBox>
-            <VBox spacing="5">
-                <Label text="Raza" style="-fx-font-weight: bold; -fx-text-fill: #555555; -fx-font-size: 11px;" />
-                <Label fx:id="lblRaza" text="---" style="-fx-text-fill: #333333; -fx-font-size: 14px;" />
-            </VBox>
-            <VBox spacing="5">
-                <Label text="Propietario" style="-fx-font-weight: bold; -fx-text-fill: #555555; -fx-font-size: 11px;" />
-                <Label fx:id="lblPropietario" text="---" style="-fx-text-fill: #333333; -fx-font-size: 14px;" />
-            </VBox>
-            <VBox spacing="5">
-                <Label text="Microchip" style="-fx-font-weight: bold; -fx-text-fill: #555555; -fx-font-size: 11px;" />
-                <Label fx:id="lblMicrochip" text="---" style="-fx-text-fill: #333333; -fx-font-size: 14px;" />
-            </VBox>
-        </HBox>
+        <VBox spacing="16" style="-fx-padding: 16 20 16 20;" VBox.vgrow="ALWAYS">
 
-        <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
+            <HBox spacing="16" styleClass="historial-patient-card">
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-font-size: 10px;" styleClass="historial-stat-chip-label" text="Paciente" />
+                    <Label fx:id="lblNombre" style="-fx-font-size: 18px; -fx-font-weight: bold;" styleClass="historial-patient-name" text="—" />
+                </VBox>
+                <VBox styleClass="historial-stat-chip">
+                    <Label style="-fx-font-size: 10px;" styleClass="historial-stat-chip-label" text="Especie" />
+                    <Label fx:id="lblEspecie" style="-fx-font-size: 13px; -fx-font-weight: bold;" styleClass="historial-stat-chip-value" text="—" />
+                </VBox>
+                <VBox styleClass="historial-stat-chip">
+                    <Label style="-fx-font-size: 10px;" styleClass="historial-stat-chip-label" text="Raza" />
+                    <Label fx:id="lblRaza" style="-fx-font-size: 13px; -fx-font-weight: bold;" styleClass="historial-stat-chip-value" text="—" />
+                </VBox>
+                <VBox styleClass="historial-stat-chip">
+                    <Label style="-fx-font-size: 10px;" styleClass="historial-stat-chip-label" text="Propietario" />
+                    <Label fx:id="lblPropietario" style="-fx-font-size: 13px; -fx-font-weight: bold;" styleClass="historial-stat-chip-value" text="—" />
+                </VBox>
+                <VBox styleClass="historial-stat-chip">
+                    <Label style="-fx-font-size: 10px;" styleClass="historial-stat-chip-label" text="Microchip" />
+                    <Label fx:id="lblMicrochip" style="-fx-font-size: 13px; -fx-font-weight: bold;" styleClass="historial-stat-chip-value" text="—" />
+                </VBox>
+            </HBox>
 
-            <Tab text="Consultas" closable="false">
-                <TableView fx:id="tablaConsultas" style="-fx-background-color: white;">
-                    <columns>
-                        <TableColumn fx:id="colConFecha" text="Fecha" prefWidth="120" />
-                        <TableColumn fx:id="colConSintomas" text="Síntomas" prefWidth="160" />
-                        <TableColumn fx:id="colConDiagnostico" text="Diagnóstico" prefWidth="160" />
-                        <TableColumn fx:id="colConTratamiento" text="Tratamiento" prefWidth="160" />
-                        <TableColumn fx:id="colConVeterinario" text="Veterinario" prefWidth="130" />
-                    </columns>
-                </TableView>
-            </Tab>
+            <TabPane fx:id="tabPane" styleClass="module-tab-pane" VBox.vgrow="ALWAYS">
 
-            <Tab text="Vacunaciones" closable="false">
-                <TableView fx:id="tablaVacunaciones" style="-fx-background-color: white;">
-                    <columns>
-                        <TableColumn fx:id="colVacVacuna" text="Vacuna" prefWidth="140" />
-                        <TableColumn fx:id="colVacFecha" text="Fecha Aplicación" prefWidth="130" />
-                        <TableColumn fx:id="colVacProxima" text="Próxima Dosis" prefWidth="130" />
-                        <TableColumn fx:id="colVacVeterinario" text="Veterinario" prefWidth="130" />
-                        <TableColumn fx:id="colVacObservaciones" text="Observaciones" prefWidth="160" />
-                    </columns>
-                </TableView>
-            </Tab>
+                <Tab closable="false" text="Consultas">
+                    <StackPane styleClass="module-table-wrap">
+                        <TableView fx:id="tablaConsultas">
+                            <columns>
+                                <TableColumn fx:id="colConFecha" prefWidth="110" text="FECHA" />
+                                <TableColumn fx:id="colConSintomas" prefWidth="150" text="SÍNTOMAS" />
+                                <TableColumn fx:id="colConDiagnostico" prefWidth="150" text="DIAGNÓSTICO" />
+                                <TableColumn fx:id="colConTratamiento" prefWidth="150" text="TRATAMIENTO" />
+                                <TableColumn fx:id="colConVeterinario" prefWidth="130" text="VETERINARIO" />
+                            </columns>
+                        </TableView>
+                    </StackPane>
+                </Tab>
 
-            <Tab text="Cirugías" closable="false">
-                <TableView fx:id="tablaCirugias" style="-fx-background-color: white;">
-                    <columns>
-                        <TableColumn fx:id="colCirTipo" text="Tipo" prefWidth="140" />
-                        <TableColumn fx:id="colCirFecha" text="Fecha" prefWidth="120" />
-                        <TableColumn fx:id="colCirAnestesia" text="Anestesia" prefWidth="100" />
-                        <TableColumn fx:id="colCirResultado" text="Resultado" prefWidth="140" />
-                        <TableColumn fx:id="colCirVeterinario" text="Veterinario" prefWidth="130" />
-                        <TableColumn fx:id="colCirCosto" text="Costo" prefWidth="90" />
-                    </columns>
-                </TableView>
-            </Tab>
+                <Tab closable="false" text="Vacunaciones">
+                    <StackPane styleClass="module-table-wrap">
+                        <TableView fx:id="tablaVacunaciones">
+                            <columns>
+                                <TableColumn fx:id="colVacVacuna" prefWidth="140" text="VACUNA" />
+                                <TableColumn fx:id="colVacFecha" prefWidth="120" text="APLICACIÓN" />
+                                <TableColumn fx:id="colVacProxima" prefWidth="120" text="PRÓXIMA" />
+                                <TableColumn fx:id="colVacVeterinario" prefWidth="130" text="VETERINARIO" />
+                                <TableColumn fx:id="colVacObservaciones" prefWidth="160" text="OBSERVACIONES" />
+                            </columns>
+                        </TableView>
+                    </StackPane>
+                </Tab>
 
-            <Tab text="Internaciones" closable="false">
-                <TableView fx:id="tablaInternaciones" style="-fx-background-color: white;">
-                    <columns>
-                        <TableColumn fx:id="colIntIngreso" text="Fecha Ingreso" prefWidth="120" />
-                        <TableColumn fx:id="colIntEgreso" text="Fecha Egreso" prefWidth="120" />
-                        <TableColumn fx:id="colIntEstado" text="Estado" prefWidth="100" />
-                        <TableColumn fx:id="colIntVeterinario" text="Veterinario" prefWidth="130" />
-                        <TableColumn fx:id="colIntCostoDia" text="Costo/Día" prefWidth="90" />
-                        <TableColumn fx:id="colIntCostoTotal" text="Costo Total" prefWidth="100" />
-                    </columns>
-                </TableView>
-            </Tab>
+                <Tab closable="false" text="Cirugías">
+                    <StackPane styleClass="module-table-wrap">
+                        <TableView fx:id="tablaCirugias">
+                            <columns>
+                                <TableColumn fx:id="colCirTipo" prefWidth="140" text="TIPO" />
+                                <TableColumn fx:id="colCirFecha" prefWidth="110" text="FECHA" />
+                                <TableColumn fx:id="colCirAnestesia" prefWidth="100" text="ANESTESIA" />
+                                <TableColumn fx:id="colCirResultado" prefWidth="130" text="RESULTADO" />
+                                <TableColumn fx:id="colCirVeterinario" prefWidth="130" text="VETERINARIO" />
+                                <TableColumn fx:id="colCirCosto" prefWidth="90" text="COSTO" />
+                            </columns>
+                        </TableView>
+                    </StackPane>
+                </Tab>
 
-            <Tab text="Exámenes de Lab" closable="false">
-                <TableView fx:id="tablaExamenes" style="-fx-background-color: white;">
-                    <columns>
-                        <TableColumn fx:id="colExaTipo" text="Tipo Examen" prefWidth="140" />
-                        <TableColumn fx:id="colExaSolicitud" text="Fecha Solicitud" prefWidth="120" />
-                        <TableColumn fx:id="colExaResultado" text="Fecha Resultado" prefWidth="120" />
-                        <TableColumn fx:id="colExaResultados" text="Resultados" prefWidth="200" />
-                        <TableColumn fx:id="colExaCosto" text="Costo" prefWidth="90" />
-                    </columns>
-                </TableView>
-            </Tab>
+                <Tab closable="false" text="Internaciones">
+                    <StackPane styleClass="module-table-wrap">
+                        <TableView fx:id="tablaInternaciones">
+                            <columns>
+                                <TableColumn fx:id="colIntIngreso" prefWidth="110" text="INGRESO" />
+                                <TableColumn fx:id="colIntEgreso" prefWidth="110" text="EGRESO" />
+                                <TableColumn fx:id="colIntEstado" prefWidth="115" text="ESTADO" />
+                                <TableColumn fx:id="colIntVeterinario" prefWidth="130" text="VETERINARIO" />
+                                <TableColumn fx:id="colIntCostoDia" prefWidth="90" text="COSTO/DÍA" />
+                                <TableColumn fx:id="colIntCostoTotal" prefWidth="100" text="TOTAL" />
+                            </columns>
+                        </TableView>
+                    </StackPane>
+                </Tab>
 
-        </TabPane>
+                <Tab closable="false" text="Laboratorio">
+                    <StackPane styleClass="module-table-wrap">
+                        <TableView fx:id="tablaExamenes">
+                            <columns>
+                                <TableColumn fx:id="colExaTipo" prefWidth="140" text="TIPO" />
+                                <TableColumn fx:id="colExaSolicitud" prefWidth="110" text="SOLICITUD" />
+                                <TableColumn fx:id="colExaResultado" prefWidth="110" text="RESULTADO" />
+                                <TableColumn fx:id="colExaResultados" prefWidth="200" text="DETALLES" />
+                                <TableColumn fx:id="colExaCosto" prefWidth="90" text="COSTO" />
+                            </columns>
+                        </TableView>
+                    </StackPane>
+                </Tab>
+
+            </TabPane>
+
+        </VBox>
 
     </VBox>
 

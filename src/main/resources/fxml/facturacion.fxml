@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -7,41 +8,68 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane style="-fx-background-color: #F0F4F0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.FacturacionController">
+<AnchorPane styleClass="module-page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FacturacionController">
 
-    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox spacing="12" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Facturación" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Propietario:" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbPropietario" prefWidth="200" promptText="Seleccionar" />
-            <Label text="Estado:" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbEstadoPago" prefWidth="150" promptText="Todos" />
-            <Button onAction="#handleBuscar" text="Buscar" prefHeight="35" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox alignment="CENTER_LEFT" styleClass="module-page-header">
+            <Label style="-fx-font-size: 13px;" styleClass="module-page-subtitle" text="Facturación y cobros a propietarios" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleNueva" prefHeight="40" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary btn-add" text="+  Nueva Factura" />
         </HBox>
 
-        <TableView fx:id="tablaFacturas" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
-            <columns>
-                <TableColumn fx:id="colId" text="ID" prefWidth="50" />
-                <TableColumn fx:id="colPropietario" text="Propietario" prefWidth="140" />
-                <TableColumn fx:id="colPaciente" text="Paciente" prefWidth="120" />
-                <TableColumn fx:id="colFecha" text="Fecha" prefWidth="100" />
-                <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="100" />
-                <TableColumn fx:id="colImpuesto" text="IVA (19%)" prefWidth="90" />
-                <TableColumn fx:id="colTotal" text="Total" prefWidth="100" />
-                <TableColumn fx:id="colEstado" text="Estado" prefWidth="100" />
-                <TableColumn fx:id="colMetodoPago" text="Método Pago" prefWidth="110" />
-            </columns>
-        </TableView>
-
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button onAction="#handleNueva" text="Nueva Factura" prefHeight="38" prefWidth="160" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleVerDetalle" text="Ver Detalle" prefHeight="38" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleAnular" text="Anular" prefHeight="38" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox spacing="16">
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Total Facturas" />
+                <Label fx:id="lblStatTotal" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2b87a0;" styleClass="mini-stat-value mini-stat-teal" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Pendientes" />
+                <Label fx:id="lblStatPendientes" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" styleClass="mini-stat-value mini-stat-orange" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Pagadas" />
+                <Label fx:id="lblStatPagadas" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" styleClass="mini-stat-value mini-stat-green" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Ingresos Pagados" />
+                <Label fx:id="lblStatIngresos" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;" styleClass="mini-stat-value mini-stat-purple" text="\$0" />
+            </VBox>
         </HBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-toolbar-row">
+            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
+                <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
+                <TextField fx:id="txtBuscar" onAction="#handleBuscar" prefHeight="36" prefWidth="220" promptText="Buscar propietario o paciente..." />
+            </HBox>
+            <Button onAction="#handleBuscar" prefHeight="36" style="-fx-background-color: white; -fx-text-fill: #2b87a0; -fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-outline" text="Buscar" />
+            <ComboBox fx:id="cbPropietario" prefHeight="36" prefWidth="180" promptText="Propietario" styleClass="filter-combo" />
+            <ComboBox fx:id="cbEstadoPago" prefHeight="36" prefWidth="140" styleClass="filter-combo" />
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+
+        <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tablaFacturas">
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="80" minWidth="70" text="ID" />
+                    <TableColumn fx:id="colPropietario" prefWidth="130" text="PROPIETARIO" />
+                    <TableColumn fx:id="colPaciente" prefWidth="110" text="PACIENTE" />
+                    <TableColumn fx:id="colFecha" prefWidth="100" text="FECHA" />
+                    <TableColumn fx:id="colSubtotal" prefWidth="90" text="SUBTOTAL" />
+                    <TableColumn fx:id="colImpuesto" prefWidth="80" text="IVA" />
+                    <TableColumn fx:id="colTotal" prefWidth="90" text="TOTAL" />
+                    <TableColumn fx:id="colEstado" prefWidth="115" text="ESTADO" />
+                    <TableColumn fx:id="colMetodoPago" prefWidth="100" text="PAGO" />
+                    <TableColumn fx:id="colAcciones" prefWidth="80" text="DETALLES" />
+                    <TableColumn fx:id="colOperaciones" prefWidth="190" text="" />
+                </columns>
+            </TableView>
+        </StackPane>
 
     </VBox>
 

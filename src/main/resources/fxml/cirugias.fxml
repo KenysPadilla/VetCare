@@ -15,13 +15,12 @@
 
 <AnchorPane styleClass="module-page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CirugiasController">
 
-    <VBox spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-
-        <Label style="-fx-font-size: 13px;" styleClass="module-page-subtitle" text="Registro de procedimientos quirúrgicos realizados" />
+    <VBox spacing="12" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
         <HBox alignment="CENTER_LEFT" styleClass="module-page-header">
+            <Label style="-fx-font-size: 13px;" styleClass="module-page-subtitle" text="Registro de procedimientos quirúrgicos realizados" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button onAction="#handleNueva" prefHeight="40" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary btn-add" text="+  Nueva Cirugía" />
+            <Button onAction="#handleNueva" prefHeight="40" minHeight="40" maxHeight="40" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary btn-add" text="+  Nueva Cirugía" />
         </HBox>
 
         <HBox spacing="16">

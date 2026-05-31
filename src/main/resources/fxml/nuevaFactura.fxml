@@ -1,31 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane prefHeight="400" prefWidth="500" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.NuevaFacturaController">
-    <VBox spacing="12" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
-        <Label text="Nueva Factura" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-        <HBox spacing="15">
-            <VBox spacing="5">
-                <Label text="Propietario" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <ComboBox fx:id="cbPropietario" prefWidth="200" promptText="Seleccionar" />
-            </VBox>
-            <VBox spacing="5">
-                <Label text="Paciente" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-                <ComboBox fx:id="cbPaciente" prefWidth="200" promptText="Seleccionar" />
-            </VBox>
+
+<AnchorPane prefHeight="820" prefWidth="760" styleClass="form-dialog" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NuevaFacturaController">
+
+    <VBox styleClass="form-shell" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="form-header">
+            <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="logo-blue-inline">
+                <image>
+                    <Image url="@../images/logo-blue.png" />
+                </image>
+            </ImageView>
+            <Label styleClass="form-title" text="Nueva Factura" />
         </HBox>
-        <VBox spacing="5">
-            <Label text="Metodo de pago" style="-fx-font-weight: bold; -fx-text-fill: #333333;" />
-            <ComboBox fx:id="cbMetodoPago" prefWidth="200" promptText="Seleccionar" />
+
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox spacing="12" styleClass="form-body-scroll">
+
+                <HBox spacing="15">
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label styleClass="field-label" text="Propietario" />
+                        <ComboBox fx:id="cbPropietario" maxWidth="Infinity" promptText="Seleccionar propietario" />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label styleClass="field-label" text="Paciente" />
+                        <ComboBox fx:id="cbPaciente" maxWidth="Infinity" promptText="Seleccionar paciente" />
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="6" styleClass="field-group">
+                    <Label styleClass="field-label" text="Método de pago" />
+                    <ComboBox fx:id="cbMetodoPago" prefWidth="220" promptText="Seleccionar" />
+                </VBox>
+
+                <Separator />
+
+                <!-- ── Servicios registrados del paciente ── -->
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" styleClass="form-section-title" text="Servicios del paciente" />
+                    <Label fx:id="lblServiciosInfo" style="-fx-text-fill: #6b7f8e; -fx-font-size: 11px;" text="Selecciona los que deseas incluir en la factura" />
+                </HBox>
+
+                <TableView fx:id="tablaServicios" editable="true" prefHeight="220" styleClass="module-table-wrap">
+                    <columns>
+                        <TableColumn fx:id="colSeleccionar"      prefWidth="38"  text="" />
+                        <TableColumn fx:id="colTipoServicio"     prefWidth="90"  text="Tipo" />
+                        <TableColumn fx:id="colDescServicio"     prefWidth="260" text="Descripción" />
+                        <TableColumn fx:id="colCantidadServicio"  prefWidth="80"  text="CANTIDAD" />
+                        <TableColumn fx:id="colCostoServicio"    prefWidth="100" text="PRECIO UNIT." />
+                        <TableColumn fx:id="colSubtotalServicio" prefWidth="100" text="SUBTOTAL" />
+                    </columns>
+                    <placeholder>
+                        <Label styleClass="cell-subtext" text="Selecciona un paciente para ver sus servicios" />
+                    </placeholder>
+                </TableView>
+
+                <HBox alignment="CENTER_RIGHT">
+                    <Button onAction="#handleAgregarSeleccionados"
+                            prefHeight="28" minHeight="28" maxHeight="28"
+                            styleClass="btn-cerrar" text="✓  Agregar seleccionados" />
+                </HBox>
+
+                <Separator />
+
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" styleClass="form-section-title" text="Conceptos de la factura" />
+                    <Button onAction="#handleAgregarConcepto"
+                            prefHeight="28" minHeight="28" maxHeight="28"
+                            styleClass="btn-cerrar" text="+ Agregar concepto" />
+                </HBox>
+
+                <TableView fx:id="tablaDetalles" prefHeight="260" styleClass="module-table-wrap">
+                    <columns>
+                        <TableColumn fx:id="colConcepto" prefWidth="240" text="Descripción" />
+                        <TableColumn fx:id="colTipo" prefWidth="100" text="Tipo" />
+                        <TableColumn fx:id="colCantidad" prefWidth="60" text="Cant." />
+                        <TableColumn fx:id="colPrecio" prefWidth="110" text="Precio unit." />
+                        <TableColumn fx:id="colSubtotal" prefWidth="110" text="Subtotal" />
+                    </columns>
+                    <placeholder>
+                        <Label styleClass="cell-subtext" text="Sin conceptos agregados" />
+                    </placeholder>
+                </TableView>
+
+            </VBox>
+        </ScrollPane>
+
+        <VBox spacing="10" styleClass="form-footer">
+            <HBox alignment="CENTER_RIGHT" spacing="30" styleClass="form-totals-box">
+                <VBox alignment="CENTER_RIGHT" spacing="4">
+                    <HBox alignment="CENTER_RIGHT" spacing="10">
+                        <Label styleClass="field-label" text="Subtotal:" />
+                        <Label fx:id="lblSubtotal" prefWidth="100" styleClass="form-total-value" text="\$0.00" />
+                    </HBox>
+                    <HBox alignment="CENTER_RIGHT" spacing="10">
+                        <Label styleClass="field-label" text="IVA (19%):" />
+                        <Label fx:id="lblIva" prefWidth="100" styleClass="form-total-value" text="\$0.00" />
+                    </HBox>
+                    <HBox alignment="CENTER_RIGHT" spacing="10">
+                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" styleClass="form-section-title" text="Total:" />
+                        <Label fx:id="lblTotal" prefWidth="100" style="-fx-font-size: 14px; -fx-font-weight: bold;" styleClass="form-section-title" text="\$0.00" />
+                    </HBox>
+                </VBox>
+            </HBox>
+
+            <Label fx:id="lblMensaje" styleClass="form-message" text="" />
+
+            <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="form-actions">
+                <Button onAction="#handleGenerarFactura" prefHeight="28" minHeight="28" maxHeight="28" prefWidth="160"
+                        styleClass="btn-cerrar" text="Generar Factura" />
+                <Button onAction="#handleCancelar" prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140"
+                        styleClass="btn-cancelar" text="Cancelar" />
+            </HBox>
         </VBox>
-        <Label fx:id="lblMensaje" text="" style="-fx-font-size: 12px;" />
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button onAction="#handleGenerarFactura" text="Generar Factura" prefHeight="40" prefWidth="160" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleCancelar" text="Cancelar" prefHeight="40" prefWidth="140" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-        </HBox>
+
     </VBox>
+
 </AnchorPane>

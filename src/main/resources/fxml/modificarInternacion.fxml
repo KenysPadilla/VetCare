@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefWidth="580" prefHeight="720" styleClass="detail-dialog"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="controller.ModificarInternacionController">
+
+    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <VBox styleClass="detail-header" spacing="4">
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="detail-header-brand">
+                <HBox alignment="CENTER" styleClass="detail-header-logo-box">
+                    <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="detail-header-logo">
+                        <image><Image url="@../images/logo-white.png" /></image>
+                    </ImageView>
+                </HBox>
+                <VBox spacing="3">
+                    <Label text="Modificar Internación" styleClass="detail-header-title" />
+                    <Label fx:id="lblHeaderSubtitle" styleClass="detail-header-subtitle" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
+            <VBox spacing="14" styleClass="detail-content">
+
+                <Label text="INFORMACIÓN GENERAL" styleClass="detail-section-title" />
+                <GridPane hgap="12" vgap="9">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="110" prefWidth="110" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <Label text="Paciente:"    styleClass="detail-field-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <Label fx:id="lblPaciente" styleClass="detail-field-value-bold" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    <Label text="Veterinario:" styleClass="detail-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <Label fx:id="lblVeterinario" styleClass="detail-field-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="Ingreso:"     styleClass="detail-field-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <Label fx:id="lblIngreso"  styleClass="detail-field-value" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                </GridPane>
+
+                <Separator />
+
+                <Label text="NOTAS CLÍNICAS" styleClass="detail-section-title" />
+
+                <VBox spacing="5" styleClass="field-group">
+                    <Label styleClass="field-label" text="Motivo de internación" />
+                    <TextArea fx:id="txtMotivo" prefHeight="60" wrapText="true"
+                              promptText="Motivo de la internación..." styleClass="text-area-input" />
+                </VBox>
+
+                <VBox spacing="5" styleClass="field-group">
+                    <Label styleClass="field-label" text="Diagnóstico" />
+                    <TextArea fx:id="txtDiagnostico" prefHeight="60" wrapText="true"
+                              promptText="Diagnóstico durante la internación..." styleClass="text-area-input" />
+                </VBox>
+
+                <VBox spacing="5" styleClass="field-group">
+                    <Label styleClass="field-label" text="Observaciones" />
+                    <TextArea fx:id="txtObservaciones" prefHeight="70" wrapText="true"
+                              promptText="Observaciones adicionales..." styleClass="text-area-input" />
+                </VBox>
+
+                <Separator />
+
+                <Label text="MEDICAMENTOS ADMINISTRADOS" styleClass="detail-section-title" />
+
+                <VBox spacing="5">
+                    <Label styleClass="field-label" text="Buscar medicamento" />
+                    <TextField fx:id="txtBuscarMed" prefHeight="36"
+                               promptText="Escriba el nombre del medicamento..." />
+                    <ListView fx:id="lvMedicamentos" prefHeight="85" styleClass="list-view-form" />
+                </VBox>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label styleClass="field-label" text="Cantidad" />
+                        <TextField fx:id="txtCantidad" prefHeight="36" prefWidth="80" promptText="1" />
+                    </VBox>
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label styleClass="field-label" text="Fecha de aplicación" />
+                        <DatePicker fx:id="dpFechaAplicacion" prefHeight="36" prefWidth="160" />
+                    </VBox>
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label styleClass="field-label" text="Dosis / instrucciones" />
+                        <TextField fx:id="txtDosis" prefHeight="36"
+                                   promptText="Ej: 10 mg/kg cada 8h" />
+                    </VBox>
+                    <VBox spacing="4" alignment="BOTTOM_LEFT">
+                        <Region prefHeight="18" />
+                        <Button onAction="#handleAgregarMedicamento"
+                                prefHeight="28" minHeight="28" maxHeight="28" prefWidth="90"
+                                styleClass="btn-cerrar" text="Agregar" />
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="5">
+                    <Label styleClass="field-label" text="Medicamentos registrados" />
+                    <ListView fx:id="lvAdministrados" prefHeight="100" styleClass="list-view-form-prescribed" />
+                    <Button onAction="#handleQuitarMedicamento"
+                            prefHeight="28" minHeight="28" maxHeight="28"
+                            styleClass="btn-danger btn-small" text="Quitar seleccionado" />
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+
+        <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="detail-footer">
+            <Label fx:id="lblMensaje" style="-fx-font-size: 12px;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Cancelar" onAction="#handleCancelar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="160" styleClass="btn-cancelar" />
+            <Button text="Guardar cambios" onAction="#handleGuardar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="160" styleClass="btn-cerrar" />
+        </HBox>
+
+    </VBox>
+</AnchorPane>

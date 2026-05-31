@@ -1,41 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane style="-fx-background-color: #F0F4F0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controller.VeterinariosController">
+<AnchorPane styleClass="module-page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.VeterinariosController">
 
-    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox spacing="12" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <Label text="Gestión de Veterinarios" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1B6B2F;" />
-
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <TextField fx:id="txtBuscar" prefWidth="300" prefHeight="35" promptText="Buscar por nombre o especialidad" style="-fx-border-color: #D6EAD8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6;" />
-            <Button onAction="#handleBuscar" text="Buscar" prefHeight="35" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox alignment="CENTER_LEFT" styleClass="module-page-header">
+            <Label style="-fx-font-size: 13px;" styleClass="module-page-subtitle" text="Equipo médico de la clínica" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleNuevo" prefHeight="40" minHeight="40" maxHeight="40" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary btn-add" text="+  Nuevo Veterinario" />
         </HBox>
 
-        <TableView fx:id="tablaVeterinarios" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
-            <columns>
-                <TableColumn fx:id="colCedula" text="Cédula" prefWidth="120" />
-                <TableColumn fx:id="colNombre" text="Nombre" prefWidth="140" />
-                <TableColumn fx:id="colApellido" text="Apellido" prefWidth="140" />
-                <TableColumn fx:id="colEspecialidad" text="Especialidad" prefWidth="160" />
-                <TableColumn fx:id="colLicencia" text="Licencia" prefWidth="120" />
-                <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="120" />
-                <TableColumn fx:id="colCorreo" text="Correo" prefWidth="160" />
-            </columns>
-        </TableView>
-
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button onAction="#handleNuevo" text="Nuevo Veterinario" prefHeight="38" prefWidth="170" style="-fx-background-color: #1B6B2F; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleEditar" text="Editar" prefHeight="38" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: #1B6B2F; -fx-font-size: 13px; -fx-border-color: #1B6B2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button onAction="#handleEliminar" text="Eliminar" prefHeight="38" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: #D32F2F; -fx-font-size: 13px; -fx-border-color: #D32F2F; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;" />
+        <HBox spacing="16">
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Total Veterinarios" />
+                <Label fx:id="lblStatTotal" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2b87a0;" styleClass="mini-stat-value mini-stat-teal" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Disponibles Hoy" />
+                <Label fx:id="lblStatDisponibles" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" styleClass="mini-stat-value mini-stat-green" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="No Disponibles" />
+                <Label fx:id="lblStatNoDisponibles" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #6b7f8e;" styleClass="mini-stat-value mini-stat-muted" text="0" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Con Licencia" />
+                <Label fx:id="lblStatLicencia" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" styleClass="mini-stat-value mini-stat-orange" text="0" />
+            </VBox>
         </HBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-toolbar-row">
+            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
+                <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
+                <TextField fx:id="txtBuscar" onAction="#handleBuscar" prefHeight="36" prefWidth="260" promptText="Buscar veterinario..." />
+            </HBox>
+            <Button onAction="#handleBuscar" prefHeight="36" style="-fx-background-color: white; -fx-text-fill: #2b87a0; -fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-outline" text="Buscar" />
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+
+        <ScrollPane fitToWidth="true" styleClass="vet-cards-scroll" VBox.vgrow="ALWAYS">
+            <FlowPane fx:id="cardsContainer" hgap="16" styleClass="vet-cards-flow" vgap="16" />
+        </ScrollPane>
 
     </VBox>
 

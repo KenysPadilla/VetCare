@@ -51,10 +51,9 @@
 
         <!-- FOOTER -->
         <HBox alignment="CENTER_RIGHT" styleClass="detail-footer">
-            <Button text="Cerrar" onAction="#handleCerrar" prefHeight="36" prefWidth="100"
-                    style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary" />
+            <Button text="Cerrar" onAction="#handleCerrar" prefHeight="28" minHeight="28" maxHeight="28" prefWidth="100"
+                    styleClass="btn-cerrar" />
         </HBox>
 
     </VBox>
 </AnchorPane>
-

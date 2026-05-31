@@ -5,46 +5,66 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600" prefWidth="900" style="-fx-background-color: #f0f4f0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="controller.LoginController">
+<HBox prefHeight="600" prefWidth="960" styleClass="login-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
 
-    <!-- Panel izquierdo verde -->
-    <VBox alignment="CENTER" prefHeight="600" prefWidth="450" spacing="20" style="-fx-background-color: #1B6B2F;" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
-
-        <Label style="-fx-font-size: 60px;" text="🐾" />
-        <Label style="-fx-font-size: 32px; -fx-font-weight: bold;                        -fx-text-fill: white;" text="VetCare System" />
-        <Label style="-fx-font-size: 16px; -fx-text-fill: #D6EAD8;" text="Management Console" />
-        <Label alignment="CENTER" maxWidth="300" style="-fx-font-size: 13px; -fx-text-fill: #D6EAD8;                       -fx-wrap-text: true; -fx-text-alignment: center;" text="Gestión Integral de Clínica Veterinaria" />
+    <!-- Panel izquierdo: marca -->
+    <VBox minWidth="480" maxWidth="480" alignment="CENTER" spacing="20" styleClass="login-brand-panel">
+        <ImageView fitHeight="160" fitWidth="160" pickOnBounds="true" preserveRatio="true" smooth="true" styleClass="login-logo">
+            <image>
+                <Image url="@../images/logo-white.png" />
+            </image>
+        </ImageView>
+        <Label style="-fx-font-size: 40px; -fx-font-weight: bold;" styleClass="login-brand-title" text="VetCare" />
+        <Label styleClass="login-brand-subtitle" text="Gestión Integral de Clínica Veterinaria" />
     </VBox>
 
-    <!-- Panel derecho blanco -->
-    <VBox alignment="CENTER" prefHeight="600" prefWidth="450" spacing="20" style="-fx-background-color: white;" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <!-- Panel derecho: formulario flotante -->
+    <VBox HBox.hgrow="ALWAYS" minWidth="480" alignment="CENTER" styleClass="login-form-panel">
+        <Region VBox.vgrow="ALWAYS" />
 
-        <Label style="-fx-font-size: 26px; -fx-font-weight: bold;                        -fx-text-fill: #1B6B2F;" text="Iniciar Sesión" />
-        <Label style="-fx-font-size: 13px; -fx-text-fill: #666666;" text="ingresar usuario y contraseña " />
+        <VBox alignment="CENTER" spacing="20" styleClass="login-card">
 
-        <VBox maxWidth="320" spacing="8">
-            <Label style="-fx-font-weight: bold; -fx-text-fill: #333333;" text="Usuario" />
-            <TextField fx:id="txtUsuario" prefHeight="40" promptText="Ingresa tu usuario" style="-fx-border-color: #D6EAD8;                                -fx-border-radius: 6;                                -fx-background-radius: 6;                               -fx-padding: 8;" />
+            <VBox spacing="4">
+                <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" styleClass="login-card-title" text="Iniciar Sesión" />
+                <Label styleClass="login-card-subtitle" text="ingresar usuario y contraseña" />
+            </VBox>
+
+            <VBox spacing="6" styleClass="field-group">
+                <Label styleClass="field-label" text="Usuario" />
+                <HBox fx:id="boxUsuario" alignment="CENTER_LEFT" spacing="8" styleClass="input-with-icon">
+                    <FontIcon iconLiteral="fas-user" iconSize="14" styleClass="input-icon-fx" />
+                    <TextField fx:id="txtUsuario" HBox.hgrow="ALWAYS" promptText="Ingrese su usuario" />
+                </HBox>
+            </VBox>
+
+            <VBox spacing="6" styleClass="field-group">
+                <Label styleClass="field-label" text="Contraseña" />
+                <HBox fx:id="boxPassword" alignment="CENTER_LEFT" spacing="4" styleClass="input-with-icon">
+                    <FontIcon iconLiteral="fas-lock" iconSize="14" styleClass="input-icon-fx" />
+                    <PasswordField fx:id="txtPassword" HBox.hgrow="ALWAYS" promptText="Ingresa tu contraseña" />
+                    <Button fx:id="btnTogglePassword" onAction="#handleTogglePassword" styleClass="btn-icon" />
+                </HBox>
+            </VBox>
+
+            <HBox alignment="CENTER_RIGHT">
+                <Hyperlink fx:id="linkRecuperar" onAction="#handleRecuperar" text="¿Olvidaste tu contraseña?" />
+            </HBox>
+
+            <VBox spacing="10">
+                <Button fx:id="btnLogin" maxWidth="Infinity" onAction="#handleLogin" prefHeight="46" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary" text="Iniciar Sesión" />
+                <Label fx:id="lblError" managed="false" styleClass="label-error" text="" visible="false" />
+            </VBox>
+
         </VBox>
 
-        <VBox maxWidth="320" spacing="8">
-            <Label style="-fx-font-weight: bold; -fx-text-fill: #333333;" text="Contraseña" />
-            <PasswordField fx:id="txtPassword" prefHeight="40" promptText="Ingresa tu contraseña" style="-fx-border-color: #D6EAD8;                                    -fx-border-radius: 6;                                    -fx-background-radius: 6;                                   -fx-padding: 8;" />
-        </VBox>
-
-        <VBox alignment="CENTER" maxWidth="320" spacing="5">
-            <Hyperlink fx:id="linkRecuperar" onAction="#handleRecuperar" style="-fx-text-fill: #1B6B2F; -fx-font-size: 12px;" text="¿Olvidaste tu contraseña?" />
-        </VBox>
-
-        <VBox maxWidth="320" spacing="15">
-            <Button fx:id="btnLogin" onAction="#handleLogin" prefHeight="45" prefWidth="320" style="-fx-background-color: #1B6B2F;                             -fx-text-fill: white;                             -fx-font-size: 14px;                            -fx-font-weight: bold;                            -fx-background-radius: 6;                            -fx-cursor: hand;" text="Iniciar Sesión" />
-
-            <Label fx:id="lblError" style="-fx-text-fill: red;                            -fx-font-size: 12px;" text="" />
-        </VBox>
-
+        <Region VBox.vgrow="ALWAYS" />
     </VBox>
 
-</AnchorPane>
+</HBox>
