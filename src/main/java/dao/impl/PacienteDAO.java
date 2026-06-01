@@ -4,6 +4,7 @@ import dao.IDAO;
 import model.Paciente;
 import model.Propietario;
 import util.ConexionBD;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -16,44 +17,44 @@ public class PacienteDAO implements IDAO<Paciente> {
     }
 
     @Override
-    public void guardar(Paciente p) throws SQLException {
+    public void guardar(Paciente paciente) throws SQLException {
         String sql = "INSERT INTO PACIENTE (nombre, especie, raza, sexo, peso, "
-                + "fecha_nacimiento, microchip, cedula_propietario) VALUES (?,?,?,?,?,?,?,?)";
+                   + "fecha_nacimiento, microchip, cedula_propietario) VALUES (?,?,?,?,?,?,?,?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setString(1, p.getNombre());
-            ps.setString(2, p.getEspecie());
-            ps.setString(3, p.getRaza());
-            ps.setString(4, p.getSexo());
-            ps.setDouble(5, p.getPeso());
-            if (p.getFechaNacimiento() != null) {
-                ps.setDate(6, java.sql.Date.valueOf(p.getFechaNacimiento()));
+            ps.setString(1, paciente.getNombre());
+            ps.setString(2, paciente.getEspecie());
+            ps.setString(3, paciente.getRaza());
+            ps.setString(4, paciente.getSexo());
+            ps.setDouble(5, paciente.getPeso());
+            if (paciente.getFechaNacimiento() != null) {
+                ps.setDate(6, java.sql.Date.valueOf(paciente.getFechaNacimiento()));
             } else {
                 ps.setNull(6, Types.DATE);
             }
-            ps.setString(7, p.getMicrochip());
-            ps.setString(8, p.getPropietario() != null ? p.getPropietario().getCedula() : null);
+            ps.setString(7, paciente.getMicrochip());
+            ps.setString(8, paciente.getPropietario() != null ? paciente.getPropietario().getCedula() : null);
             ps.executeUpdate();
         }
     }
 
     @Override
-    public void actualizar(Paciente p) throws SQLException {
+    public void actualizar(Paciente paciente) throws SQLException {
         String sql = "UPDATE PACIENTE SET nombre=?, especie=?, raza=?, sexo=?, peso=?, "
-                + "fecha_nacimiento=?, microchip=?, cedula_propietario=? WHERE id=?";
+                   + "fecha_nacimiento=?, microchip=?, cedula_propietario=? WHERE id=?";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setString(1, p.getNombre());
-            ps.setString(2, p.getEspecie());
-            ps.setString(3, p.getRaza());
-            ps.setString(4, p.getSexo());
-            ps.setDouble(5, p.getPeso());
-            if (p.getFechaNacimiento() != null) {
-                ps.setDate(6, java.sql.Date.valueOf(p.getFechaNacimiento()));
+            ps.setString(1, paciente.getNombre());
+            ps.setString(2, paciente.getEspecie());
+            ps.setString(3, paciente.getRaza());
+            ps.setString(4, paciente.getSexo());
+            ps.setDouble(5, paciente.getPeso());
+            if (paciente.getFechaNacimiento() != null) {
+                ps.setDate(6, java.sql.Date.valueOf(paciente.getFechaNacimiento()));
             } else {
                 ps.setNull(6, Types.DATE);
             }
-            ps.setString(7, p.getMicrochip());
-            ps.setString(8, p.getPropietario() != null ? p.getPropietario().getCedula() : null);
-            ps.setInt(9, p.getId());
+            ps.setString(7, paciente.getMicrochip());
+            ps.setString(8, paciente.getPropietario() != null ? paciente.getPropietario().getCedula() : null);
+            ps.setInt(9, paciente.getId());
             ps.executeUpdate();
         }
     }
@@ -70,8 +71,8 @@ public class PacienteDAO implements IDAO<Paciente> {
     @Override
     public Paciente buscarPorId(int id) throws SQLException {
         String sql = "SELECT P.*, PR.nombre AS prop_nombre, PR.apellido AS prop_apellido "
-                + "FROM PACIENTE P JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula "
-                + "WHERE P.id=?";
+                   + "FROM PACIENTE P LEFT JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula "
+                   + "WHERE P.id=?";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
@@ -87,9 +88,10 @@ public class PacienteDAO implements IDAO<Paciente> {
     public ArrayList<Paciente> listarTodos() throws SQLException {
         ArrayList<Paciente> lista = new ArrayList<>();
         String sql = "SELECT P.*, PR.nombre AS prop_nombre, PR.apellido AS prop_apellido "
-                + "FROM PACIENTE P JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula "
-                + "ORDER BY P.nombre";
-        try (PreparedStatement ps = conexion.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+                   + "FROM PACIENTE P LEFT JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula "
+                   + "ORDER BY P.nombre";
+        try (PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(mapear(rs));
             }
@@ -100,8 +102,8 @@ public class PacienteDAO implements IDAO<Paciente> {
     public ArrayList<Paciente> buscarPorPropietario(String cedulaPropietario) throws SQLException {
         ArrayList<Paciente> lista = new ArrayList<>();
         String sql = "SELECT P.*, PR.nombre AS prop_nombre, PR.apellido AS prop_apellido "
-                + "FROM PACIENTE P JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula "
-                + "WHERE P.cedula_propietario=? ORDER BY P.nombre";
+                   + "FROM PACIENTE P JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula "
+                   + "WHERE P.cedula_propietario=? ORDER BY P.nombre";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, cedulaPropietario);
             try (ResultSet rs = ps.executeQuery()) {
@@ -117,8 +119,8 @@ public class PacienteDAO implements IDAO<Paciente> {
         ArrayList<Paciente> lista = new ArrayList<>();
         String filtro = "%" + texto.toUpperCase() + "%";
         String sql = "SELECT P.*, PR.nombre AS prop_nombre, PR.apellido AS prop_apellido "
-                + "FROM PACIENTE P JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula "
-                + "WHERE UPPER(P.nombre) LIKE ? ORDER BY P.nombre";
+                   + "FROM PACIENTE P LEFT JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula "
+                   + "WHERE UPPER(P.nombre) LIKE ? ORDER BY P.nombre";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, filtro);
             try (ResultSet rs = ps.executeQuery()) {
@@ -165,11 +167,14 @@ public class PacienteDAO implements IDAO<Paciente> {
 
         paciente.setMicrochip(rs.getString("microchip"));
 
-        Propietario propietario = new Propietario();
-        propietario.setCedula(rs.getString("cedula_propietario"));
-        propietario.setNombre(rs.getString("prop_nombre"));
-        propietario.setApellido(rs.getString("prop_apellido"));
-        paciente.setPropietario(propietario);
+        String cedulaProp = rs.getString("cedula_propietario");
+        if (cedulaProp != null) {
+            Propietario propietario = new Propietario();
+            propietario.setCedula(cedulaProp);
+            propietario.setNombre(rs.getString("prop_nombre"));
+            propietario.setApellido(rs.getString("prop_apellido"));
+            paciente.setPropietario(propietario);
+        }
 
         return paciente;
     }

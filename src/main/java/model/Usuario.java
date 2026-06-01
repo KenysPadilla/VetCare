@@ -13,12 +13,15 @@ public class Usuario {
     private boolean activo;
     private String codigoRecuperacion;
     private java.time.LocalDateTime expiracionCodigo;
+    private String cedulaEmpleado;
+    private transient String nombreEmpleado;
 
     public Usuario() {
     }
 
-    public Usuario(String cedula, String nombre, String apellido, String telefono, 
-            String email, String nombreUsuario, String contrasena, String rol, boolean activo) {
+    public Usuario(String cedula, String nombre, String apellido,
+            String telefono, String email, String nombreUsuario,
+            String contrasena, String rol, boolean activo) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -57,6 +60,8 @@ public class Usuario {
                         || m.contains("pacientes")
                         || m.contains("facturacion")
                         || m.contains("serviciosesteticos");
+            case "ESTILISTA":
+                return m.contains("serviciosesteticos") || m.contains("pacientes");
             default:
                 return false;
         }
@@ -157,5 +162,21 @@ public class Usuario {
 
     public void setExpiracionCodigo(java.time.LocalDateTime expiracionCodigo) {
         this.expiracionCodigo = expiracionCodigo;
+    }
+
+    public String getCedulaEmpleado() {
+        return cedulaEmpleado;
+    }
+
+    public void setCedulaEmpleado(String cedulaEmpleado) {
+        this.cedulaEmpleado = cedulaEmpleado;
+    }
+
+    public String getNombreEmpleado() {
+        return nombreEmpleado;
+    }
+
+    public void setNombreEmpleado(String nombreEmpleado) {
+        this.nombreEmpleado = nombreEmpleado;
     }
 }

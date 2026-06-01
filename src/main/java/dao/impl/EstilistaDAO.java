@@ -3,6 +3,7 @@ package dao.impl;
 import dao.IDAO;
 import model.Estilista;
 import util.ConexionBD;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,31 +16,31 @@ public class EstilistaDAO implements IDAO<Estilista> {
     }
 
     @Override
-    public void guardar(Estilista e) throws SQLException {
+    public void guardar(Estilista estilista) throws SQLException {
         String sql = "INSERT INTO ESTILISTA (cedula, nombre, apellido, telefono, email, "
-                + "especialidad_estetica) VALUES (?, ?, ?, ?, ?, ?)";
+                   + "especialidad_estetica) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setString(1, e.getCedula());
-            ps.setString(2, e.getNombre());
-            ps.setString(3, e.getApellido());
-            ps.setString(4, e.getTelefono());
-            ps.setString(5, e.getEmail());
-            ps.setString(6, e.getEspecialidadEstetica());
+            ps.setString(1, estilista.getCedula());
+            ps.setString(2, estilista.getNombre());
+            ps.setString(3, estilista.getApellido());
+            ps.setString(4, estilista.getTelefono());
+            ps.setString(5, estilista.getEmail());
+            ps.setString(6, estilista.getEspecialidadEstetica());
             ps.executeUpdate();
         }
     }
 
     @Override
-    public void actualizar(Estilista e) throws SQLException {
+    public void actualizar(Estilista estilista) throws SQLException {
         String sql = "UPDATE ESTILISTA SET nombre=?, apellido=?, telefono=?, email=?, "
-                + "especialidad_estetica=? WHERE cedula=?";
+                   + "especialidad_estetica=? WHERE cedula=?";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setString(1, e.getNombre());
-            ps.setString(2, e.getApellido());
-            ps.setString(3, e.getTelefono());
-            ps.setString(4, e.getEmail());
-            ps.setString(5, e.getEspecialidadEstetica());
-            ps.setString(6, e.getCedula());
+            ps.setString(1, estilista.getNombre());
+            ps.setString(2, estilista.getApellido());
+            ps.setString(3, estilista.getTelefono());
+            ps.setString(4, estilista.getEmail());
+            ps.setString(5, estilista.getEspecialidadEstetica());
+            ps.setString(6, estilista.getCedula());
             ps.executeUpdate();
         }
     }
@@ -78,8 +79,21 @@ public class EstilistaDAO implements IDAO<Estilista> {
     @Override
     public ArrayList<Estilista> listarTodos() throws SQLException {
         ArrayList<Estilista> lista = new ArrayList<>();
-        String sql = "SELECT * FROM ESTILISTA ORDER BY apellido, nombre";
-        try (PreparedStatement ps = conexion.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        String sql = "SELECT * FROM ESTILISTA ORDER BY activo DESC, apellido, nombre";
+        try (PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                lista.add(mapear(rs));
+            }
+        }
+        return lista;
+    }
+
+    public ArrayList<Estilista> listarActivos() throws SQLException {
+        ArrayList<Estilista> lista = new ArrayList<>();
+        String sql = "SELECT * FROM ESTILISTA WHERE activo = 1 ORDER BY apellido, nombre";
+        try (PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(mapear(rs));
             }
@@ -90,8 +104,9 @@ public class EstilistaDAO implements IDAO<Estilista> {
     public ArrayList<Estilista> buscarPorNombre(String texto) throws SQLException {
         ArrayList<Estilista> lista = new ArrayList<>();
         String filtro = "%" + texto.toUpperCase() + "%";
-        String sql = "SELECT * FROM ESTILISTA WHERE UPPER(nombre) LIKE ? OR UPPER(apellido) LIKE ? "
-                + "ORDER BY apellido, nombre";
+        String sql = "SELECT * FROM ESTILISTA WHERE activo = 1 "
+                   + "AND (UPPER(nombre) LIKE ? OR UPPER(apellido) LIKE ?) "
+                   + "ORDER BY apellido, nombre";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, filtro);
             ps.setString(2, filtro);
@@ -106,8 +121,11 @@ public class EstilistaDAO implements IDAO<Estilista> {
 
     public ArrayList<Estilista> buscarPorEspecialidad(String especialidad) throws SQLException {
         ArrayList<Estilista> lista = new ArrayList<>();
-        String sql = "SELECT * FROM ESTILISTA " + "WHERE UPPER(especialidad_estetica) = UPPER(?) "
-                + "OR UPPER(especialidad_estetica) = 'AMBOS' " + "ORDER BY nombre";
+        String sql = "SELECT * FROM ESTILISTA "
+                   + "WHERE activo = 1 "
+                   + "AND (UPPER(especialidad_estetica) = UPPER(?) "
+                   + "OR UPPER(especialidad_estetica) = 'AMBOS') "
+                   + "ORDER BY nombre";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, especialidad);
             try (ResultSet rs = ps.executeQuery()) {
@@ -119,6 +137,22 @@ public class EstilistaDAO implements IDAO<Estilista> {
         return lista;
     }
 
+    public void desactivar(String cedula) throws SQLException {
+        String sql = "UPDATE ESTILISTA SET activo = 0 WHERE cedula = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, cedula);
+            ps.executeUpdate();
+        }
+    }
+
+    public void reactivar(String cedula) throws SQLException {
+        String sql = "UPDATE ESTILISTA SET activo = 1 WHERE cedula = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, cedula);
+            ps.executeUpdate();
+        }
+    }
+
     private Estilista mapear(ResultSet rs) throws SQLException {
         return new Estilista(
                 rs.getString("cedula"),
@@ -126,7 +160,8 @@ public class EstilistaDAO implements IDAO<Estilista> {
                 rs.getString("apellido"),
                 rs.getString("telefono"),
                 rs.getString("email"),
-                rs.getString("especialidad_estetica")
+                rs.getString("especialidad_estetica"),
+                rs.getInt("activo") == 1
         );
     }
 }

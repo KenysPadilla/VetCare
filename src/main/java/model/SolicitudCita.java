@@ -11,6 +11,7 @@ public class SolicitudCita {
     private String correo;
     private String nombreMascota;
     private String especie;
+    private String raza;
     private String motivo;
     private LocalDate fecha;
     private String hora;
@@ -66,6 +67,14 @@ public class SolicitudCita {
 
     public void setEspecie(String especie) {
         this.especie = especie;
+    }
+
+    public String getRaza() {
+        return raza;
+    }
+
+    public void setRaza(String raza) {
+        this.raza = raza;
     }
 
     public String getMotivo() {

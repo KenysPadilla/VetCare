@@ -2,6 +2,7 @@ package dao.impl;
 
 import model.SolicitudCita;
 import util.ConexionBD;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,18 +16,19 @@ public class SolicitudCitaDAO {
 
     public void guardar(SolicitudCita sol) throws SQLException {
         String sql = "INSERT INTO SOLICITUD_CITA "
-                + "(nombre_propietario, telefono, correo, nombre_mascota, especie, "
-                + " motivo, fecha, hora, estado) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'PENDIENTE')";
+                   + "(nombre_propietario, telefono, correo, nombre_mascota, especie, raza, "
+                   + " motivo, fecha, hora, estado) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'PENDIENTE')";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, sol.getNombrePropietario());
             ps.setString(2, sol.getTelefono());
             ps.setString(3, sol.getCorreo());
             ps.setString(4, sol.getNombreMascota());
             ps.setString(5, sol.getEspecie());
-            ps.setString(6, sol.getMotivo());
-            ps.setDate(7, Date.valueOf(sol.getFecha()));
-            ps.setString(8, sol.getHora());
+            ps.setString(6, sol.getRaza() != null ? sol.getRaza() : "Mestizo");
+            ps.setString(7, sol.getMotivo());
+            ps.setDate(8, sol.getFecha() != null ? Date.valueOf(sol.getFecha()) : null);
+            ps.setString(9, sol.getHora());
             ps.executeUpdate();
         }
     }
@@ -34,8 +36,9 @@ public class SolicitudCitaDAO {
     public ArrayList<SolicitudCita> listarPendientes() throws SQLException {
         ArrayList<SolicitudCita> lista = new ArrayList<>();
         String sql = "SELECT * FROM SOLICITUD_CITA WHERE estado = 'PENDIENTE' "
-                + "ORDER BY fecha_solicitud DESC";
-        try (PreparedStatement ps = conexion.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+                   + "ORDER BY fecha_solicitud DESC";
+        try (PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(mapear(rs));
             }
@@ -46,7 +49,8 @@ public class SolicitudCitaDAO {
     public ArrayList<SolicitudCita> listarTodas() throws SQLException {
         ArrayList<SolicitudCita> lista = new ArrayList<>();
         String sql = "SELECT * FROM SOLICITUD_CITA ORDER BY fecha_solicitud DESC";
-        try (PreparedStatement ps = conexion.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(mapear(rs));
             }
@@ -84,24 +88,25 @@ public class SolicitudCitaDAO {
     }
 
     private SolicitudCita mapear(ResultSet rs) throws SQLException {
-        SolicitudCita solicitudCita = new SolicitudCita();
-        solicitudCita.setId(rs.getInt("id"));
-        solicitudCita.setNombrePropietario(rs.getString("nombre_propietario"));
-        solicitudCita.setTelefono(rs.getString("telefono"));
-        solicitudCita.setCorreo(rs.getString("correo"));
-        solicitudCita.setNombreMascota(rs.getString("nombre_mascota"));
-        solicitudCita.setEspecie(rs.getString("especie"));
-        solicitudCita.setMotivo(rs.getString("motivo"));
+        SolicitudCita s = new SolicitudCita();
+        s.setId(rs.getInt("id"));
+        s.setNombrePropietario(rs.getString("nombre_propietario"));
+        s.setTelefono(rs.getString("telefono"));
+        s.setCorreo(rs.getString("correo"));
+        s.setNombreMascota(rs.getString("nombre_mascota"));
+        s.setEspecie(rs.getString("especie"));
+        s.setRaza(rs.getString("raza"));
+        s.setMotivo(rs.getString("motivo"));
 
         java.sql.Date fechaSql = rs.getDate("fecha");
-        solicitudCita.setFecha(fechaSql != null ? fechaSql.toLocalDate() : null);
+        s.setFecha(fechaSql != null ? fechaSql.toLocalDate() : null);
 
-        solicitudCita.setHora(rs.getString("hora"));
-        solicitudCita.setEstado(rs.getString("estado"));
+        s.setHora(rs.getString("hora"));
+        s.setEstado(rs.getString("estado"));
 
         Timestamp ts = rs.getTimestamp("fecha_solicitud");
-        solicitudCita.setFechaSolicitud(ts != null ? ts.toLocalDateTime() : null);
+        s.setFechaSolicitud(ts != null ? ts.toLocalDateTime() : null);
 
-        return solicitudCita;
+        return s;
     }
 }

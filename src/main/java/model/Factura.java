@@ -20,8 +20,9 @@ public class Factura {
         this.detalles = new ArrayList<>();
     }
 
-    public Factura(int id, Propietario propietario, Paciente paciente, LocalDateTime fechaHora, 
-            double subtotal, double total, String estadoFactura, String metodoPago) {
+    public Factura(int id, Propietario propietario, Paciente paciente,
+            LocalDateTime fechaHora, double subtotal, double total,
+            String estadoFactura, String metodoPago) {
         this.id = id;
         this.propietario = propietario;
         this.paciente = paciente;
@@ -33,10 +34,10 @@ public class Factura {
         this.detalles = new ArrayList<>();
     }
 
-    public void agregarDetalle(DetalleFactura d) {
-        d.setSubtotal(d.calcularSubtotal());
+    public void agregarDetalle(DetalleFactura detalleFactura) {
+        detalleFactura.setSubtotal(detalleFactura.calcularSubtotal());
         detalles.add(d);
-        this.subtotal += d.getSubtotal();
+        this.subtotal += detalleFactura.getSubtotal();
     }
 
     public double calcularTotal() {

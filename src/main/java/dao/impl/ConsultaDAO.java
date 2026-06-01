@@ -7,6 +7,7 @@ import model.Paciente;
 import model.Propietario;
 import model.Veterinario;
 import util.ConexionBD;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -14,8 +15,8 @@ public class ConsultaDAO implements IDAO<Consulta> {
 
     private Connection conexion;
 
-    private static final String SQL_JOIN
-            = "SELECT CO.*, "
+    private static final String SQL_JOIN =
+            "SELECT CO.*, "
             + "P.nombre AS pac_nombre, P.especie AS pac_especie, "
             + "PR.nombre AS prop_nombre, PR.apellido AS prop_apellido, "
             + "V.nombre AS vet_nombre, V.apellido AS vet_apellido, V.especialidad AS vet_especialidad "
@@ -29,19 +30,23 @@ public class ConsultaDAO implements IDAO<Consulta> {
     }
 
     @Override
-    public void guardar(Consulta c) throws SQLException {
+    public void guardar(Consulta consulta) throws SQLException {
         String sql = "INSERT INTO CONSULTA (id_cita, id_paciente, cedula_veterinario, "
-                + "fecha_hora, sintomas, diagnostico, tratamiento, costo) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                   + "fecha_hora, sintomas, diagnostico, tratamiento, costo) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setInt(1, c.getCita().getId());
-            ps.setInt(2, c.getPaciente().getId());
-            ps.setString(3, c.getVeterinario().getCedula());
-            ps.setTimestamp(4, Timestamp.valueOf(c.getFechaHora()));
-            ps.setString(5, c.getSintomas());
-            ps.setString(6, c.getDiagnostico());
-            ps.setString(7, c.getTratamiento());
-            ps.setDouble(8, c.getCosto());
+            if (consulta.getCita() != null) {
+                ps.setInt(1, consulta.getCita().getId());
+            } else {
+                ps.setNull(1, Types.INTEGER);
+            }
+            ps.setInt(2, consulta.getPaciente().getId());
+            ps.setString(3, consulta.getVeterinario().getCedula());
+            ps.setTimestamp(4, Timestamp.valueOf(consulta.getFechaHora()));
+            ps.setString(5, consulta.getSintomas());
+            ps.setString(6, consulta.getDiagnostico());
+            ps.setString(7, consulta.getTratamiento());
+            ps.setDouble(8, consulta.getCosto());
             ps.executeUpdate();
         }
     }
@@ -49,9 +54,13 @@ public class ConsultaDAO implements IDAO<Consulta> {
     @Override
     public void actualizar(Consulta consulta) throws SQLException {
         String sql = "UPDATE CONSULTA SET id_cita=?, id_paciente=?, cedula_veterinario=?, "
-                + "fecha_hora=?, sintomas=?, diagnostico=?, tratamiento=?, costo=? WHERE id=?";
+                   + "fecha_hora=?, sintomas=?, diagnostico=?, tratamiento=?, costo=? WHERE id=?";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setInt(1, consulta.getCita().getId());
+            if (consulta.getCita() != null && consulta.getCita().getId() != 0) {
+                ps.setInt(1, consulta.getCita().getId());
+            } else {
+                ps.setNull(1, Types.INTEGER);
+            }
             ps.setInt(2, consulta.getPaciente().getId());
             ps.setString(3, consulta.getVeterinario().getCedula());
             ps.setTimestamp(4, Timestamp.valueOf(consulta.getFechaHora()));
@@ -79,9 +88,7 @@ public class ConsultaDAO implements IDAO<Consulta> {
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapear(rs);
-                }
+                if (rs.next()) return mapear(rs);
             }
         }
         return null;
@@ -91,10 +98,9 @@ public class ConsultaDAO implements IDAO<Consulta> {
     public ArrayList<Consulta> listarTodos() throws SQLException {
         ArrayList<Consulta> lista = new ArrayList<>();
         String sql = SQL_JOIN + "ORDER BY CO.fecha_hora DESC";
-        try (PreparedStatement ps = conexion.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                lista.add(mapear(rs));
-            }
+        try (PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) lista.add(mapear(rs));
         }
         return lista;
     }
@@ -105,9 +111,7 @@ public class ConsultaDAO implements IDAO<Consulta> {
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, idPaciente);
             try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    lista.add(mapear(rs));
-                }
+                while (rs.next()) lista.add(mapear(rs));
             }
         }
         return lista;
@@ -118,12 +122,25 @@ public class ConsultaDAO implements IDAO<Consulta> {
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, idCita);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapear(rs);
-                }
+                if (rs.next()) return mapear(rs);
             }
         }
         return null;
+    }
+
+    public void registrarSinCita(Consulta consulta) throws SQLException {
+        String sql = "{ call PKG_CITAS.consulta_sin_cita(?, ?, ?, ?, ?, ?, ?) }";
+        try (CallableStatement cs = conexion.prepareCall(sql)) {
+            cs.setInt(1, consulta.getPaciente().getId());
+            cs.setString(2, consulta.getVeterinario().getCedula());
+            cs.setString(3, consulta.getSintomas());
+            cs.setString(4, consulta.getDiagnostico());
+            cs.setString(5, consulta.getTratamiento());
+            cs.setDouble(6, consulta.getCosto());
+            cs.registerOutParameter(7, Types.INTEGER);
+            cs.execute();
+            consulta.setId(cs.getInt(7));
+        }
     }
 
     public void completarConsulta(Consulta consulta) throws SQLException {
@@ -147,9 +164,12 @@ public class ConsultaDAO implements IDAO<Consulta> {
         Consulta consulta = new Consulta();
         consulta.setId(rs.getInt("id"));
 
-        Cita cita = new Cita();
-        cita.setId(rs.getInt("id_cita"));
-        consulta.setCita(cita);
+        int idCita = rs.getInt("id_cita");
+        if (!rs.wasNull()) {
+            Cita cita = new Cita();
+            cita.setId(idCita);
+            consulta.setCita(cita);
+        }
 
         Propietario propietario = new Propietario();
         propietario.setNombre(rs.getString("prop_nombre"));

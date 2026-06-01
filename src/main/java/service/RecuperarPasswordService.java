@@ -3,6 +3,7 @@ package service;
 import dao.impl.UsuarioDAO;
 import model.Usuario;
 import util.RecuperarPasswordException;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -10,10 +11,11 @@ import java.util.Random;
 public class RecuperarPasswordService {
 
     private final UsuarioDAO usuarioDAO;
+
     private final EmailService emailService;
 
     public RecuperarPasswordService() {
-        this.usuarioDAO = new UsuarioDAO();
+        this.usuarioDAO   = new UsuarioDAO();
         this.emailService = new EmailService();
     }
 

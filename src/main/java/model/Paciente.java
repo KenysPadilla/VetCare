@@ -18,8 +18,9 @@ public class Paciente {
     public Paciente() {
     }
 
-    public Paciente(String nombre, String especie, String raza, String sexo, double peso,
-            LocalDate fechaNacimiento, String microchip, Propietario propietario) {
+    public Paciente(String nombre, String especie, String raza, String sexo,
+            double peso, LocalDate fechaNacimiento, String microchip,
+            Propietario propietario) {
         this.nombre = nombre;
         this.especie = especie;
         this.raza = raza;

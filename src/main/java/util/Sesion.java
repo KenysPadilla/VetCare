@@ -6,8 +6,7 @@ public final class Sesion {
 
     private static Usuario usuarioActual;
 
-    private Sesion() {
-    }
+    private Sesion() {}
 
     public static void setUsuario(Usuario u) {
         usuarioActual = u;

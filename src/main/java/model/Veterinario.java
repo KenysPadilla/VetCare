@@ -3,17 +3,31 @@ package model;
 public class Veterinario extends Persona {
 
     private String especialidad;
+
     private String numeroLicencia;
+
+    private boolean activo = true;
 
     public Veterinario() {
         super();
     }
 
-    public Veterinario(String cedula, String nombre, String apellido, String telefono,
-            String email, String especialidad, String numeroLicencia) {
+    public Veterinario(String cedula, String nombre, String apellido,
+                       String telefono, String email,
+                       String especialidad, String numeroLicencia) {
         super(cedula, nombre, apellido, telefono, email);
         this.especialidad = especialidad;
         this.numeroLicencia = numeroLicencia;
+        this.activo = true;
+    }
+
+    public Veterinario(String cedula, String nombre, String apellido,
+                       String telefono, String email,
+                       String especialidad, String numeroLicencia, boolean activo) {
+        super(cedula, nombre, apellido, telefono, email);
+        this.especialidad = especialidad;
+        this.numeroLicencia = numeroLicencia;
+        this.activo = activo;
     }
 
     @Override
@@ -41,4 +55,7 @@ public class Veterinario extends Persona {
     public void setNumeroLicencia(String numeroLicencia) {
         this.numeroLicencia = numeroLicencia;
     }
+
+    public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
 }

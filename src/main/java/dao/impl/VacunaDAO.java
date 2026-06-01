@@ -3,6 +3,7 @@ package dao.impl;
 import dao.IDAO;
 import model.Vacuna;
 import util.ConexionBD;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class VacunaDAO implements IDAO<Vacuna> {
     @Override
     public void guardar(Vacuna vacuna) throws SQLException {
         String sql = "INSERT INTO VACUNA (nombre, laboratorio, lote, precio, "
-                + "stock_disponible, fecha_vencimiento) VALUES (?, ?, ?, ?, ?, ?)";
+                   + "stock_disponible, fecha_vencimiento) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, vacuna.getNombre());
             ps.setString(2, vacuna.getLaboratorio());
@@ -33,10 +34,40 @@ public class VacunaDAO implements IDAO<Vacuna> {
         }
     }
 
+    public void agregarStock(int id, int cantidad) throws SQLException {
+        String sql = "UPDATE VACUNA SET stock_disponible = stock_disponible + ? WHERE id=?";
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, cantidad);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        }
+    }
+
+    public void reponerStock(int id, int cantidad) throws SQLException {
+        String sql = "{ call PKG_INVENTARIO.reponer_vacuna(?, ?) }";
+        try (CallableStatement cs = conexion.prepareCall(sql)) {
+            cs.setInt(1, id);
+            cs.setInt(2, cantidad);
+            cs.execute();
+        }
+    }
+
+    public boolean esStockCritico(int id, int umbral) throws SQLException {
+        String sql = "{ ? = call fn_stock_critico(?, ?, ?) }";
+        try (CallableStatement cs = conexion.prepareCall(sql)) {
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setString(2, "VACUNA");
+            cs.setInt(3, id);
+            cs.setInt(4, umbral);
+            cs.execute();
+            return cs.getInt(1) == 1;
+        }
+    }
+
     @Override
     public void actualizar(Vacuna vacuna) throws SQLException {
         String sql = "UPDATE VACUNA SET nombre=?, laboratorio=?, lote=?, precio=?, "
-                + "stock_disponible=?, fecha_vencimiento=? WHERE id=?";
+                   + "stock_disponible=?, fecha_vencimiento=? WHERE id=?";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, vacuna.getNombre());
             ps.setString(2, vacuna.getLaboratorio());
@@ -80,7 +111,8 @@ public class VacunaDAO implements IDAO<Vacuna> {
     public ArrayList<Vacuna> listarTodos() throws SQLException {
         ArrayList<Vacuna> lista = new ArrayList<>();
         String sql = "SELECT * FROM VACUNA ORDER BY nombre";
-        try (PreparedStatement ps = conexion.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(mapear(rs));
             }

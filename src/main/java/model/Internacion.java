@@ -2,6 +2,8 @@ package model;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Internacion {
 
@@ -15,6 +17,8 @@ public class Internacion {
     private String diagnostico;
     private double costoDia;
     private String observaciones;
+    private List<InternacionMedicamento> medicamentos = new ArrayList<>();
+    private double costoMedicamentosTotal = 0.0;
 
     public Internacion() {
     }
@@ -34,12 +38,33 @@ public class Internacion {
         this.observaciones = observaciones;
     }
 
-    public double calcularCostoTotal() {
+    public double calcularCostoDias() {
         if (fechaHoraEgreso == null) {
             return 0.0;
         }
         return (double) ChronoUnit.DAYS.between(
                 fechaHoraIngreso.toLocalDate(), fechaHoraEgreso.toLocalDate()) * costoDia;
+    }
+
+    public double calcularCostoMedicamentos() {
+        if (!medicamentos.isEmpty()) {
+            double total = 0.0;
+            for (InternacionMedicamento im : medicamentos) {
+                if (im.getMedicamento() != null) {
+                    total += im.getMedicamento().getPrecio() * im.getCantidad();
+                }
+            }
+            return total;
+        }
+        return costoMedicamentosTotal;
+    }
+
+    public void setCostoMedicamentosTotal(double v) {
+        this.costoMedicamentosTotal = v;
+    }
+
+    public double calcularCostoTotal() {
+        return calcularCostoDias() + calcularCostoMedicamentos();
     }
 
     @Override
@@ -126,5 +151,13 @@ public class Internacion {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public List<InternacionMedicamento> getMedicamentos() {
+        return medicamentos;
+    }
+
+    public void setMedicamentos(List<InternacionMedicamento> medicamentos) {
+        this.medicamentos = medicamentos != null ? medicamentos : new ArrayList<>();
     }
 }

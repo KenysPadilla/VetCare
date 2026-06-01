@@ -7,6 +7,7 @@ import model.Paciente;
 import model.Propietario;
 import model.Veterinario;
 import util.ConexionBD;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -21,8 +22,8 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
     @Override
     public void guardar(ExamenLab examenLab) throws SQLException {
         String sql = "INSERT INTO EXAMEN_LAB (id_paciente, cedula_veterinario, id_consulta, "
-                + "fecha_hora, tipo_examen, resultado, observaciones, costo) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                   + "fecha_hora, tipo_examen, resultado, observaciones, costo) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, examenLab.getPaciente().getId());
             ps.setString(2, examenLab.getVeterinario().getCedula());
@@ -43,7 +44,7 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
     @Override
     public void actualizar(ExamenLab examenLab) throws SQLException {
         String sql = "UPDATE EXAMEN_LAB SET id_paciente=?, cedula_veterinario=?, id_consulta=?, "
-                + "fecha_hora=?, tipo_examen=?, resultado=?, observaciones=?, costo=? WHERE id=?";
+                   + "fecha_hora=?, tipo_examen=?, resultado=?, observaciones=?, costo=? WHERE id=?";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, examenLab.getPaciente().getId());
             ps.setString(2, examenLab.getVeterinario().getCedula());
@@ -74,24 +75,22 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
     @Override
     public ExamenLab buscarPorId(int id) throws SQLException {
         String sql = "SELECT E.*,"
-                + "       P.nombre       AS pac_nombre,"
-                + "       P.especie      AS pac_especie,"
-                + "       PR.nombre      AS prop_nombre,"
-                + "       PR.apellido    AS prop_apellido,"
-                + "       V.nombre       AS vet_nombre,"
-                + "       V.apellido     AS vet_apellido,"
-                + "       V.especialidad AS vet_especialidad"
-                + " FROM EXAMEN_LAB E"
-                + " LEFT JOIN PACIENTE P     ON E.id_paciente        = P.id"
-                + " LEFT JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula"
-                + " LEFT JOIN VETERINARIO V  ON E.cedula_veterinario = V.cedula"
-                + " WHERE E.id = ?";
+                   + "       P.nombre       AS pac_nombre,"
+                   + "       P.especie      AS pac_especie,"
+                   + "       PR.nombre      AS prop_nombre,"
+                   + "       PR.apellido    AS prop_apellido,"
+                   + "       V.nombre       AS vet_nombre,"
+                   + "       V.apellido     AS vet_apellido,"
+                   + "       V.especialidad AS vet_especialidad"
+                   + " FROM EXAMEN_LAB E"
+                   + " LEFT JOIN PACIENTE P     ON E.id_paciente        = P.id"
+                   + " LEFT JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula"
+                   + " LEFT JOIN VETERINARIO V  ON E.cedula_veterinario = V.cedula"
+                   + " WHERE E.id = ?";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapear(rs);
-                }
+                if (rs.next()) return mapear(rs);
             }
         }
         return null;
@@ -101,22 +100,21 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
     public ArrayList<ExamenLab> listarTodos() throws SQLException {
         ArrayList<ExamenLab> lista = new ArrayList<>();
         String sql = "SELECT E.*,"
-                + "       P.nombre       AS pac_nombre,"
-                + "       P.especie      AS pac_especie,"
-                + "       PR.nombre      AS prop_nombre,"
-                + "       PR.apellido    AS prop_apellido,"
-                + "       V.nombre       AS vet_nombre,"
-                + "       V.apellido     AS vet_apellido,"
-                + "       V.especialidad AS vet_especialidad"
-                + " FROM EXAMEN_LAB E"
-                + " LEFT JOIN PACIENTE P     ON E.id_paciente        = P.id"
-                + " LEFT JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula"
-                + " LEFT JOIN VETERINARIO V  ON E.cedula_veterinario = V.cedula"
-                + " ORDER BY E.fecha_hora DESC";
-        try (PreparedStatement ps = conexion.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                lista.add(mapear(rs));
-            }
+                   + "       P.nombre       AS pac_nombre,"
+                   + "       P.especie      AS pac_especie,"
+                   + "       PR.nombre      AS prop_nombre,"
+                   + "       PR.apellido    AS prop_apellido,"
+                   + "       V.nombre       AS vet_nombre,"
+                   + "       V.apellido     AS vet_apellido,"
+                   + "       V.especialidad AS vet_especialidad"
+                   + " FROM EXAMEN_LAB E"
+                   + " LEFT JOIN PACIENTE P     ON E.id_paciente        = P.id"
+                   + " LEFT JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula"
+                   + " LEFT JOIN VETERINARIO V  ON E.cedula_veterinario = V.cedula"
+                   + " ORDER BY E.fecha_hora DESC";
+        try (PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) lista.add(mapear(rs));
         }
         return lista;
     }
@@ -124,25 +122,23 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
     public ArrayList<ExamenLab> listarPorPaciente(int idPaciente) throws SQLException {
         ArrayList<ExamenLab> lista = new ArrayList<>();
         String sql = "SELECT E.*,"
-                + "       P.nombre       AS pac_nombre,"
-                + "       P.especie      AS pac_especie,"
-                + "       PR.nombre      AS prop_nombre,"
-                + "       PR.apellido    AS prop_apellido,"
-                + "       V.nombre       AS vet_nombre,"
-                + "       V.apellido     AS vet_apellido,"
-                + "       V.especialidad AS vet_especialidad"
-                + " FROM EXAMEN_LAB E"
-                + " LEFT JOIN PACIENTE P     ON E.id_paciente        = P.id"
-                + " LEFT JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula"
-                + " LEFT JOIN VETERINARIO V  ON E.cedula_veterinario = V.cedula"
-                + " WHERE E.id_paciente = ?"
-                + " ORDER BY E.fecha_hora DESC";
+                   + "       P.nombre       AS pac_nombre,"
+                   + "       P.especie      AS pac_especie,"
+                   + "       PR.nombre      AS prop_nombre,"
+                   + "       PR.apellido    AS prop_apellido,"
+                   + "       V.nombre       AS vet_nombre,"
+                   + "       V.apellido     AS vet_apellido,"
+                   + "       V.especialidad AS vet_especialidad"
+                   + " FROM EXAMEN_LAB E"
+                   + " LEFT JOIN PACIENTE P     ON E.id_paciente        = P.id"
+                   + " LEFT JOIN PROPIETARIO PR ON P.cedula_propietario = PR.cedula"
+                   + " LEFT JOIN VETERINARIO V  ON E.cedula_veterinario = V.cedula"
+                   + " WHERE E.id_paciente = ?"
+                   + " ORDER BY E.fecha_hora DESC";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, idPaciente);
             try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    lista.add(mapear(rs));
-                }
+                while (rs.next()) lista.add(mapear(rs));
             }
         }
         return lista;
@@ -152,30 +148,30 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
         ExamenLab examenLab = new ExamenLab();
         examenLab.setId(rs.getInt("id"));
 
-        Paciente paciente = new Paciente();
-        paciente.setId(rs.getInt("id_paciente"));
-        paciente.setNombre(rs.getString("pac_nombre"));
-        paciente.setEspecie(rs.getString("pac_especie"));
+        Paciente pac = new Paciente();
+        pac.setId(rs.getInt("id_paciente"));
+        pac.setNombre(rs.getString("pac_nombre"));
+        pac.setEspecie(rs.getString("pac_especie"));
 
-        Propietario propietario = new Propietario();
-        propietario.setNombre(rs.getString("prop_nombre"));
-        propietario.setApellido(rs.getString("prop_apellido"));
-        paciente.setPropietario(propietario);
+        Propietario prop = new Propietario();
+        prop.setNombre(rs.getString("prop_nombre"));
+        prop.setApellido(rs.getString("prop_apellido"));
+        pac.setPropietario(prop);
 
-        examenLab.setPaciente(paciente);
+        examenLab.setPaciente(pac);
 
-        Veterinario veterinario = new Veterinario();
-        veterinario.setCedula(rs.getString("cedula_veterinario"));
-        veterinario.setNombre(rs.getString("vet_nombre"));
-        veterinario.setApellido(rs.getString("vet_apellido"));
-        veterinario.setEspecialidad(rs.getString("vet_especialidad"));
-        examenLab.setVeterinario(veterinario);
+        Veterinario vet = new Veterinario();
+        vet.setCedula(rs.getString("cedula_veterinario"));
+        vet.setNombre(rs.getString("vet_nombre"));
+        vet.setApellido(rs.getString("vet_apellido"));
+        vet.setEspecialidad(rs.getString("vet_especialidad"));
+        examenLab.setVeterinario(vet);
 
-        int idConsulta = rs.getInt("id_consulta");
+        int idCon = rs.getInt("id_consulta");
         if (!rs.wasNull()) {
-            Consulta consulta = new Consulta();
-            consulta.setId(idConsulta);
-            examenLab.setConsulta(consulta);
+            Consulta con = new Consulta();
+            con.setId(idCon);
+            examenLab.setConsulta(con);
         }
 
         java.sql.Timestamp fechaHora = rs.getTimestamp("fecha_hora");

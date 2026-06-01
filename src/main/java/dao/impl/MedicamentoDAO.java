@@ -3,6 +3,7 @@ package dao.impl;
 import dao.IDAO;
 import model.Medicamento;
 import util.ConexionBD;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class MedicamentoDAO implements IDAO<Medicamento> {
     @Override
     public void guardar(Medicamento medicamento) throws SQLException {
         String sql = "INSERT INTO MEDICAMENTO (nombre, descripcion, fabricante, precio, "
-                + "stock_disponible, fecha_vencimiento, concentracion) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                   + "stock_disponible, fecha_vencimiento, concentracion) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, medicamento.getNombre());
             ps.setString(2, medicamento.getDescripcion());
@@ -37,7 +38,7 @@ public class MedicamentoDAO implements IDAO<Medicamento> {
     @Override
     public void actualizar(Medicamento medicamento) throws SQLException {
         String sql = "UPDATE MEDICAMENTO SET nombre=?, descripcion=?, fabricante=?, precio=?, "
-                + "stock_disponible=?, fecha_vencimiento=?, concentracion=? WHERE id=?";
+                   + "stock_disponible=?, fecha_vencimiento=?, concentracion=? WHERE id=?";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, medicamento.getNombre());
             ps.setString(2, medicamento.getDescripcion());
@@ -82,12 +83,75 @@ public class MedicamentoDAO implements IDAO<Medicamento> {
     public ArrayList<Medicamento> listarTodos() throws SQLException {
         ArrayList<Medicamento> lista = new ArrayList<>();
         String sql = "SELECT * FROM MEDICAMENTO ORDER BY nombre";
-        try (PreparedStatement ps = conexion.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(mapear(rs));
             }
         }
         return lista;
+    }
+
+    public void agregarStock(int id, int cantidad) throws SQLException {
+        String sql = "UPDATE MEDICAMENTO SET stock_disponible = stock_disponible + ? WHERE id=?";
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, cantidad);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        }
+    }
+
+    public void descontarStock(int id, int cantidad) throws SQLException {
+        String sql = "UPDATE MEDICAMENTO SET stock_disponible = stock_disponible - ? "
+                   + "WHERE id = ? AND stock_disponible >= ?";
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, cantidad);
+            ps.setInt(2, id);
+            ps.setInt(3, cantidad);
+            if (ps.executeUpdate() == 0) {
+                throw new SQLException("Stock insuficiente para el medicamento seleccionado.");
+            }
+        }
+    }
+
+    public void reponerStock(int id, int cantidad) throws SQLException {
+        String sql = "{ call PKG_INVENTARIO.reponer_medicamento(?, ?) }";
+        try (CallableStatement cs = conexion.prepareCall(sql)) {
+            cs.setInt(1, id);
+            cs.setInt(2, cantidad);
+            cs.execute();
+        }
+    }
+
+    public double calcularValorInventario() throws SQLException {
+        String sql = "{ ? = call PKG_INVENTARIO.valor_inventario_medicamentos() }";
+        try (CallableStatement cs = conexion.prepareCall(sql)) {
+            cs.registerOutParameter(1, Types.NUMERIC);
+            cs.execute();
+            return cs.getDouble(1);
+        }
+    }
+
+    public int contarItemsProximosAVencer(int dias) throws SQLException {
+        String sql = "{ ? = call PKG_INVENTARIO.items_proximos_vencer(?) }";
+        try (CallableStatement cs = conexion.prepareCall(sql)) {
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setInt(2, dias);
+            cs.execute();
+            return cs.getInt(1);
+        }
+    }
+
+    public boolean esStockCritico(int id, int umbral) throws SQLException {
+        String sql = "{ ? = call fn_stock_critico(?, ?, ?) }";
+        try (CallableStatement cs = conexion.prepareCall(sql)) {
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setString(2, "MEDICAMENTO");
+            cs.setInt(3, id);
+            cs.setInt(4, umbral);
+            cs.execute();
+            return cs.getInt(1) == 1;
+        }
     }
 
     public ArrayList<Medicamento> buscarPorNombre(String texto) throws SQLException {
