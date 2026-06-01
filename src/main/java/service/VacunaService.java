@@ -3,6 +3,7 @@ package service;
 import dao.IDAO;
 import dao.impl.VacunaDAO;
 import model.Vacuna;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -35,6 +36,18 @@ public class VacunaService {
 
     public void actualizar(Vacuna vacuna) throws SQLException {
         dao.actualizar(vacuna);
+    }
+
+    public void agregarStock(int id, int cantidad) throws SQLException {
+        ((VacunaDAO) dao).agregarStock(id, cantidad);
+    }
+
+    public void reponerStock(int id, int cantidad) throws SQLException {
+        ((VacunaDAO) dao).reponerStock(id, cantidad);
+    }
+
+    public boolean esStockCritico(int id, int umbral) throws SQLException {
+        return ((VacunaDAO) dao).esStockCritico(id, umbral);
     }
 
     public boolean eliminar(int id) throws SQLException {

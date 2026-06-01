@@ -31,6 +31,19 @@ public class Medicamento {
         return stockDisponible > 0;
     }
 
+    public String calcularEstado() {
+        if (fechaVencimiento != null && fechaVencimiento.isBefore(java.time.LocalDate.now())) {
+            return "Vencido";
+        }
+        if (stockDisponible == 0) {
+            return "Sin stock";
+        }
+        if (stockDisponible <= 5) {
+            return "Stock bajo";
+        }
+        return "Disponible";
+    }
+
     @Override
     public String toString() {
         return nombre + " (" + fabricante + ")";
