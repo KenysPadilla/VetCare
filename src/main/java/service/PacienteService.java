@@ -30,7 +30,7 @@ public class PacienteService {
     }
 
     public void actualizar(Paciente paciente) throws SQLException {
-        dao.actualizar(p);
+        dao.actualizar(paciente);
     }
 
     public boolean eliminar(int id) throws SQLException {

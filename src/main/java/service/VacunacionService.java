@@ -25,7 +25,7 @@ public class VacunacionService {
         if (vacunacion.getFechaHoraAplicacion() == null) {
             throw new IllegalArgumentException("La fecha de aplicacion es obligatoria.");
         }
-        dao.guardar(v);
+        dao.guardar(vacunacion);
     }
 
     public ArrayList<Vacunacion> listarTodos() throws SQLException {
@@ -41,7 +41,7 @@ public class VacunacionService {
     }
 
     public void actualizar(Vacunacion vacunacion) throws SQLException {
-        dao.actualizar(v);
+        dao.actualizar(vacunacion);
     }
 
     public boolean eliminar(int id) throws SQLException {

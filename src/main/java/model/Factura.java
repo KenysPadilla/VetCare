@@ -36,7 +36,7 @@ public class Factura {
 
     public void agregarDetalle(DetalleFactura detalleFactura) {
         detalleFactura.setSubtotal(detalleFactura.calcularSubtotal());
-        detalles.add(d);
+        detalles.add(detalleFactura);
         this.subtotal += detalleFactura.getSubtotal();
     }
 
