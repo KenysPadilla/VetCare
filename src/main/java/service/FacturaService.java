@@ -5,6 +5,7 @@ import dao.impl.DetalleFacturaDAO;
 import dao.impl.FacturaDAO;
 import model.DetalleFactura;
 import model.Factura;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -28,20 +29,20 @@ public class FacturaService {
             throw new IllegalArgumentException("La factura debe tener un paciente asignado.");
         }
 
-        FacturaDAO facturaDAO = (FacturaDAO) dao;
-        facturaDAO.guardar(factura);
+        FacturaDAO facturaDao = (FacturaDAO) dao;
+        facturaDao.guardar(factura);
 
-        DetalleFacturaDAO detalleFacturaDAO = new DetalleFacturaDAO();
+        DetalleFacturaDAO detalleFacturaDao = new DetalleFacturaDAO();
         double subtotal = 0;
         for (DetalleFactura detalleFactura : detalles) {
             detalleFactura.setFactura(factura);
             detalleFactura.setSubtotal(detalleFactura.calcularSubtotal());
-            detalleFacturaDAO.guardar(detalleFactura);
+            detalleFacturaDao.guardar(detalleFactura);
             subtotal += detalleFactura.getSubtotal();
         }
 
-        double total = facturaDAO.calcularTotalConIva(subtotal);
-        facturaDAO.actualizarTotales(factura.getId(), subtotal, total);
+        double total = facturaDao.calcularTotalConIva(subtotal);
+        facturaDao.actualizarTotales(factura.getId(), subtotal, total);
     }
 
     public ArrayList<Factura> listarTodos() throws SQLException {
@@ -64,17 +65,21 @@ public class FacturaService {
         return new DetalleFacturaDAO().listarPorFactura(idFactura);
     }
 
+    public void pagar(int id, String metodoPago) throws SQLException {
+        ((FacturaDAO) dao).pagarFactura(id, metodoPago);
+    }
+
     public void anular(int id) throws SQLException {
-        Factura factura = buscarPorId(id);
-        if (factura == null) {
-            throw new IllegalArgumentException("No existe la factura con id " + id + ".");
-        }
-        factura.anular();
-        ((FacturaDAO) dao).actualizarEstado(id, "ANULADA");
+        ((FacturaDAO) dao).anularFactura(id);
     }
 
     public void actualizarEstado(int id, String estado) throws SQLException {
         ((FacturaDAO) dao).actualizarEstado(id, estado);
+    }
+
+    public double calcularIngresosPeriodo(java.time.LocalDate desde, java.time.LocalDate hasta)
+            throws SQLException {
+        return ((FacturaDAO) dao).calcularIngresosPeriodo(desde, hasta);
     }
 
     public boolean eliminar(int id) throws SQLException {
