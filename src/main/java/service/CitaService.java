@@ -3,6 +3,7 @@ package service;
 import dao.IDAO;
 import dao.impl.CitaDAO;
 import model.Cita;
+
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,11 +28,11 @@ public class CitaService {
         if (cita.getVeterinario() == null) {
             throw new IllegalArgumentException("La cita debe tener un veterinario asignado.");
         }
-        if (cita.getFechaHora() == null
-                || !cita.getFechaHora().toLocalDate().isAfter(LocalDate.now())) {
+        if (cita.getFechaHora() == null ||
+                !cita.getFechaHora().toLocalDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException(
-                    "No se pueden agendar citas para el día actual "
-                    + "ni para fechas pasadas. La fecha mínima es mañana.");
+                    "No se pueden agendar citas para el día actual " +
+                    "ni para fechas pasadas. La fecha mínima es mañana.");
         }
         if (cita.getFechaHora() != null) {
             boolean disponible = ((CitaDAO) dao).verificarDisponibilidad(
@@ -98,10 +99,12 @@ public class CitaService {
                 ? cita.getFechaHora().toLocalDate() : null);
     }
 
+    public int contarCitasVetEnFecha(String cedulaVet, LocalDate fecha) throws SQLException {
+        return ((CitaDAO) dao).contarCitasVetEnFecha(cedulaVet, fecha);
+    }
+
     private void publicarEnFirebase(LocalDate fecha) {
-        if (fecha == null) {
-            return;
-        }
+        if (fecha == null) return;
         new Thread(() -> {
             try {
                 firebaseService.publicarHorasOcupadas(fecha);

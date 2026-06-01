@@ -3,6 +3,7 @@ package service;
 import dao.IDAO;
 import dao.impl.CirugiaDAO;
 import model.Cirugia;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -30,6 +31,10 @@ public class CirugiaService {
 
     public Cirugia buscarPorId(int id) throws SQLException {
         return dao.buscarPorId(id);
+    }
+
+    public void actualizarResultado(int id, String resultado) throws SQLException {
+        ((CirugiaDAO) dao).actualizarResultado(id, resultado);
     }
 
     public ArrayList<Cirugia> listarPorPaciente(int idPaciente) throws SQLException {
