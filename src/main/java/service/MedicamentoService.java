@@ -3,6 +3,7 @@ package service;
 import dao.IDAO;
 import dao.impl.MedicamentoDAO;
 import model.Medicamento;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -35,6 +36,30 @@ public class MedicamentoService {
 
     public void actualizar(Medicamento medicamento) throws SQLException {
         dao.actualizar(medicamento);
+    }
+
+    public void agregarStock(int id, int cantidad) throws SQLException {
+        ((MedicamentoDAO) dao).agregarStock(id, cantidad);
+    }
+
+    public void descontarStock(int id, int cantidad) throws SQLException {
+        ((MedicamentoDAO) dao).descontarStock(id, cantidad);
+    }
+
+    public void reponerStock(int id, int cantidad) throws SQLException {
+        ((MedicamentoDAO) dao).reponerStock(id, cantidad);
+    }
+
+    public double calcularValorInventario() throws SQLException {
+        return ((MedicamentoDAO) dao).calcularValorInventario();
+    }
+
+    public int contarItemsProximosAVencer(int dias) throws SQLException {
+        return ((MedicamentoDAO) dao).contarItemsProximosAVencer(dias);
+    }
+
+    public boolean esStockCritico(int id, int umbral) throws SQLException {
+        return ((MedicamentoDAO) dao).esStockCritico(id, umbral);
     }
 
     public boolean eliminar(int id) throws SQLException {

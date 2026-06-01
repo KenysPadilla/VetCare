@@ -2,7 +2,10 @@ package service;
 
 import dao.IDAO;
 import dao.impl.InternacionDAO;
+import dao.impl.InternacionMedicamentoDAO;
 import model.Internacion;
+import model.InternacionMedicamento;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -50,5 +53,36 @@ public class InternacionService {
 
     public boolean eliminar(int id) throws SQLException {
         return dao.eliminar(id);
+    }
+
+    public ArrayList<InternacionMedicamento> listarMedicamentosPorInternacion(int idInternacion) throws SQLException {
+        return new InternacionMedicamentoDAO().listarPorInternacion(idInternacion);
+    }
+
+    public void guardarMedicamentosInternacion(int idInternacion, ArrayList<InternacionMedicamento> medicamentos) throws SQLException {
+        InternacionMedicamentoDAO internacionMedicamentoDao = new InternacionMedicamentoDAO();
+
+        ArrayList<InternacionMedicamento> actuales = internacionMedicamentoDao.listarPorInternacion(idInternacion);
+
+        java.util.Map<Integer, Integer> cantidadesActuales = new java.util.HashMap<>();
+        for (InternacionMedicamento internacionMedicamento : actuales) {
+            if (internacionMedicamento.getMedicamento() != null) {
+                cantidadesActuales.put(internacionMedicamento.getMedicamento().getId(), internacionMedicamento.getCantidad());
+            }
+        }
+
+        MedicamentoService medicamentoService = new MedicamentoService();
+        for (InternacionMedicamento internacionMedicamento : medicamentos) {
+            if (internacionMedicamento.getMedicamento() == null) continue;
+            int idMedicamento      = internacionMedicamento.getMedicamento().getId();
+            int cantidadNueva  = internacionMedicamento.getCantidad();
+            int cantidadActual = cantidadesActuales.getOrDefault(idMedicamento, 0);
+            int diferencia = cantidadNueva - cantidadActual;
+            if (diferencia > 0) {
+                medicamentoService.descontarStock(idMedicamento, diferencia);
+            }
+        }
+
+        internacionMedicamentoDao.guardarTodos(idInternacion, medicamentos);
     }
 }
