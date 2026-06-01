@@ -3,6 +3,7 @@ package service;
 import dao.IDAO;
 import dao.impl.VacunacionDAO;
 import model.Vacunacion;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -24,8 +25,7 @@ public class VacunacionService {
         if (vacunacion.getFechaHoraAplicacion() == null) {
             throw new IllegalArgumentException("La fecha de aplicacion es obligatoria.");
         }
-        dao.guardar(vacunacion);
-        ((VacunacionDAO) dao).descontarStock(vacunacion.getVacuna().getId());
+        dao.guardar(v);
     }
 
     public ArrayList<Vacunacion> listarTodos() throws SQLException {
@@ -41,7 +41,7 @@ public class VacunacionService {
     }
 
     public void actualizar(Vacunacion vacunacion) throws SQLException {
-        dao.actualizar(vacunacion);
+        dao.actualizar(v);
     }
 
     public boolean eliminar(int id) throws SQLException {

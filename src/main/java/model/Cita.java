@@ -16,8 +16,9 @@ public class Cita {
     public Cita() {
     }
 
-    public Cita(int id, Paciente paciente, Veterinario veterinario, LocalDateTime fechaHora, 
-            String tipoCita, String estadoCita, String motivo, String observaciones) {
+    public Cita(int id, Paciente paciente, Veterinario veterinario,
+            LocalDateTime fechaHora, String tipoCita, String estadoCita,
+            String motivo, String observaciones) {
         this.id = id;
         this.paciente = paciente;
         this.veterinario = veterinario;
@@ -33,7 +34,7 @@ public class Cita {
     }
 
     public void completar() {
-        this.estadoCita = "COMPLETADA";
+        this.estadoCita = "REALIZADA";
     }
 
     public boolean estaVigente() {
@@ -45,9 +46,8 @@ public class Cita {
     public String toString() {
         return "Cita #" + id + " - "
                 + (paciente != null ? paciente.getNombre() : "?")
-                + " (" + (fechaHora != null
-                        ? fechaHora.toLocalDate() + " " + fechaHora.toLocalTime()
-                        : "?") + ")";
+                + " (" + (fechaHora != null ? fechaHora.toLocalDate() + " "
+                        + fechaHora.toLocalTime() : "?") + ")";
     }
 
     public int getId() {

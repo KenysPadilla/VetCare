@@ -61,7 +61,7 @@ public class ConexionBD {
 
     public Connection getConexion() {
         try {
-            if (conexion == null || conexion.isClosed()) {
+            if (conexion == null || conexion.isClosed() || !conexion.isValid(2)) {
                 System.out.println("Reconectando a Oracle...");
                 conectar();
             }
