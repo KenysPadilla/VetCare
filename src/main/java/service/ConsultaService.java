@@ -3,6 +3,7 @@ package service;
 import dao.IDAO;
 import dao.impl.ConsultaDAO;
 import model.Consulta;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -27,6 +28,16 @@ public class ConsultaService {
         ((ConsultaDAO) dao).completarConsulta(consulta);
     }
 
+    public void guardarSinCita(Consulta consulta) throws SQLException {
+        if (consulta.getPaciente() == null) {
+            throw new IllegalArgumentException("La consulta debe tener un paciente asignado.");
+        }
+        if (consulta.getVeterinario() == null) {
+            throw new IllegalArgumentException("La consulta debe tener un veterinario asignado.");
+        }
+        dao.guardar(consulta);
+    }
+
     public ArrayList<Consulta> listarTodos() throws SQLException {
         return dao.listarTodos();
     }
@@ -41,6 +52,10 @@ public class ConsultaService {
 
     public Consulta buscarPorCita(int idCita) throws SQLException {
         return ((ConsultaDAO) dao).buscarPorCita(idCita);
+    }
+
+    public void actualizar(Consulta consulta) throws SQLException {
+        dao.actualizar(consulta);
     }
 
     public boolean eliminar(int id) throws SQLException {
