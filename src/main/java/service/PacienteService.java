@@ -14,7 +14,7 @@ public class PacienteService {
         this.dao = new PacienteDAO();
     }
 
-    public void guardar(Paciente pacienteaciente) throws SQLException {
+    public void guardar(Paciente paciente) throws SQLException {
         if (paciente.getNombre() == null || paciente.getNombre().isBlank()) {
             throw new IllegalArgumentException("El nombre del paciente es obligatorio.");
         }

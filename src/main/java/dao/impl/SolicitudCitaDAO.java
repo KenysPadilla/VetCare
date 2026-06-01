@@ -14,21 +14,21 @@ public class SolicitudCitaDAO {
         this.conexion = ConexionBD.getInstancia().getConexion();
     }
 
-    public void guardar(SolicitudCita sol) throws SQLException {
+    public void guardar(SolicitudCita solicitudCita) throws SQLException {
         String sql = "INSERT INTO SOLICITUD_CITA "
                    + "(nombre_propietario, telefono, correo, nombre_mascota, especie, raza, "
                    + " motivo, fecha, hora, estado) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'PENDIENTE')";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setString(1, sol.getNombrePropietario());
-            ps.setString(2, sol.getTelefono());
-            ps.setString(3, sol.getCorreo());
-            ps.setString(4, sol.getNombreMascota());
-            ps.setString(5, sol.getEspecie());
-            ps.setString(6, sol.getRaza() != null ? sol.getRaza() : "Mestizo");
-            ps.setString(7, sol.getMotivo());
-            ps.setDate(8, sol.getFecha() != null ? Date.valueOf(sol.getFecha()) : null);
-            ps.setString(9, sol.getHora());
+            ps.setString(1, solicitudCita.getNombrePropietario());
+            ps.setString(2, solicitudCita.getTelefono());
+            ps.setString(3, solicitudCita.getCorreo());
+            ps.setString(4, solicitudCita.getNombreMascota());
+            ps.setString(5, solicitudCita.getEspecie());
+            ps.setString(6, solicitudCita.getRaza() != null ? solicitudCita.getRaza() : "Mestizo");
+            ps.setString(7, solicitudCita.getMotivo());
+            ps.setDate(8, solicitudCita.getFecha() != null ? Date.valueOf(solicitudCita.getFecha()) : null);
+            ps.setString(9, solicitudCita.getHora());
             ps.executeUpdate();
         }
     }
@@ -88,25 +88,25 @@ public class SolicitudCitaDAO {
     }
 
     private SolicitudCita mapear(ResultSet rs) throws SQLException {
-        SolicitudCita s = new SolicitudCita();
-        s.setId(rs.getInt("id"));
-        s.setNombrePropietario(rs.getString("nombre_propietario"));
-        s.setTelefono(rs.getString("telefono"));
-        s.setCorreo(rs.getString("correo"));
-        s.setNombreMascota(rs.getString("nombre_mascota"));
-        s.setEspecie(rs.getString("especie"));
-        s.setRaza(rs.getString("raza"));
-        s.setMotivo(rs.getString("motivo"));
+        SolicitudCita solicitudCita = new SolicitudCita();
+        solicitudCita.setId(rs.getInt("id"));
+        solicitudCita.setNombrePropietario(rs.getString("nombre_propietario"));
+        solicitudCita.setTelefono(rs.getString("telefono"));
+        solicitudCita.setCorreo(rs.getString("correo"));
+        solicitudCita.setNombreMascota(rs.getString("nombre_mascota"));
+        solicitudCita.setEspecie(rs.getString("especie"));
+        solicitudCita.setRaza(rs.getString("raza"));
+        solicitudCita.setMotivo(rs.getString("motivo"));
 
         java.sql.Date fechaSql = rs.getDate("fecha");
-        s.setFecha(fechaSql != null ? fechaSql.toLocalDate() : null);
+        solicitudCita.setFecha(fechaSql != null ? fechaSql.toLocalDate() : null);
 
-        s.setHora(rs.getString("hora"));
-        s.setEstado(rs.getString("estado"));
+        solicitudCita.setHora(rs.getString("hora"));
+        solicitudCita.setEstado(rs.getString("estado"));
 
         Timestamp ts = rs.getTimestamp("fecha_solicitud");
-        s.setFechaSolicitud(ts != null ? ts.toLocalDateTime() : null);
+        solicitudCita.setFechaSolicitud(ts != null ? ts.toLocalDateTime() : null);
 
-        return s;
+        return solicitudCita;
     }
 }
