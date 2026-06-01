@@ -3,9 +3,7 @@ package model;
 public class Veterinario extends Persona {
 
     private String especialidad;
-
     private String numeroLicencia;
-
     private boolean activo = true;
 
     public Veterinario() {
@@ -13,8 +11,7 @@ public class Veterinario extends Persona {
     }
 
     public Veterinario(String cedula, String nombre, String apellido,
-                       String telefono, String email,
-                       String especialidad, String numeroLicencia) {
+            String telefono, String email, String especialidad, String numeroLicencia) {
         super(cedula, nombre, apellido, telefono, email);
         this.especialidad = especialidad;
         this.numeroLicencia = numeroLicencia;
@@ -22,8 +19,8 @@ public class Veterinario extends Persona {
     }
 
     public Veterinario(String cedula, String nombre, String apellido,
-                       String telefono, String email,
-                       String especialidad, String numeroLicencia, boolean activo) {
+            String telefono, String email, String especialidad,
+            String numeroLicencia, boolean activo) {
         super(cedula, nombre, apellido, telefono, email);
         this.especialidad = especialidad;
         this.numeroLicencia = numeroLicencia;
@@ -56,6 +53,11 @@ public class Veterinario extends Persona {
         this.numeroLicencia = numeroLicencia;
     }
 
-    public boolean isActivo() { return activo; }
-    public void setActivo(boolean activo) { this.activo = activo; }
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
 }

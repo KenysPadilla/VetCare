@@ -19,7 +19,7 @@ public class UsuarioDAO implements IDAO<Usuario> {
     public void guardar(Usuario usuario) throws SQLException {
         String sql = "INSERT INTO USUARIO (cedula, nombre, apellido, telefono, email, "
                    + "nombre_usuario, contrasena, rol, activo, cedula_empleado) "
-                   + "VALUES (?,?,?,?,?,?,?,?,1,?)";
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, usuario.getCedula());
             ps.setString(2, usuario.getNombre());

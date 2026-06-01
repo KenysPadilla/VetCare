@@ -26,8 +26,8 @@ public class ServicioFacturable {
         return seleccionado.get();
     }
 
-    public void setSeleccionado(boolean v) {
-        seleccionado.set(v);
+    public void setSeleccionado(boolean valor) {
+        seleccionado.set(valor);
     }
 
     public String getTipo() {

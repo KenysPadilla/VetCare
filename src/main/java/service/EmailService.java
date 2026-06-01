@@ -94,7 +94,7 @@ public class EmailService {
 
             String html =
                 "<h2 style='color:#1B6B2F'>VetCare</h2>"
-                + "<p>Hola <strong>" + nombrePropietario + "</strong>,</p>"
+                + "<p>Hola <strong>" + nombrePropietario + "</strong>, </p>"
                 + "<p>Tu solicitud de cita ha sido <strong style='color:#1B6B2F'>ACEPTADA</strong>. "
                 + "A continuacion los detalles:</p>"
                 + "<table style='border-collapse:collapse;margin:16px 0;'>"
@@ -149,7 +149,7 @@ public class EmailService {
 
             String html =
                 "<h2 style='color:#1B6B2F'>VetCare</h2>"
-                + "<p>Hola <strong>" + nombrePropietario + "</strong>,</p>"
+                + "<p>Hola <strong>" + nombrePropietario + "</strong>, </p>"
                 + "<p>Lamentamos informarte que la fecha u hora que solicitaste "
                 + "<strong style='color:#D32F2F'>no esta disponible</strong> en este momento.</p>"
                 + "<p>Por favor comunicate con nosotros para encontrar una alternativa:</p>"

@@ -28,7 +28,7 @@ public class FacturaDAO implements IDAO<Factura> {
                    + "subtotal, total, estado_factura, metodo_pago) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement ps = conexion.prepareStatement(sql, new String[]{"id"})) {
+        try (PreparedStatement ps = conexion.prepareStatement(sql, new String[] {"id"})) {
             ps.setString(1, factura.getPropietario().getCedula());
             ps.setInt(2, factura.getPaciente().getId());
             ps.setTimestamp(3, factura.getFechaHora() != null ? java.sql.Timestamp.valueOf(factura.getFechaHora()) : null);

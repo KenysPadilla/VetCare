@@ -3,7 +3,6 @@ package model;
 public class Estilista extends Persona {
 
     private String especialidadEstetica;
-
     private boolean activo = true;
 
     public Estilista() {
@@ -11,14 +10,14 @@ public class Estilista extends Persona {
     }
 
     public Estilista(String cedula, String nombre, String apellido,
-                     String telefono, String email, String especialidadEstetica) {
+            String telefono, String email, String especialidadEstetica) {
         super(cedula, nombre, apellido, telefono, email);
         this.especialidadEstetica = especialidadEstetica;
         this.activo = true;
     }
 
     public Estilista(String cedula, String nombre, String apellido,
-                     String telefono, String email, String especialidadEstetica, boolean activo) {
+            String telefono, String email, String especialidadEstetica, boolean activo) {
         super(cedula, nombre, apellido, telefono, email);
         this.especialidadEstetica = especialidadEstetica;
         this.activo = activo;
@@ -42,6 +41,11 @@ public class Estilista extends Persona {
         this.especialidadEstetica = especialidadEstetica;
     }
 
-    public boolean isActivo() { return activo; }
-    public void setActivo(boolean activo) { this.activo = activo; }
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
 }

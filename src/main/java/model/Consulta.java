@@ -17,8 +17,8 @@ public class Consulta {
     public Consulta() {
     }
 
-    public Consulta(int id, Cita cita, Paciente paciente, Veterinario veterinario, 
-            LocalDateTime fechaHora, String sintomas, String diagnostico, 
+    public Consulta(int id, Cita cita, Paciente paciente, Veterinario veterinario,
+            LocalDateTime fechaHora, String sintomas, String diagnostico,
             String tratamiento, double costo) {
         this.id = id;
         this.cita = cita;

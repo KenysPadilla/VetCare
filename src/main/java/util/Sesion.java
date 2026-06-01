@@ -8,8 +8,8 @@ public final class Sesion {
 
     private Sesion() {}
 
-    public static void setUsuario(Usuario u) {
-        usuarioActual = u;
+    public static void setUsuario(Usuario usuario) {
+        usuarioActual = usuario;
     }
 
     public static Usuario getUsuario() {

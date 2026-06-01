@@ -19,7 +19,7 @@ public class PacienteDAO implements IDAO<Paciente> {
     @Override
     public void guardar(Paciente paciente) throws SQLException {
         String sql = "INSERT INTO PACIENTE (nombre, especie, raza, sexo, peso, "
-                   + "fecha_nacimiento, microchip, cedula_propietario) VALUES (?,?,?,?,?,?,?,?)";
+                   + "fecha_nacimiento, microchip, cedula_propietario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, paciente.getNombre());
             ps.setString(2, paciente.getEspecie());
