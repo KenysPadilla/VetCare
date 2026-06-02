@@ -1,0 +1,58 @@
+
+.field-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.field-group {
+    -fx-spacing: 6;
+}
+
+.input-with-icon {
+    -fx-background-color: #f3f3f5;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-padding: 0 12 0 10;
+    -fx-spacing: 8;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.input-with-icon-focused {
+    -fx-background-color: #eef2f5;
+    -fx-border-color: #2b87a0;
+}
+
+.input-with-icon .text-field,
+.input-with-icon .password-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 10 8 10 4;
+}
+
+/* :focused-within is not supported in JavaFX CSS — focus is indicated via child TextField */
+.input-with-icon .text-field:focused,
+.input-with-icon .password-field:focused {
+    -fx-background-color: rgba(43, 135, 160, 0.05);
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.input-icon {
+    -fx-font-size: 14px;
+    -fx-text-fill: #8a9fad;
+    -fx-min-width: 20;
+    -fx-alignment: CENTER;
+}
+
+.input-icon-fx {
+    -fx-icon-color: #8a9fad;
+    -fx-min-width: 20;
+}
+
+.label-error {
+    -fx-text-fill: #EB5757;
+    -fx-font-size: 12px;
+}

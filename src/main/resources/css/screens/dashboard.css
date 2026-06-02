@@ -1,0 +1,259 @@
+
+.app-content {
+    -fx-background-color: #f0f4f7;
+}
+
+.content-header {
+    -fx-padding: 10 32 8 32;
+    -fx-spacing: 4;
+    -fx-border-color: transparent transparent rgba(0, 0, 0, 0.06) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.page-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #8a9fad;
+}
+
+.user-info-bar {
+    -fx-padding: 0 32 16 32;
+    -fx-alignment: CENTER_RIGHT;
+}
+
+.user-info-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7f8e;
+}
+
+.user-info-role {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2b87a0;
+    -fx-background-color: #e8f4f8;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8 2 8;
+}
+
+.user-avatar-circle {
+    -fx-background-color: #2b87a0;
+    -fx-background-radius: 20;
+    -fx-min-width: 38;
+    -fx-min-height: 38;
+    -fx-max-width: 38;
+    -fx-max-height: 38;
+    -fx-alignment: CENTER;
+}
+
+.user-avatar-initial {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.dashboard-scroll {
+    -fx-background-color: transparent;
+    -fx-padding: 0 28 24 28;
+}
+
+.stats-grid {
+    -fx-hgap: 16;
+    -fx-vgap: 16;
+    -fx-padding: 0 0 20 0;
+}
+
+.panels-row {
+    -fx-spacing: 20;
+    -fx-padding: 0 0 8 0;
+}
+
+.panel-card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.panel-card-meta {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7f8e;
+}
+
+.appointment-row {
+    -fx-padding: 12 4 12 4;
+    -fx-border-color: transparent transparent #EEF1F4 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-spacing: 14;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.appointment-patient {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.appointment-detail {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7f8e;
+}
+
+.activity-title {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.activity-detail {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7f8e;
+}
+
+
+.module-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.app-footer {
+    -fx-background-color: white;
+    -fx-border-color: rgba(0, 0, 0, 0.06) transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 10 32 10 32;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.app-footer-text {
+    -fx-font-size: 11px;
+    -fx-text-fill: #b0bcca;
+}
+
+.filter-bar {
+    -fx-spacing: 12;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.filter-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.module-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6b7f8e;
+    -fx-font-style: italic;
+}
+
+.info-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7f8e;
+}
+
+.status-message {
+    -fx-font-size: 12px;
+    -fx-text-fill: #2b87a0;
+}
+
+.btn-warning {
+    -fx-background-color: white;
+    -fx-text-fill: #F2994A;
+    -fx-font-size: 13px;
+    -fx-border-color: #F2994A;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-padding: 10 18 10 18;
+}
+
+.patient-info-panel {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: #E8ECEF;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 16 20 16 20;
+    -fx-spacing: 24;
+}
+
+.patient-info-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6b7f8e;
+}
+
+.patient-info-value {
+    -fx-font-size: 14px;
+    -fx-text-fill: #1a2e3b;
+}
+
+.patient-info-value-highlight {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2b87a0;
+}
+
+.tab-pane {
+    -fx-background-color: transparent;
+}
+
+.tab-pane .tab-header-area {
+    -fx-padding: 0 0 8 0;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #E8ECEF;
+    -fx-background-radius: 8 8 0 0;
+    -fx-padding: 8 16 8 16;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #2b87a0;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #6b7f8e;
+}
+
+.combo-box,
+.date-picker {
+    -fx-background-color: #f3f3f5;
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(0, 0, 0, 0.08);
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+.combo-box:focused,
+.date-picker:focused {
+    -fx-border-color: #2b87a0;
+    -fx-border-width: 1.5;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.module-toolbar {
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.module-actions {
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.module-actions-right {
+    -fx-spacing: 12;
+    -fx-alignment: CENTER_RIGHT;
+}
