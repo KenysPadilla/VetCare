@@ -26,21 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * Controlador del formulario de registro de nueva internacion.
- *
- * <p>El {@link ComboBox} de consultas ({@code cbConsulta}) permanece
- * deshabilitado hasta que el usuario selecciona un paciente. Al hacerlo,
- * se cargan unicamente las consultas de ese paciente, evitando mostrar
- * consultas de otros pacientes.</p>
- *
- * <p>La consulta sigue siendo opcional: el usuario puede marcar
- * {@code chkSinConsulta} para indicar una internacion directa sin consulta
- * previa. En ese caso la internacion se guarda con {@code consulta = null}.</p>
- *
- * <p>GRASP Indireccion: delega la logica de negocio en
- * {@link InternacionService} y {@link ConsultaService}.</p>
- */
+
 public class NuevaInternacionController implements Initializable {
 
     @FXML private ComboBox<Paciente>    cbPaciente;
@@ -53,7 +39,7 @@ public class NuevaInternacionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Converter: muestra id + fecha de la consulta en el ComboBox
+        
         cbConsulta.setConverter(new StringConverter<Consulta>() {
             @Override
             public String toString(Consulta c) {
@@ -71,7 +57,6 @@ public class NuevaInternacionController implements Initializable {
             public Consulta fromString(String s) { return null; }
         });
 
-        // cbConsulta deshabilitado hasta que el paciente sea seleccionado
         cbConsulta.setDisable(true);
 
         dpFechaIngreso.setValue(java.time.LocalDate.now());
@@ -86,7 +71,6 @@ public class NuevaInternacionController implements Initializable {
             mostrarMensaje("Error al cargar datos: " + e.getMessage(), "#D32F2F");
         }
 
-        // Listener: al cambiar el paciente, recargar consultas filtradas
         cbPaciente.setOnAction(event -> {
             cbConsulta.getItems().clear();
             cbConsulta.setValue(null);
@@ -101,7 +85,6 @@ public class NuevaInternacionController implements Initializable {
             }
         });
 
-        // Listener del CheckBox: cuando se marca, deshabilita cbConsulta
         chkSinConsulta.setOnAction(event -> {
             if (chkSinConsulta.isSelected()) {
                 cbConsulta.getItems().clear();
@@ -109,7 +92,6 @@ public class NuevaInternacionController implements Initializable {
                 cbConsulta.setDisable(true);
                 cbConsulta.setPromptText("Sin consulta asociada");
             } else {
-                // Al desmarcar, si hay paciente seleccionado recargar consultas
                 Paciente p = cbPaciente.getValue();
                 if (p != null) {
                     cargarConsultasDePaciente(p.getId());
@@ -121,12 +103,7 @@ public class NuevaInternacionController implements Initializable {
         });
     }
 
-    /**
-     * Carga en {@code cbConsulta} las consultas del paciente indicado.
-     * Habilita el combo si hay consultas; lo deshabilita con mensaje si no hay.
-     *
-     * @param idPaciente identificador del paciente seleccionado
-     */
+    
     private void cargarConsultasDePaciente(int idPaciente) {
         try {
             ArrayList<Consulta> consultas =
@@ -159,7 +136,6 @@ public class NuevaInternacionController implements Initializable {
 
         double costoDia = NumericFormatter.toDouble(txtCostoDia);
 
-        // La consulta es null si: cbConsulta está deshabilitado, o si no se seleccionó ninguna
         Consulta consultaAsociada = (cbConsulta.isDisabled() || cbConsulta.getValue() == null)
                 ? null : cbConsulta.getValue();
 

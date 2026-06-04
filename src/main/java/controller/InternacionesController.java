@@ -143,7 +143,6 @@ public class InternacionesController implements Initializable {
         String stateIcon   = ec.icon;
         String stateText   = ec.label;
 
-        // ── Header ──────────────────────────────────────────────────────────
         Label iconLbl = new Label(stateIcon);
         iconLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: " + colorBase + ";");
 
@@ -182,7 +181,6 @@ public class InternacionesController implements Initializable {
         header.setPadding(new Insets(7, 16, 7, 16));
         header.setStyle("-fx-background-color: " + headerBg + "; -fx-background-radius: 10.5 10.5 0 0;");
 
-        // ── Fila paciente ────────────────────────────────────────────────────
         String especie = (i.getPaciente() != null && i.getPaciente().getEspecie() != null)
                 ? i.getPaciente().getEspecie() : "";
         HBox emojiLbl = crearIconoAnimal(especie);
@@ -209,7 +207,6 @@ public class InternacionesController implements Initializable {
         HBox patRow = new HBox(10, emojiLbl, patInfo, spacerPat, desdeBox);
         patRow.setAlignment(Pos.CENTER_LEFT);
 
-        // ── Motivo (fondo grisáceo) ───────────────────────────────────────────
         Label lblMotivoHdr = new Label("MOTIVO");
         lblMotivoHdr.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #9eaab5;");
         Label lblMotivoVal = new Label(safe(i.getMotivo()));
@@ -221,7 +218,6 @@ public class InternacionesController implements Initializable {
                 "-fx-background-radius: 8;" +
                 "-fx-padding: 10 12 10 12;");
 
-        // ── Grid info (fondo grisáceo): VETERINARIO | DIAGNÓSTICO | OBSERVACIONES
         GridPane infoGrid = new GridPane();
         infoGrid.setHgap(10);
         ColumnConstraints cc = new ColumnConstraints();
@@ -240,11 +236,9 @@ public class InternacionesController implements Initializable {
                 "-fx-background-radius: 8;" +
                 "-fx-padding: 10 12 10 12;");
 
-        // ── Cuerpo ───────────────────────────────────────────────────────────
         VBox body = new VBox(10, patRow, motivoBox, infoBox);
         body.setPadding(new Insets(14, 16, 12, 16));
 
-        // ── Botones ──────────────────────────────────────────────────────────
         Button btnVer = new Button("Ver Historia");
         btnVer.setMaxWidth(Double.MAX_VALUE);
         btnVer.setPrefHeight(28);
@@ -287,7 +281,6 @@ public class InternacionesController implements Initializable {
         VBox footer = new VBox(btnRow);
         footer.setPadding(new Insets(0, 16, 14, 16));
 
-        // ── Card ─────────────────────────────────────────────────────────────
         String baseStyle =
                 "-fx-background-color: white; -fx-background-radius: 12;" +
                 "-fx-border-color: " + borderColor + ";" +

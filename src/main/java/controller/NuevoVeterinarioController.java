@@ -25,17 +25,14 @@ public class NuevoVeterinarioController implements Initializable {
     @FXML private Button    btnGuardar;
     @FXML private Label     lblMensaje;
 
-    /** No nulo cuando el formulario abre en modo edicion. */
+    
     private Veterinario veterinarioEnEdicion = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    /**
-     * Pre-rellena el formulario con los datos del veterinario a editar,
-     * deshabilita la cedula (PK) y cambia el boton a "Actualizar".
-     */
+    
     public void setModoEdicion(Veterinario v) {
         this.veterinarioEnEdicion = v;
         txtCedula.setText(v.getCedula());

@@ -29,7 +29,6 @@
         <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
             <VBox spacing="10" styleClass="form-body-scroll">
 
-                <!-- ── ACCESO AL SISTEMA ── -->
                 <Label text="ACCESO AL SISTEMA" styleClass="form-section-header" />
 
                 <VBox spacing="6" styleClass="field-group">
@@ -42,7 +41,6 @@
                     <ComboBox fx:id="cbRol" prefWidth="Infinity" maxWidth="Infinity" promptText="Seleccionar rol" />
                 </VBox>
 
-                <!-- Solo visible para VETERINARIO / ESTILISTA -->
                 <VBox fx:id="pnlEmpleado" spacing="6" styleClass="field-group" managed="false" visible="false">
                     <Label fx:id="lblEmpleado" text="Empleado vinculado" styleClass="field-label" />
                     <ComboBox fx:id="cbEmpleado" prefWidth="Infinity" maxWidth="Infinity"
@@ -51,7 +49,6 @@
                            text="Al seleccionar el empleado se cargan sus datos automáticamente" />
                 </VBox>
 
-                <!-- ── DATOS PERSONALES ── -->
                 <Separator style="-fx-opacity: 0.4;" />
                 <Label text="DATOS PERSONALES" styleClass="form-section-header" />
 
@@ -82,7 +79,6 @@
                     <TextField fx:id="txtEmail" prefHeight="40" promptText="correo@ejemplo.com" />
                 </VBox>
 
-                <!-- ── SEGURIDAD ── -->
                 <Separator style="-fx-opacity: 0.4;" />
                 <Label text="SEGURIDAD" styleClass="form-section-header" />
 

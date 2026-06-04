@@ -36,7 +36,6 @@ public class NuevoPacienteController implements Initializable {
     );
 
     private static final List<String> TODAS_LAS_RAZAS = Arrays.asList(
-        // ── Perros ──────────────────────────────────────────────────────
         "Labrador Retriever", "Golden Retriever", "Pastor Alemán",
         "Bulldog Francés", "Bulldog Inglés", "French Poodle",
         "Beagle", "Rottweiler", "Yorkshire Terrier", "Chihuahua",
@@ -70,7 +69,6 @@ public class NuevoPacienteController implements Initializable {
         "Perro de Agua Español", "Cimarrón Uruguayo", "Galgo Español",
         "Podenco Ibicenco", "Perro Sin Pelo del Perú", "Xoloitzcuintle",
         "Spitz Japonés",
-        // ── Gatos ───────────────────────────────────────────────────────
         "Persa", "Siamés", "Maine Coon", "Ragdoll", "Bengalí",
         "British Shorthair", "Abisinio", "Sphynx", "Scottish Fold",
         "Birmano", "Angora Turco", "Azul Ruso", "Devon Rex", "Cornish Rex",
@@ -79,21 +77,17 @@ public class NuevoPacienteController implements Initializable {
         "Tonkinés", "Ocicat", "Mau Egipcio", "Balinés",
         "Turkish Van", "Somali", "Chartreux", "Manx",
         "Singapura", "Javanés",
-        // ── Aves ────────────────────────────────────────────────────────
         "Periquito Australiano", "Periquito Americano", "Canario",
         "Loro Amazónico", "Loro Gris Africano", "Cacatúa",
         "Cacatúa Ninfa / Cockatiel", "Agapornis", "Guacamayo Azul y Amarillo",
         "Guacamayo Rojo", "Cotorra", "Perico", "Tucán", "Paloma", "Jilguero",
-        // ── Reptiles ────────────────────────────────────────────────────
         "Iguana Verde", "Iguana Rinoceronte", "Gecko Leopardo",
         "Gecko de Cresta", "Camaleón Velado", "Tortuga de Tierra",
         "Tortuga Acuática", "Tortuga Mediterránea", "Boa Constrictor",
         "Serpiente Maíz", "Dragón Barbudo", "Lagartija de Jardín",
-        // ── Pequeños mamíferos ──────────────────────────────────────────
         "Hámster Dorado", "Hámster Ruso", "Hámster Chino",
         "Conejo", "Cobaya / Cuy", "Ratón Doméstico", "Rata Doméstica",
         "Hurón", "Chinchilla", "Erizo Africano", "Jerbo", "Degú",
-        // ── General ─────────────────────────────────────────────────────
         "Mestizo", "Otra"
     );
 
@@ -121,7 +115,6 @@ public class NuevoPacienteController implements Initializable {
             System.err.println("Error cargando propietarios: " + e.getMessage());
         }
 
-        // ComboBox de especie con filtro en tiempo real
         cbEspecie.setEditable(true);
         cbEspecie.getItems().addAll(TODAS_LAS_ESPECIES);
         cbEspecie.getEditor().addEventHandler(KeyEvent.KEY_RELEASED, ev -> {
@@ -144,7 +137,6 @@ public class NuevoPacienteController implements Initializable {
 
         cbSexo.getItems().addAll("Macho", "Hembra");
 
-        // ComboBox de raza con filtro en tiempo real
         cbRaza.setEditable(true);
         cbRaza.getItems().addAll(TODAS_LAS_RAZAS);
 

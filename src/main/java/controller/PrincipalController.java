@@ -57,7 +57,6 @@ public class PrincipalController implements Initializable {
     @FXML private StackPane contenedorPrincipal;
     @FXML private VBox panelWelcomeHeader;
 
-    // KPI labels
     @FXML private Label lblCitasHoy;
     @FXML private Label lblPacientesActivos;
     @FXML private Label lblConsultasMes;
@@ -67,11 +66,9 @@ public class PrincipalController implements Initializable {
     @FXML private Label lblFacturacionHoy;
     @FXML private Label lblVeterinariosActivos;
 
-    // Panel dinámico citas
     @FXML private Label lblMetaCitas;
     @FXML private VBox  vboxCitasHoy;
 
-    // Panel dinámico actividad
     @FXML private VBox vboxActividad;
 
     @FXML private Button btnPropietarios;
@@ -93,7 +90,6 @@ public class PrincipalController implements Initializable {
     @FXML private Button btnCerrarSesion;
     @FXML private VBox   panelNotificacion;
 
-    // Accordion: VBox con los ítems de cada grupo (visible/managed toggled)
     @FXML private VBox grupoRegistroItems;
     @FXML private VBox grupoPersonalItems;
     @FXML private VBox grupoConsultaItems;
@@ -102,7 +98,6 @@ public class PrincipalController implements Initializable {
     @FXML private VBox grupoEsteticaItems;
     @FXML private VBox grupoAdministracionItems;
 
-    // Accordion: íconos de flecha (se rotan con RotateTransition)
     @FXML private FontIcon arrowRegistro;
     @FXML private FontIcon arrowPersonal;
     @FXML private FontIcon arrowConsulta;
@@ -111,7 +106,6 @@ public class PrincipalController implements Initializable {
     @FXML private FontIcon arrowEstetica;
     @FXML private FontIcon arrowAdministracion;
 
-    // Accordion: botones cabecera (para aplicar/quitar la clase activa)
     @FXML private Button btnGrupoRegistro;
     @FXML private Button btnGrupoPersonal;
     @FXML private Button btnGrupoConsulta;
@@ -154,9 +148,7 @@ public class PrincipalController implements Initializable {
         iniciarPollingNotificaciones();
     }
 
-    // -------------------------------------------------------------------------
-    // Notificaciones — solicitudes pendientes del chatbot
-    // -------------------------------------------------------------------------
+    
 
     private void iniciarPollingNotificaciones() {
         verificarSolicitudesPendientes();
@@ -225,9 +217,7 @@ public class PrincipalController implements Initializable {
         panelNotificacion.setManaged(false);
     }
 
-    // -------------------------------------------------------------------------
-    // Dashboard con datos reales
-    // -------------------------------------------------------------------------
+    
 
     private void cargarDashboard() {
         LocalDate hoy = LocalDate.now();
@@ -271,13 +261,12 @@ public class PrincipalController implements Initializable {
         poblarCitasHoy(citasHoy);
         poblarActividad(todasCitas);
 
-        // --- Pacientes ---
+        
         try {
             int total = new PacienteService().listarTodos().size();
             lblPacientesActivos.setText(String.valueOf(total));
         } catch (Exception ignored) { lblPacientesActivos.setText("—"); }
 
-        // --- Consultas del mes ---
         try {
             long consMes = new ConsultaService().listarTodos().stream()
                     .filter(c -> c.getFechaHora() != null
@@ -287,7 +276,6 @@ public class PrincipalController implements Initializable {
             lblConsultasMes.setText(String.valueOf(consMes));
         } catch (Exception ignored) { lblConsultasMes.setText("—"); }
 
-        // --- Internaciones activas ---
         try {
             long internadas = new InternacionService().listarTodos().stream()
                     .filter(i -> i.getFechaHoraEgreso() == null)
@@ -295,13 +283,11 @@ public class PrincipalController implements Initializable {
             lblInternaciones.setText(String.valueOf(internadas));
         } catch (Exception ignored) { lblInternaciones.setText("—"); }
 
-        // --- Cirugías totales ---
         try {
             int totalCirugias = new CirugiaService().listarTodos().size();
             lblCirugias.setText(String.valueOf(totalCirugias));
         } catch (Exception ignored) { lblCirugias.setText("—"); }
 
-        // --- Facturación hoy ---
         try {
             double totalHoy = new FacturaService().listarTodos().stream()
                     .filter(f -> f.getFechaHora() != null
@@ -312,7 +298,6 @@ public class PrincipalController implements Initializable {
             lblFacturacionHoy.setText(NumericFormatter.formatCurrency(totalHoy));
         } catch (Exception ignored) { lblFacturacionHoy.setText("—"); }
 
-        // --- Veterinarios ---
         try {
             int totalVets = new VeterinarioService().listarTodos().size();
             lblVeterinariosActivos.setText(String.valueOf(totalVets));
@@ -456,9 +441,7 @@ public class PrincipalController implements Initializable {
         };
     }
 
-    // -------------------------------------------------------------------------
-    // Navegación
-    // -------------------------------------------------------------------------
+    
 
     private void configureSidebarIcons() {
         IconHelper.attachNavIcon(btnPropietarios, FontAwesomeSolid.USER);
@@ -546,9 +529,7 @@ public class PrincipalController implements Initializable {
     @FXML private void handleVacunas()       { cargarVista("vacunas.fxml",             "Vacunas",         btnVacunas);       }
     @FXML private void handleSolicitudes()   { cargarVista("solicitudes.fxml",         "Solicitudes",     btnSolicitudes);   }
 
-    // -------------------------------------------------------------------------
-    // Accordion sidebar — toggle, colores activos y auto-apertura
-    // -------------------------------------------------------------------------
+    
 
     /** Agrupación de las tres referencias que definen un grupo del accordion. */
     private record NavGrupo(Button header, VBox items, FontIcon arrow) {}
@@ -592,7 +573,6 @@ public class PrincipalController implements Initializable {
         rt.play();
     }
 
-    /** Toggle: si estaba abierto lo cierra; si estaba cerrado abre (y cierra el anterior). */
     private void toggleGrupo(NavGrupo g) {
         if (g.items().isVisible()) cerrarGrupo(g);
         else                       abrirGrupo(g);
@@ -606,11 +586,7 @@ public class PrincipalController implements Initializable {
     @FXML private void toggleGrupoEstetica()        { toggleGrupo(navGrupos.get(5)); }
     @FXML private void toggleGrupoAdministracion()  { toggleGrupo(navGrupos.get(6)); }
 
-    /**
-     * Abre automáticamente el grupo que contiene el botón dado.
-     * Se invoca desde cargarVista() para que al navegar desde cualquier
-     * punto (tarjetas KPI, etc.) el grupo quede visible y marcado.
-     */
+    
     private void abrirGrupoDeBoton(Button btn) {
         navGrupos.stream()
                  .filter(g -> g.items().getChildren().stream().anyMatch(n -> n == btn))

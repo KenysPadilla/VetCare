@@ -55,12 +55,10 @@ public class DetallePropietarioController {
     }
 
     private VBox crearTarjetaMascota(Paciente m) {
-        // Nombre con emoji de especie
         String emoji = emojiEspecie(m.getEspecie());
         Label lblNombre = new Label(emoji + "  " + orDash(m.getNombre()));
         lblNombre.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a2e3b;");
 
-        // Especie · Raza
         String especieRaza = orDash(m.getEspecie());
         if (m.getRaza() != null && !m.getRaza().isBlank()) {
             especieRaza += "  ·  " + m.getRaza();
@@ -68,7 +66,6 @@ public class DetallePropietarioController {
         Label lblEspecieRaza = new Label(especieRaza);
         lblEspecieRaza.setStyle("-fx-font-size: 11px; -fx-text-fill: #5a7585;");
 
-        // Sexo · Edad · Peso
         StringBuilder detalle = new StringBuilder();
         if (m.getSexo() != null && !m.getSexo().isBlank()) {
             detalle.append(m.getSexo());

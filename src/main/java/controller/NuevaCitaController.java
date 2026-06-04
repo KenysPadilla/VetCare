@@ -41,7 +41,6 @@ public class NuevaCitaController implements Initializable {
     @FXML private Button                btnGuardar;
     @FXML private Label                 lblMensaje;
 
-    /** No nulo cuando el formulario abre en modo edicion. */
     private Cita citaEnEdicion = null;
 
     @Override
@@ -92,15 +91,10 @@ public class NuevaCitaController implements Initializable {
         dpFecha.setValue(null);
     }
 
-    /**
-     * Pre-rellena el formulario con los datos de la cita a editar.
-     * Paciente y veterinario se deshabilitan (no cambian en edicion).
-     * El boton cambia a "Actualizar".
-     */
+    
     public void setModoEdicion(Cita c) {
         this.citaEnEdicion = c;
 
-        // Seleccionar paciente por id
         if (c.getPaciente() != null) {
             for (Paciente p : cbPaciente.getItems()) {
                 if (p.getId() == c.getPaciente().getId()) {
@@ -114,7 +108,6 @@ public class NuevaCitaController implements Initializable {
         }
         cbPaciente.setDisable(true);
 
-        // Seleccionar veterinario por cedula
         if (c.getVeterinario() != null) {
             for (Veterinario v : cbVeterinario.getItems()) {
                 if (v.getCedula().equals(c.getVeterinario().getCedula())) {
@@ -154,7 +147,6 @@ public class NuevaCitaController implements Initializable {
                     LocalTime.parse(cbHora.getValue()));
 
             if (citaEnEdicion == null) {
-                // ---- Modo creacion ----
                 Cita c = new Cita();
                 c.setPaciente(cbPaciente.getValue());
                 c.setVeterinario(cbVeterinario.getValue());
@@ -165,7 +157,6 @@ public class NuevaCitaController implements Initializable {
                 new CitaService().guardar(c);
                 mostrarMensaje("Cita guardada exitosamente.", "#1B6B2F");
             } else {
-                // ---- Modo edicion: conserva paciente, veterinario y estado ----
                 citaEnEdicion.setFechaHora(dt);
                 citaEnEdicion.setTipoCita(mapearTipoCita(cbTipo.getValue()));
                 citaEnEdicion.setMotivo(txtMotivo.getText());
@@ -183,7 +174,6 @@ public class NuevaCitaController implements Initializable {
         ((Stage) lblMensaje.getScene().getWindow()).close();
     }
 
-    /** Convierte el valor legible del ComboBox al codigo almacenado en Oracle. */
     private String mapearTipoCita(String tipo) {
         switch (tipo) {
             case "Consulta General": return "CONSULTA_GENERAL";
@@ -194,7 +184,6 @@ public class NuevaCitaController implements Initializable {
         }
     }
 
-    /** Convierte el codigo Oracle al valor legible para el ComboBox. */
     private String mapearTipoCitaInverso(String tipoCita) {
         if (tipoCita == null) return null;
         switch (tipoCita) {

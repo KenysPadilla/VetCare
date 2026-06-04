@@ -62,7 +62,6 @@ public class VacunasController implements Initializable {
         cbEstado.getSelectionModel().selectFirst();
         cbEstado.setOnAction(e -> aplicarFiltros());
 
-        // Configurar 2 columnas de igual ancho con hgap/vgap
         ColumnConstraints col = new ColumnConstraints();
         col.setPercentWidth(33.33);
         col.setHgrow(Priority.ALWAYS);
@@ -74,9 +73,7 @@ public class VacunasController implements Initializable {
         cargarDatos();
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    //  Grid de tarjetas
-    // ─────────────────────────────────────────────────────────────────
+   
 
     private void construirTarjetas(List<Vacuna> lista) {
         gridTarjetas.getChildren().clear();
@@ -95,8 +92,6 @@ public class VacunasController implements Initializable {
 
         String estado = v.calcularEstado();
 
-        // ── Header ─────────────────────────────────────────────────
-        // Ícono circular
         FontIcon icon = new FontIcon("fas-shield-alt");
         icon.setIconSize(18);
         icon.setStyle("-fx-icon-color: #2b87a0;");
@@ -106,7 +101,7 @@ public class VacunasController implements Initializable {
         iconWrap.setMaxSize(40, 40);
         iconWrap.setStyle("-fx-background-color: #e8f4f8; -fx-background-radius: 20;");
 
-        // Nombre + laboratorio
+        
         Label lblNombre = new Label(v.getNombre());
         lblNombre.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a2e3b;");
         lblNombre.setWrapText(true);
@@ -120,7 +115,7 @@ public class VacunasController implements Initializable {
         nameBox.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(nameBox, Priority.ALWAYS);
 
-        // Badge de estado
+        
         Label badge = new Label(estadoBadgeLabel(estado));
         badge.getStyleClass().add(estadoBadgeClass(estado));
 
@@ -128,7 +123,6 @@ public class VacunasController implements Initializable {
         header.setAlignment(Pos.CENTER_LEFT);
         VBox.setMargin(header, new Insets(0, 0, 16, 0));
 
-        // ── Progress bar section ────────────────────────────────────
         int stock = v.getStockDisponible();
         double progress = Math.min(stock / 40.0, 1.0);
 
@@ -155,7 +149,6 @@ public class VacunasController implements Initializable {
         VBox progressSection = new VBox(0, stockRow, progressBar, lblMinimo);
         VBox.setMargin(progressSection, new Insets(0, 0, 16, 0));
 
-        // ── Info cells (3 columnas) ─────────────────────────────────
         String loteVal = (v.getLote() != null && !v.getLote().isBlank()) ? v.getLote() : "—";
         String precioVal = NumericFormatter.formatCurrency(v.getPrecio());
         String vencimientoVal = (v.getFechaVencimiento() != null)
@@ -173,7 +166,6 @@ public class VacunasController implements Initializable {
         infoCells.setMaxWidth(Double.MAX_VALUE);
         VBox.setMargin(infoCells, new Insets(0, 0, 16, 0));
 
-        // ── Footer ─────────────────────────────────────────────────
         Label lblId = new Label(String.format("VAC-%03d", v.getId()));
         lblId.setStyle("-fx-font-family: 'Consolas', 'Courier New', monospace; " +
                        "-fx-font-size: 12px; -fx-text-fill: #8a9fad;");
@@ -223,9 +215,7 @@ public class VacunasController implements Initializable {
         return cell;
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    //  Helpers de estado
-    // ─────────────────────────────────────────────────────────────────
+    
 
     private String stockColor(String estado) {
         return switch (estado) {
@@ -262,9 +252,7 @@ public class VacunasController implements Initializable {
         };
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    //  Datos y filtros
-    // ─────────────────────────────────────────────────────────────────
+    
 
     private void cargarDatos() {
         try {
@@ -312,7 +300,7 @@ public class VacunasController implements Initializable {
         lblStatAgotadas.setText(String.valueOf(sinStock));
         lblStatVencidas.setText(String.valueOf(vencidas));
 
-        // Banner de stock crítico
+        
         boolean hayProblema = stockBajo > 0;
         bannerStockCritico.setVisible(hayProblema);
         bannerStockCritico.setManaged(hayProblema);
@@ -321,18 +309,13 @@ public class VacunasController implements Initializable {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    //  Handlers FXML
-    // ─────────────────────────────────────────────────────────────────
+    
 
     @FXML private void handleBuscar() { aplicarFiltros(); }
 
     @FXML private void handleNuevo() { abrirFormulario(null); }
 
-    // ─────────────────────────────────────────────────────────────────
-    //  Diálogos y ventanas
-    // ─────────────────────────────────────────────────────────────────
-
+    
     private void abrirFormulario(Vacuna sel) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/nuevaVacuna.fxml"));
@@ -466,9 +449,7 @@ public class VacunasController implements Initializable {
         dialog.showAndWait();
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    //  Utilidades
-    // ─────────────────────────────────────────────────────────────────
+    
 
     private void mostrarAlerta(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.WARNING);

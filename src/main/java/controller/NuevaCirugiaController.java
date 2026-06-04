@@ -22,14 +22,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * Controlador del formulario de registro de nueva cirugia.
- *
- * <p>Carga la lista de pacientes y veterinarios desde la base de datos en
- * {@code initialize()}. El tipo de cirugia se ingresa como texto libre;
- * el tipo de anestesia se selecciona de un combo fijo. El resultado
- * post-operatorio es opcional y puede completarse en una edicion posterior.</p>
- */
+
 public class NuevaCirugiaController implements Initializable {
 
     @FXML private ComboBox<Paciente>    cbPaciente;

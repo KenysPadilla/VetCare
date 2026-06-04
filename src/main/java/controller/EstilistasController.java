@@ -147,7 +147,6 @@ public class EstilistasController implements Initializable {
             chips.getChildren().add(chip);
         }
 
-        // expAndChips alineado al 50 % del ancho → coincide con el inicio del botón "Modificar"
         VBox expAndChips = new VBox(8, exp, chips);
 
         ColumnConstraints cc1 = new ColumnConstraints();

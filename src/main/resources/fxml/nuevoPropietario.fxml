@@ -60,7 +60,6 @@
                     <TextField fx:id="txtDireccion" prefHeight="40" promptText="Dirección de residencia" />
                 </VBox>
 
-                <!-- ══════════════ SECCIÓN MASCOTA ══════════════ -->
                 <VBox fx:id="panelMascota" spacing="10">
                     <Separator style="-fx-opacity: 0.4;" />
                     <Label text="DATOS DE LA MASCOTA" styleClass="form-section-header" />

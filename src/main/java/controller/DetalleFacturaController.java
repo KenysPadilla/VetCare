@@ -57,7 +57,6 @@ public class DetalleFacturaController {
     }
 
     private void configurarColumnas() {
-        // Descripción: celda con Text wrapping para mostrar contenido multilínea (internaciones, etc.)
         colDescripcion.setCellValueFactory(d -> new SimpleStringProperty(
                 d.getValue().getDescripcion() != null ? d.getValue().getDescripcion() : "—"));
         colDescripcion.setCellFactory(col -> {
@@ -96,7 +95,6 @@ public class DetalleFacturaController {
             row.setOnMouseClicked(e -> tablaDetalles.getSelectionModel().clearSelection());
             return row;
         });
-        // Sin fixedCellSize → las filas crecen según el contenido del Text wrapping
     }
 
     private void cargarDetalles(int idFactura) {
@@ -104,8 +102,7 @@ public class DetalleFacturaController {
             ArrayList<DetalleFactura> detalles = new DetalleFacturaDAO().listarPorFactura(idFactura);
             tablaDetalles.setItems(FXCollections.observableArrayList(detalles));
             tablaDetalles.getSelectionModel().clearSelection();
-            // Sin fixedCellSize las filas se auto-dimensionan; usamos 80px/fila como estimación
-            // generosa que acomoda internaciones multilínea sin dejar espacio muerto excesivo
+           
             tablaDetalles.setPrefHeight(52 + detalles.size() * 80);
         } catch (SQLException e) {
             tablaDetalles.setPlaceholder(new Label("Error al cargar detalles: " + e.getMessage()));

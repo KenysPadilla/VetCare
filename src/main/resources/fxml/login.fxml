@@ -14,7 +14,6 @@
 
 <HBox prefHeight="600" prefWidth="960" styleClass="login-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
 
-    <!-- Panel izquierdo: marca -->
     <VBox minWidth="480" maxWidth="480" alignment="CENTER" spacing="20" styleClass="login-brand-panel">
         <ImageView fitHeight="160" fitWidth="160" pickOnBounds="true" preserveRatio="true" smooth="true" styleClass="login-logo">
             <image>
@@ -25,7 +24,6 @@
         <Label styleClass="login-brand-subtitle" text="Gestión Integral de Clínica Veterinaria" />
     </VBox>
 
-    <!-- Panel derecho: formulario flotante -->
     <VBox HBox.hgrow="ALWAYS" minWidth="480" alignment="CENTER" styleClass="login-form-panel">
         <Region VBox.vgrow="ALWAYS" />
 

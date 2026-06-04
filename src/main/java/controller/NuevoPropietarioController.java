@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 
 public class NuevoPropietarioController implements Initializable {
 
-    // ── Propietario ──────────────────────────────────────────────────────────
     @FXML private TextField txtCedula;
     @FXML private TextField txtNombre;
     @FXML private TextField txtApellido;
@@ -32,7 +31,6 @@ public class NuevoPropietarioController implements Initializable {
     @FXML private Button    btnGuardar;
     @FXML private Label     lblMensaje;
 
-    // ── Mascota (solo en modo nuevo) ─────────────────────────────────────────
     @FXML private VBox             panelMascota;
     @FXML private TextField        txtNombreMascota;
     @FXML private ComboBox<String> cbEspecie;
@@ -43,7 +41,6 @@ public class NuevoPropietarioController implements Initializable {
     @FXML private DatePicker       dpFechaNacimiento;
     @FXML private TextField        txtMicrochip;
 
-    /** No nulo cuando el formulario abre en modo edición. */
     private Propietario propietarioEnEdicion = null;
 
     @Override
@@ -51,7 +48,6 @@ public class NuevoPropietarioController implements Initializable {
         cbEspecie.getItems().addAll("Canino", "Felino", "Ave", "Reptil", "Roedor", "Otro");
         cbSexo.getItems().addAll("Macho", "Hembra");
 
-        // Mostrar campo libre cuando el usuario elige "Otro"
         cbEspecie.valueProperty().addListener((obs, oldVal, newVal) -> {
             boolean esOtro = "Otro".equals(newVal);
             txtEspecieOtro.setVisible(esOtro);
@@ -60,11 +56,7 @@ public class NuevoPropietarioController implements Initializable {
         });
     }
 
-    /**
-     * Pre-rellena el formulario con los datos del propietario a editar,
-     * deshabilita la cédula (PK) y cambia el texto del botón a "Actualizar".
-     * Oculta la sección de mascota porque en modo edición no se registra una nueva.
-     */
+    
     public void setModoEdicion(Propietario p) {
         this.propietarioEnEdicion = p;
         txtCedula.setText(p.getCedula());
@@ -90,7 +82,6 @@ public class NuevoPropietarioController implements Initializable {
             return;
         }
 
-        // ── Validar datos de mascota (obligatorio en modo nuevo) ────────────
         String nombreMascota = txtNombreMascota != null ? txtNombreMascota.getText().trim() : "";
         if (propietarioEnEdicion == null && nombreMascota.isEmpty()) {
             mostrarMensaje("El nombre de la mascota es obligatorio.", "#D32F2F");
@@ -119,7 +110,6 @@ public class NuevoPropietarioController implements Initializable {
             );
 
             if (propietarioEnEdicion == null) {
-                // ── Transacción: propietario + mascota se guardan juntos ────
                 con.setAutoCommit(false);
                 try {
                     new PropietarioService().guardar(p);

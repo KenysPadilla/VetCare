@@ -322,7 +322,6 @@ public class PacientesController implements Initializable {
         lblFiltro.setText("Mascotas de: " + propietario.getNombreCompleto());
         lblFiltro.setVisible(true);
         lblFiltro.setManaged(true);
-        // En modo sub-vista solo mostramos la lista, sin botones de acción
         btnVerTodos.setVisible(false);
         btnVerTodos.setManaged(false);
         btnNuevo.setVisible(false);

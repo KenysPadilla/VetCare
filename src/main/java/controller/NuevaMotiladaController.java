@@ -22,19 +22,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * Controlador del formulario de registro de nuevo servicio de motilada.
- *
- * <p>Carga pacientes y estilistas desde la base de datos en
- * {@code initialize()}. El estilo de corte, el largo y los servicios
- * adicionales se seleccionan de listas fijas. El precio queda fijo en
- * {@code 60000.0}.</p>
- *
- * <p>Los valores almacenados para {@code estilo_corte} y {@code largo_corte}
- * siguen la convencion Oracle en mayusculas; la presentacion usa nombres
- * legibles. La conversion se realiza en {@link #mapearEstiloCorte(String)} y
- * {@link #mapearLargoCorte(String)}.</p>
- */
+
 public class NuevaMotiladaController implements Initializable {
 
     @FXML private ComboBox<Paciente>  cbPaciente;
@@ -116,16 +104,7 @@ public class NuevaMotiladaController implements Initializable {
         cerrarVentana();
     }
 
-    // -------------------------------------------------------------------------
-    // Mapeo de valores de presentacion a codigos Oracle
-    // -------------------------------------------------------------------------
-
-    /**
-     * Convierte el estilo de corte legible a su codigo Oracle en mayusculas.
-     *
-     * @param display texto mostrado al usuario
-     * @return codigo Oracle para {@code estilo_corte}
-     */
+    
     private String mapearEstiloCorte(String display) {
         switch (display) {
             case "Higiénico":    return "HIGIENICO";
@@ -136,12 +115,7 @@ public class NuevaMotiladaController implements Initializable {
         }
     }
 
-    /**
-     * Convierte el largo de corte legible a su codigo Oracle en mayusculas.
-     *
-     * @param display texto mostrado al usuario
-     * @return codigo Oracle para {@code largo_corte}
-     */
+    
     private String mapearLargoCorte(String display) {
         switch (display) {
             case "Corto":   return "CORTO";

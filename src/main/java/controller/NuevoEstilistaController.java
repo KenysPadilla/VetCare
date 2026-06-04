@@ -25,7 +25,6 @@ public class NuevoEstilistaController implements Initializable {
     @FXML private Button           btnGuardar;
     @FXML private Label            lblMensaje;
 
-    /** No nulo cuando el formulario abre en modo edicion. */
     private Estilista estilistaEnEdicion = null;
 
     @Override
@@ -33,10 +32,7 @@ public class NuevoEstilistaController implements Initializable {
         cbEspecialidad.getItems().addAll("Baño", "Motilada", "Ambos");
     }
 
-    /**
-     * Pre-rellena el formulario con los datos del estilista a editar,
-     * deshabilita la cedula (PK) y cambia el boton a "Actualizar".
-     */
+    
     public void setModoEdicion(Estilista e) {
         this.estilistaEnEdicion = e;
         txtCedula.setText(e.getCedula());
