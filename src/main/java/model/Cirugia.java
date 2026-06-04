@@ -18,7 +18,8 @@ public class Cirugia {
     private LocalDateTime horaInicio;
     private LocalDateTime horaFin;
 
-    public Cirugia() {}
+    public Cirugia() {
+    }
 
     public Cirugia(int id, Paciente paciente, Veterinario veterinario,
             LocalDateTime fechaHora, String tipoCirugia, String anestesia,
