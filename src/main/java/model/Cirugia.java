@@ -12,13 +12,17 @@ public class Cirugia {
     private String anestesia;
     private String descripcion;
     private String resultado;
+    private int duracion;
     private double costo;
+    private String estado;
+    private LocalDateTime horaInicio;
+    private LocalDateTime horaFin;
 
     public Cirugia() {}
 
     public Cirugia(int id, Paciente paciente, Veterinario veterinario,
             LocalDateTime fechaHora, String tipoCirugia, String anestesia,
-            String descripcion, String resultado, double costo) {
+            String descripcion, String resultado, int duracion, double costo) {
         this.id = id;
         this.paciente = paciente;
         this.veterinario = veterinario;
@@ -27,6 +31,7 @@ public class Cirugia {
         this.anestesia = anestesia;
         this.descripcion = descripcion;
         this.resultado = resultado;
+        this.duracion = duracion;
         this.costo = costo;
     }
 
@@ -101,11 +106,43 @@ public class Cirugia {
         this.resultado = resultado;
     }
 
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
+
     public double getCosto() {
         return costo;
     }
 
     public void setCosto(double costo) {
         this.costo = costo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public LocalDateTime getHoraInicio() {
+        return horaInicio;
+    }
+
+    public void setHoraInicio(LocalDateTime horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public LocalDateTime getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(LocalDateTime horaFin) {
+        this.horaFin = horaFin;
     }
 }

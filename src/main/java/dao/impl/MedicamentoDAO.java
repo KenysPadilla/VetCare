@@ -18,7 +18,7 @@ public class MedicamentoDAO implements IDAO<Medicamento> {
     @Override
     public void guardar(Medicamento medicamento) throws SQLException {
         String sql = "INSERT INTO MEDICAMENTO (nombre, descripcion, fabricante, precio, "
-                   + "stock_disponible, fecha_vencimiento, concentracion) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                   + "stock_disponible, fecha_vencimiento, concentracion, categoria) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, medicamento.getNombre());
             ps.setString(2, medicamento.getDescripcion());
@@ -31,6 +31,7 @@ public class MedicamentoDAO implements IDAO<Medicamento> {
                 ps.setNull(6, Types.DATE);
             }
             ps.setString(7, medicamento.getConcentracion());
+            ps.setString(8, medicamento.getCategoria());
             ps.executeUpdate();
         }
     }
@@ -38,7 +39,7 @@ public class MedicamentoDAO implements IDAO<Medicamento> {
     @Override
     public void actualizar(Medicamento medicamento) throws SQLException {
         String sql = "UPDATE MEDICAMENTO SET nombre=?, descripcion=?, fabricante=?, precio=?, "
-                   + "stock_disponible=?, fecha_vencimiento=?, concentracion=? WHERE id=?";
+                   + "stock_disponible=?, fecha_vencimiento=?, concentracion=?, categoria=? WHERE id=?";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, medicamento.getNombre());
             ps.setString(2, medicamento.getDescripcion());
@@ -51,7 +52,8 @@ public class MedicamentoDAO implements IDAO<Medicamento> {
                 ps.setNull(6, Types.DATE);
             }
             ps.setString(7, medicamento.getConcentracion());
-            ps.setInt(8, medicamento.getId());
+            ps.setString(8, medicamento.getCategoria());
+            ps.setInt(9, medicamento.getId());
             ps.executeUpdate();
         }
     }
@@ -180,6 +182,8 @@ public class MedicamentoDAO implements IDAO<Medicamento> {
         java.sql.Date fecha = rs.getDate("fecha_vencimiento");
         medicamento.setFechaVencimiento(fecha != null ? fecha.toLocalDate() : null);
         medicamento.setConcentracion(rs.getString("concentracion"));
+        try { medicamento.setCategoria(rs.getString("categoria")); }
+        catch (SQLException ignorada) { medicamento.setCategoria(null); }
         return medicamento;
     }
 }
