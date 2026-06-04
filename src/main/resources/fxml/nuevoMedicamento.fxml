@@ -44,10 +44,16 @@
                         <TextField fx:id="txtConcentracion" prefHeight="40" promptText="Ej: 500 mg" />
                     </VBox>
                 </HBox>
-                <VBox spacing="6" styleClass="field-group">
-                    <Label text="Presentación" styleClass="field-label" />
-                    <ComboBox fx:id="cbPresentacion" prefWidth="400" promptText="Seleccionar" />
-                </VBox>
+                <HBox spacing="14">
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Presentación" styleClass="field-label" />
+                        <ComboBox fx:id="cbPresentacion" maxWidth="Infinity" prefHeight="40" promptText="Seleccionar" />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Categoría" styleClass="field-label" />
+                        <ComboBox fx:id="cbCategoria" maxWidth="Infinity" prefHeight="40" promptText="Seleccionar" />
+                    </VBox>
+                </HBox>
                 <VBox spacing="6" styleClass="field-group">
                     <Label text="Dosis estándar" styleClass="field-label" />
                     <TextField fx:id="txtDosis" prefHeight="40" promptText="Ej: 1 tableta cada 12 horas" />

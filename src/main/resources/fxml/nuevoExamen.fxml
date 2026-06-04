@@ -67,9 +67,15 @@
 
                 <HBox spacing="14">
                     <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Prioridad" styleClass="field-label" />
+                        <ComboBox fx:id="cbPrioridad" maxWidth="Infinity" prefHeight="40" promptText="Seleccionar..." />
+                    </VBox>
+                    <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
                         <Label text="Fecha de solicitud *" styleClass="field-label" />
                         <DatePicker fx:id="dpFechaSolicitud" maxWidth="Infinity" />
                     </VBox>
+                </HBox>
+                <HBox spacing="14">
                     <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
                         <Label text="Costo estimado" styleClass="field-label" />
                         <TextField fx:id="txtCosto" prefHeight="40" maxWidth="Infinity"

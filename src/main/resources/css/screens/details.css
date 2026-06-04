@@ -1,3 +1,4 @@
+/* Vistas de detalle — detalle* */
 
 .detail-dialog {
     -fx-background-color: white;
@@ -54,17 +55,6 @@
     -fx-border-width: 0 0 0 3;
 }
 
-.detail-section-title-spaced {
-    -fx-text-fill: #2b87a0;
-    -fx-font-weight: bold;
-    -fx-font-size: 11px;
-    -fx-padding: 5 12 5 12;
-    -fx-background-color: #eef6f9;
-    -fx-background-radius: 4;
-    -fx-border-color: transparent transparent transparent #2b87a0;
-    -fx-border-width: 0 0 0 3;
-}
-
 .detail-field-label {
     -fx-text-fill: #8a9fad;
     -fx-font-weight: normal;
@@ -90,6 +80,7 @@
     -fx-background-radius: 8;
 }
 
+/* ─── Laboratorio — panel de resultado ─── */
 
 .lab-result-panel {
     -fx-background-color: linear-gradient(to bottom, #eef9fc, #e8f5f9);
@@ -118,6 +109,7 @@
     -fx-font-family: "Segoe UI", "Inter", sans-serif;
 }
 
+/* ─── Laboratorio — panel de observaciones ─── */
 
 .lab-obs-panel {
     -fx-background-color: #fafafa;
@@ -176,6 +168,7 @@
     -fx-opacity: 0;
 }
 
+/* ─── Meta chips — datos compactos ─── */
 
 .detail-meta-chip {
     -fx-background-color: rgba(255,255,255,0.08);
@@ -203,6 +196,7 @@
     -fx-alignment: CENTER_RIGHT;
 }
 
+/* Historial clínico (ventana modal) */
 
 .historial-dialog {
     -fx-background-color: #f0f4f7;

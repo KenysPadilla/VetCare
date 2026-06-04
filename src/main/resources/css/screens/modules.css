@@ -1,3 +1,4 @@
+/* Módulos de listado — Figma Make shared.tsx */
 
 .module-page {
     -fx-background-color: #f0f4f7;
@@ -58,6 +59,7 @@
     -fx-text-fill: #1a2e3b;
 }
 
+/* Colores de valor — sin depender de .label para máxima compatibilidad */
 .mini-stat-value.mini-stat-teal,
 .label.mini-stat-value.mini-stat-teal   { -fx-text-fill: #2b87a0; }
 
@@ -100,11 +102,25 @@
 
 .filter-combo {
     -fx-background-color: white;
-    -fx-background-radius: 8;
-    -fx-border-color: rgba(0, 0, 0, 0.10);
+    -fx-background-insets: 0;
+    -fx-border-color: rgba(0,0,0,0.10);
+    -fx-border-insets: 0;
     -fx-border-radius: 8;
+    -fx-border-width: 1;
     -fx-font-size: 13px;
     -fx-pref-height: 38;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.filter-combo:focused,
+.filter-combo:showing {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-border-color: #2b87a0;
+    -fx-border-width: 1.5;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .module-table-wrap {
@@ -193,10 +209,6 @@
     -fx-border-radius: 7;
 }
 
-.action-chip-editar:hover {
-    -fx-background-color: rgba(139, 92, 246, 0.22);
-}
-
 .action-chip-eliminar {
     -fx-background-color: #e53e3e;
     -fx-text-fill: white;
@@ -213,6 +225,30 @@
 
 .action-chip-historia:hover {
     -fx-background-color: #236f86;
+}
+
+.action-chip-iniciar {
+    -fx-background-color: rgba(39, 174, 96, 0.12);
+    -fx-text-fill: #27ae60;
+    -fx-border-color: #27ae60;
+    -fx-border-width: 1;
+    -fx-border-radius: 7;
+}
+
+.action-chip-iniciar:hover {
+    -fx-opacity: 0.82;
+}
+
+.action-chip-finalizar {
+    -fx-background-color: #fff4e8;
+    -fx-text-fill: #e67e22;
+    -fx-border-color: #e67e22;
+    -fx-border-width: 1;
+    -fx-border-radius: 7;
+}
+
+.action-chip-finalizar:hover {
+    -fx-opacity: 0.82;
 }
 
 .badge-critico {
@@ -257,9 +293,7 @@
     -fx-border-radius: 14;
     -fx-border-width: 1;
     -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.07), 14, 0, 0, 4);
-    -fx-min-width: 330;
-    -fx-pref-width: 370;
-    -fx-max-width: 420;
+    -fx-max-width: infinity;
     -fx-cursor: hand;
 }
 
@@ -397,6 +431,35 @@
     -fx-padding: 4 12 4 12;
 }
 
+/* ── Badges de estado para Vacunaciones ── */
+.badge-confirmado {
+    -fx-background-color: #edf9f2;
+    -fx-text-fill: #27ae60;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
+.badge-en-curso,
+.badge-pendiente-naranja {
+    -fx-background-color: #fff4e8;
+    -fx-text-fill: #e67e22;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
+.badge-programada-purpura {
+    -fx-background-color: #f0eeff;
+    -fx-text-fill: #8b5cf6;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
 .estilista-cards-flow {
     -fx-hgap: 20;
     -fx-vgap: 20;
@@ -410,8 +473,7 @@
     -fx-border-radius: 14;
     -fx-border-width: 1;
     -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.07), 14, 0, 0, 4);
-    -fx-min-width: 420;
-    -fx-pref-width: 480;
+    -fx-max-width: infinity;
     -fx-cursor: hand;
 }
 
@@ -430,13 +492,6 @@
     -fx-font-size: 11px;
     -fx-font-weight: bold;
     -fx-padding: 4 10 4 10;
-}
-
-.consulta-id {
-    -fx-font-family: "Consolas", "Courier New", monospace;
-    -fx-text-fill: #2b87a0;
-    -fx-font-weight: bold;
-    -fx-font-size: 12px;
 }
 
 .followup-date {
@@ -463,73 +518,152 @@
     -fx-font-size: 13px;
 }
 
+/* ── TabPane — Toggle Switch ── */
 
 .module-tab-pane {
     -fx-background-color: transparent;
-    -fx-tab-min-height: 30;
+    -fx-tab-min-height: 0;
+    -fx-tab-max-height: 38;
     -fx-padding: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .module-tab-pane > .tab-header-area {
     -fx-background-color: transparent;
-    -fx-padding: 0 0 0 0;
+    -fx-padding: 0;
 }
 
+/* tab-header-background: sin color — el track va en headers-region */
 .module-tab-pane > .tab-header-area > .tab-header-background {
     -fx-background-color: transparent;
-    -fx-border-color: transparent transparent rgba(0, 0, 0, 0.10) transparent;
-    -fx-border-width: 0 0 1 0;
+    -fx-border-color: transparent;
 }
 
+/* PISTA: gris suave — track neutro sin colores fuertes */
 .module-tab-pane > .tab-header-area > .headers-region {
-    -fx-background-color: transparent;
+    -fx-background-color: #e8ecf0;
+    -fx-background-radius: 999;
+    -fx-padding: 4 4 4 4;
 }
 
+/* ── Tab inactivo ── */
 .module-tab-pane .tab {
-    -fx-background-color: white;
-    -fx-background-radius: 7 7 0 0;
+    -fx-background-color: transparent;
+    -fx-background-radius: 999;
     -fx-background-insets: 0;
-    -fx-border-color: rgba(0, 0, 0, 0.14);
-    -fx-border-radius: 7 7 0 0;
-    -fx-border-width: 1;
-    -fx-padding: 6 16 6 16;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 7 22 7 22;
     -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .module-tab-pane .tab:hover {
-    -fx-background-color: #eef2f5;
+    -fx-background-color: rgba(255, 255, 255, 0.60);
+    -fx-background-radius: 999;
 }
 
+/* Texto inactivo: gris sobre pista clara */
 .module-tab-pane .tab .tab-label {
-    -fx-text-fill: #5a7585;
-    -fx-font-size: 12px;
+    -fx-text-fill: #8a9fad;
+    -fx-font-size: 12.5px;
     -fx-font-weight: normal;
+    -fx-padding: 0;
 }
 
+/* ── Tab activo: píldora blanca con sombra sutil y texto teal ── */
 .module-tab-pane .tab:selected {
-    -fx-background-color: #2b87a0;
-    -fx-background-insets: 0;
-    -fx-border-color: #2b87a0;
+    -fx-background-color: white;
+    -fx-background-insets: 2;
+    -fx-background-radius: 999;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.14), 6, 0, 0, 1);
 }
 
 .module-tab-pane .tab:selected .tab-label {
-    -fx-text-fill: white;
+    -fx-text-fill: #2b87a0;
     -fx-font-weight: bold;
-    -fx-font-size: 12px;
+    -fx-font-size: 12.5px;
 }
 
-/* Sin foco visible al hacer clic */
+/* Eliminar focus ring */
 .module-tab-pane .tab:focused {
-    -fx-background-color: #2b87a0;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
 }
 
 .module-tab-pane .tab:focused:selected {
-    -fx-background-color: #2b87a0;
+    -fx-background-color: white;
+    -fx-background-insets: 2;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.14), 6, 0, 0, 1);
 }
 
+.module-tab-pane .tab:focused:selected .tab-label {
+    -fx-text-fill: #2b87a0;
+    -fx-font-weight: bold;
+}
+
+.module-tab-pane .tab-container {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+}
+
+/* Área de contenido */
 .module-tab-pane > .tab-content-area {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-background-insets: 0;
     -fx-padding: 12 0 0 0;
 }
+
+/* (bloque ingresos-chart eliminado — grafica usa HBox de Regions, sin BarChart) */
+
+/* ── Tarjetas de Vacunas ── */
+.vacunas-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background: transparent;
+}
+.vacunas-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.vacuna-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: #e8ecef;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(26,46,59,0.07), 14, 0, 0, 4);
+}
+.vacuna-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(26,46,59,0.14), 18, 0, 0, 6);
+    -fx-border-color: rgba(43,135,160,0.22);
+}
+
+/* ProgressBar base */
+.vacuna-progress {
+    -fx-pref-height: 8;
+    -fx-min-height: 8;
+    -fx-max-height: 8;
+}
+.vacuna-progress .track {
+    -fx-background-color: #eef2f5;
+    -fx-background-radius: 999;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.vacuna-progress .bar {
+    -fx-background-radius: 999;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.vacuna-progress-green .bar  { -fx-background-color: #27ae60; }
+.vacuna-progress-orange .bar { -fx-background-color: #e67e22; }
+.vacuna-progress-red .bar    { -fx-background-color: #e53e3e; }

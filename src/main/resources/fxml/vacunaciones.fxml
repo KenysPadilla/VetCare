@@ -54,7 +54,9 @@
                     <TableColumn fx:id="colFechaAplicacion" prefWidth="110" text="APLICACIÓN" />
                     <TableColumn fx:id="colFechaProxima" prefWidth="120" text="PRÓXIMA DOSIS" />
                     <TableColumn fx:id="colCosto" prefWidth="100" text="COSTO" />
-                    <TableColumn fx:id="colAcciones" prefWidth="100" text="DETALLES" />
+                    <TableColumn fx:id="colEstado" prefWidth="115" text="ESTADO" />
+                    <TableColumn fx:id="colAplicar" prefWidth="120" text="" />
+                    <TableColumn fx:id="colAcciones" prefWidth="100" text="DETALLE" />
                 </columns>
             </TableView>
         </StackPane>

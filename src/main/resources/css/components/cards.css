@@ -1,3 +1,4 @@
+/* Cards — dashboard y contenido */
 
 .card {
     -fx-background-color: white;
@@ -174,8 +175,8 @@
 }
 
 .badge-en-curso {
-    -fx-background-color: #e8f4f8;
-    -fx-text-fill: #2b87a0;
+    -fx-background-color: #fff4e8;
+    -fx-text-fill: #e67e22;
     -fx-font-size: 11px;
     -fx-font-weight: bold;
     -fx-background-radius: 12;

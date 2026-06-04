@@ -1,3 +1,4 @@
+/* VetCare Design System — tokens desde Figma Make (theme.css) */
 
 .root {
     -fx-font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
@@ -5,6 +6,18 @@
     -fx-background-color: #f0f4f7;
 }
 
+/* ─── Hover global para TODOS los botones ───
+   -fx-opacity y -fx-effect funcionan incluso en botones con style inline,
+   porque esas propiedades no están definidas en los estilos inline.       */
+.button:hover {
+    -fx-opacity: 0.78;
+}
+
+.button:pressed {
+    -fx-opacity: 0.60;
+}
+
+/* ─── DatePicker: popup del calendario ─── */
 .date-picker-popup {
     -fx-background-color: white;
     -fx-border-color: rgba(0, 0, 0, 0.10);
@@ -69,6 +82,46 @@
     -fx-text-fill: #1a2e3b;
 }
 
+/* ─── ComboBox y DatePicker: borde único sin doble línea de Modena ───
+   Modena aplica background-insets: 0 0 -1 0 que extiende el fondo 1 px
+   hacia afuera y genera la línea extra. Con background-insets: 0 y un
+   solo color sólido, el comportamiento es idéntico al TextField. */
+.combo-box,
+.date-picker {
+    -fx-background-color: #f3f3f5;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-border-insets: 0;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.combo-box:focused,
+.combo-box:showing,
+.date-picker:focused,
+.date-picker:showing {
+    -fx-background-color: #eef2f5;
+    -fx-background-insets: 0;
+    -fx-border-color: #2b87a0;
+    -fx-border-width: 1.5;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* El text-field interno del DatePicker y del ComboBox editable
+   debe ser transparente para no duplicar el borde del contenedor */
+.date-picker > .text-field,
+.combo-box:editable > .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 6 0 6 8;
+}
+
+/* ─── ComboBox: elemento seleccionado en el botón ─── */
 .combo-box > .list-cell {
     -fx-background-color: transparent;
     -fx-text-fill: #1a2e3b;
@@ -76,6 +129,7 @@
     -fx-padding: 0 6 0 6;
 }
 
+/* ─── ComboBox: dropdown popup ─── */
 .combo-box-popup > .list-view {
     -fx-background-color: white;
     -fx-border-color: rgba(0, 0, 0, 0.10);
@@ -113,6 +167,7 @@
     -fx-text-fill: white;
 }
 
+/* ─── ComboBox: flecha desplegable ─── */
 .combo-box > .arrow-button {
     -fx-background-color: transparent;
     -fx-padding: 0 8 0 0;
@@ -258,7 +313,9 @@
     -fx-background-insets: 0;
 }
 
- 
+/* Anula el blanco de Modena en celdas sin inline -fx-text-fill.
+   Las celdas que sí tienen color inline (gray, green, teal) conservan ese color
+   porque inline > author stylesheet. El ID col usa listener en Java. */
 .table-row-cell:selected > .table-cell {
     -fx-background-color: transparent;
     -fx-text-fill: #1a2e3b;

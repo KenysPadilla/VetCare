@@ -51,7 +51,11 @@
                     </VBox>
                     <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
                         <Label text="Raza" styleClass="field-label" />
-                        <TextField fx:id="txtRaza" prefHeight="40" prefWidth="190" promptText="Raza" />
+                        <ComboBox fx:id="cbRaza" prefWidth="190" prefHeight="40"
+                                  promptText="Buscar raza..." editable="true" />
+                        <TextField fx:id="txtRazaOtra" prefHeight="40" prefWidth="190"
+                                   promptText="Especifica la raza..."
+                                   visible="false" managed="false" />
                     </VBox>
                 </HBox>
                 <HBox spacing="14">

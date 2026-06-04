@@ -42,6 +42,11 @@
             </VBox>
         </HBox>
 
+        <HBox fx:id="bannerStockBajo" alignment="CENTER_LEFT" managed="false" spacing="10" visible="false" style="-fx-background-color: #fffbeb; -fx-border-color: #f59e0b; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 16 10 16;">
+            <FontIcon iconLiteral="fas-exclamation-triangle" iconSize="14" style="-fx-icon-color: #d97706;" />
+            <Label fx:id="lblBannerStockBajo" style="-fx-font-size: 13px; -fx-text-fill: #92400e; -fx-font-weight: bold;" text="" />
+        </HBox>
+
         <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-toolbar-row">
             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
                 <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
@@ -51,7 +56,7 @@
             <ComboBox fx:id="cbEstado" prefHeight="36" prefWidth="150" styleClass="filter-combo" />
             <Region HBox.hgrow="ALWAYS" />
             <Button fx:id="btnEditar" disable="true" onAction="#handleEditar" prefHeight="36" minHeight="36" maxHeight="36" style="-fx-background-color: #ece8fd; -fx-text-fill: #7c3aed; -fx-border-color: #7c3aed; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" text="Modificar" />
-            <Button fx:id="btnStock" disable="true" onAction="#handleStock" prefHeight="36" minHeight="36" maxHeight="36" style="-fx-background-color: #e8f5e9; -fx-text-fill: #27ae60; -fx-border-color: #27ae60; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" text="+ Stock" />
+            <Button fx:id="btnStock" disable="true" onAction="#handleStock" prefHeight="36" minHeight="36" maxHeight="36" style="-fx-background-color: #e8f5e9; -fx-text-fill: #27ae60; -fx-border-color: #27ae60; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" text="+ Reabastecer" />
         </HBox>
 
         <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS">
@@ -59,13 +64,13 @@
                 <columns>
                     <TableColumn fx:id="colId" prefWidth="80" minWidth="70" text="ID" />
                     <TableColumn fx:id="colNombre" prefWidth="140" text="NOMBRE" />
-                    <TableColumn fx:id="colPrincipio" prefWidth="120" text="PRINCIPIO ACTIVO" />
+                    <TableColumn fx:id="colCategoria" prefWidth="130" text="CATEGORÍA" />
                     <TableColumn fx:id="colConcentracion" prefWidth="100" text="CONCENTRACIÓN" />
-                    <TableColumn fx:id="colStock" prefWidth="70" text="STOCK" />
                     <TableColumn fx:id="colPrecio" prefWidth="90" text="PRECIO" />
                     <TableColumn fx:id="colVencimiento" prefWidth="100" text="VENCIMIENTO" />
+                    <TableColumn fx:id="colStock" prefWidth="145" minWidth="130" text="STOCK" />
                     <TableColumn fx:id="colEstado" prefWidth="115" text="ESTADO" />
-                    <TableColumn fx:id="colAcciones" prefWidth="80" minWidth="60" text="DETALLES" />
+                    <TableColumn fx:id="colAcciones" prefWidth="80" minWidth="60" text="DETALLE" />
                 </columns>
             </TableView>
         </StackPane>

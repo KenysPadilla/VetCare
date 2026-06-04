@@ -56,7 +56,7 @@
                         <ComboBox fx:id="cbAnestesia" prefWidth="205" promptText="Seleccionar" />
                     </VBox>
                 </HBox>
-                <VBox spacing="6" styleClass="field-group">
+<VBox spacing="6" styleClass="field-group">
                     <Label text="Costo estimado" styleClass="field-label" />
                     <TextField fx:id="txtCosto" prefHeight="40" promptText="Ej: 250000" />
                 </VBox>

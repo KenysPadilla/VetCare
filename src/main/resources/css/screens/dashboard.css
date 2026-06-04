@@ -1,10 +1,11 @@
+/* Dashboard — panel principal */
 
 .app-content {
     -fx-background-color: #f0f4f7;
 }
 
 .content-header {
-    -fx-padding: 10 32 8 32;
+    -fx-padding: 10 24 8 24;
     -fx-spacing: 4;
     -fx-border-color: transparent transparent rgba(0, 0, 0, 0.06) transparent;
     -fx-border-width: 0 0 1 0;
@@ -113,6 +114,7 @@
     -fx-text-fill: #6b7f8e;
 }
 
+/* module-page definido en modules.css */
 
 .module-title {
     -fx-font-size: 20px;
@@ -133,6 +135,7 @@
     -fx-text-fill: #b0bcca;
 }
 
+/* Pantallas de listado */
 .filter-bar {
     -fx-spacing: 12;
     -fx-alignment: CENTER_LEFT;

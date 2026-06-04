@@ -1,48 +1,58 @@
+/* Botones — especificidad .button.btn-* supera a Modena (.button) */
 
-.btn-primary {
+.button.btn-primary {
     -fx-background-color: #2b87a0;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
     -fx-text-fill: white;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
     -fx-cursor: hand;
     -fx-padding: 9 18 9 18;
-    -fx-border-color: transparent;
 }
 
-.btn-primary:hover {
-    -fx-background-color: #236f86;
+.button.btn-primary:hover {
+    -fx-background-color: #1d6b82;
+
 }
 
-.btn-primary:pressed {
+.button.btn-primary:pressed {
     -fx-background-color: #1e6677;
+    -fx-effect: null;
 }
 
-
-.btn-cerrar {
+/* Botón Cerrar para ventanas secundarias — sin padding, prefHeight controla el alto */
+.button.btn-cerrar {
     -fx-background-color: #2b87a0;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
     -fx-text-fill: white;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-background-radius: 8;
-    -fx-cursor: hand;
     -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
 }
 
-.btn-cerrar:hover {
-    -fx-background-color: #236f86;
+.button.btn-cerrar:hover {
+    -fx-background-color: #1d6b82;
+
 }
 
-.btn-cerrar:pressed {
+.button.btn-cerrar:pressed {
     -fx-background-color: #1e6677;
+    -fx-effect: null;
 }
 
-.btn-secondary {
+.button.btn-secondary {
     -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
     -fx-text-fill: #2b87a0;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-background-radius: 8;
     -fx-border-color: #2b87a0;
     -fx-border-radius: 8;
     -fx-border-width: 1;
@@ -50,41 +60,47 @@
     -fx-padding: 9 18 9 18;
 }
 
-.btn-secondary:hover {
-    -fx-background-color: #e8f4f8;
+.button.btn-secondary:hover {
+    -fx-background-color: #c8e6f0;
+
 }
 
-.btn-secondary:pressed {
-    -fx-background-color: #cce5ef;
+.button.btn-secondary:pressed {
+    -fx-background-color: #b0d8e8;
+    -fx-effect: null;
 }
 
-.btn-outline {
+.button.btn-outline {
     -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
     -fx-text-fill: #2b87a0;
     -fx-font-size: 13px;
-    -fx-background-radius: 8;
+    -fx-font-weight: bold;
     -fx-border-color: rgba(0, 0, 0, 0.28);
     -fx-border-radius: 8;
     -fx-border-width: 1;
     -fx-cursor: hand;
     -fx-padding: 9 18 9 18;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.1, 0, 1);
 }
 
-.btn-outline:hover {
-    -fx-background-color: #f0f8fb;
+.button.btn-outline:hover {
+    -fx-background-color: #d0eaf4;
     -fx-border-color: #2b87a0;
+
 }
 
-.btn-outline:pressed {
-    -fx-background-color: #e0f0f6;
+.button.btn-outline:pressed {
+    -fx-background-color: #b8dcea;
+    -fx-effect: null;
 }
 
-.btn-danger {
+.button.btn-danger {
     -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
     -fx-text-fill: #e53e3e;
     -fx-font-size: 13px;
-    -fx-background-radius: 8;
     -fx-border-color: #e53e3e;
     -fx-border-radius: 8;
     -fx-border-width: 1;
@@ -92,37 +108,54 @@
     -fx-padding: 9 18 9 18;
 }
 
-.btn-danger:hover {
-    -fx-background-color: #fff5f5;
+.button.btn-danger:hover {
+    -fx-background-color: #fcc8c8;
+
 }
 
-.btn-danger-filled {
+.button.btn-danger:pressed {
+    -fx-background-color: #f8a8a8;
+    -fx-effect: null;
+}
+
+.button.btn-danger-filled {
     -fx-background-color: #e53e3e;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
     -fx-text-fill: white;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
     -fx-cursor: hand;
     -fx-padding: 9 18 9 18;
-    -fx-border-color: transparent;
 }
 
-.btn-danger-filled:hover {
-    -fx-background-color: #c53030;
+.button.btn-danger-filled:hover {
+    -fx-background-color: #b02020;
+
 }
 
-.btn-ghost {
+.button.btn-danger-filled:pressed {
+    -fx-background-color: #8b1818;
+    -fx-effect: null;
+}
+
+.button.btn-ghost {
     -fx-background-color: transparent;
+    -fx-background-insets: 0;
     -fx-text-fill: #6b7f8e;
     -fx-font-size: 13px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
     -fx-cursor: hand;
     -fx-padding: 8 12 8 12;
-    -fx-border-color: transparent;
 }
 
-.btn-ghost:hover {
-    -fx-background-color: #eef2f5;
+.button.btn-ghost:hover {
+    -fx-background-color: #dde4e9;
     -fx-background-radius: 8;
+
 }
 
 .btn-icon-fx {
@@ -133,44 +166,196 @@
     -fx-icon-color: white;
 }
 
-.btn-icon {
+.button.btn-icon {
     -fx-background-color: transparent;
+    -fx-background-insets: 0;
     -fx-text-fill: #6b7f8e;
     -fx-font-size: 14px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
     -fx-cursor: hand;
     -fx-padding: 6;
-    -fx-border-color: transparent;
     -fx-min-width: 32;
     -fx-min-height: 32;
 }
 
-.btn-icon:hover {
-    -fx-background-color: #f3f3f5;
+.button.btn-icon:hover {
+    -fx-background-color: #d8dfe5;
     -fx-background-radius: 6;
+
 }
 
-
-.btn-cancelar {
+/* Botón cancelar en formularios — prefHeight="36" controla el alto */
+.button.btn-cancelar {
     -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
     -fx-text-fill: #6b7f8e;
     -fx-font-size: 13px;
-    -fx-background-radius: 8;
     -fx-border-color: rgba(0, 0, 0, 0.15);
     -fx-border-radius: 8;
     -fx-border-width: 1;
     -fx-cursor: hand;
 }
 
-.btn-cancelar:hover {
-    -fx-background-color: #f0f8fb;
+.button.btn-cancelar:hover {
+    -fx-background-color: #d0eaf4;
     -fx-border-color: #2b87a0;
+
 }
 
-.btn-cancelar:pressed {
-    -fx-background-color: #e0f0f6;
+.button.btn-cancelar:pressed {
+    -fx-background-color: #b8dcea;
+    -fx-effect: null;
 }
 
-
+/* Modificador compacto — padding vertical reducido para ~28 px de alto */
 .btn-small {
     -fx-padding: 3 18 3 18;
+}
+
+/* ── Botones de barra de acción (citas y otros módulos) ── */
+
+.button.btn-action-teal {
+    -fx-background-color: #e8f4f8;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: #2b87a0;
+    -fx-border-color: #2b87a0;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.button.btn-action-teal:hover {
+    -fx-background-color: #b8dcea;
+
+}
+
+.button.btn-action-teal:pressed {
+    -fx-background-color: #9acee0;
+    -fx-effect: null;
+}
+
+.button.btn-filter {
+    -fx-background-color: #f0f4f7;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: #5a7585;
+    -fx-border-color: rgba(0, 0, 0, 0.15);
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.button.btn-filter:hover {
+    -fx-background-color: #c8d4dc;
+
+}
+
+.button.btn-filter:pressed {
+    -fx-background-color: #aabbc6;
+    -fx-effect: null;
+}
+
+.button.btn-action-purple {
+    -fx-background-color: #ece8fd;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: #7c3aed;
+    -fx-border-color: #7c3aed;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.button.btn-action-purple:hover {
+    -fx-background-color: #c8b8f8;
+
+}
+
+.button.btn-action-purple:pressed {
+    -fx-background-color: #a898e8;
+    -fx-effect: null;
+}
+
+.button.btn-action-orange {
+    -fx-background-color: #fef1e0;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: #e67e22;
+    -fx-border-color: #e67e22;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.button.btn-action-orange:hover {
+    -fx-background-color: #f8c888;
+
+}
+
+.button.btn-action-orange:pressed {
+    -fx-background-color: #f5b060;
+    -fx-effect: null;
+}
+
+.button.btn-action-green {
+    -fx-background-color: #edf9f2;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: #27ae60;
+    -fx-border-color: #27ae60;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.button.btn-action-green:hover {
+    -fx-background-color: #a8ddb8;
+
+}
+
+.button.btn-action-green:pressed {
+    -fx-background-color: #88cc98;
+    -fx-effect: null;
+}
+
+.button.btn-action-red {
+    -fx-background-color: #fde8e8;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: #e53e3e;
+    -fx-border-color: #e53e3e;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.button.btn-action-red:hover {
+    -fx-background-color: #f4a0a0;
+
+}
+
+.button.btn-action-red:pressed {
+    -fx-background-color: #e87878;
+    -fx-effect: null;
 }

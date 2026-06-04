@@ -3,13 +3,12 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
@@ -42,6 +41,17 @@
             </VBox>
         </HBox>
 
+        <!-- Banner stock crítico — oculto hasta que haya vacunas con stock bajo -->
+        <HBox fx:id="bannerStockCritico" alignment="CENTER_LEFT" spacing="10"
+              visible="false" managed="false"
+              style="-fx-background-color: #fff0f0; -fx-background-radius: 10;
+                     -fx-border-color: #e53e3e; -fx-border-radius: 10; -fx-border-width: 1.5;
+                     -fx-padding: 10 16 10 16;">
+            <FontIcon iconLiteral="fas-exclamation-triangle" iconSize="15" style="-fx-icon-color: #e53e3e;" />
+            <Label fx:id="lblBannerNum" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #7f1d1d;" text="" />
+            <Label text="con stock crítico. Contacte al proveedor inmediatamente." style="-fx-font-size: 13px; -fx-text-fill: #7f1d1d;" />
+        </HBox>
+
         <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-toolbar-row">
             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
                 <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
@@ -50,25 +60,11 @@
             <Button onAction="#handleBuscar" prefHeight="36" minHeight="36" maxHeight="36" style="-fx-background-color: white; -fx-text-fill: #2b87a0; -fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-outline" text="Buscar" />
             <ComboBox fx:id="cbEstado" prefHeight="36" prefWidth="150" styleClass="filter-combo" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnEditar" disable="true" onAction="#handleEditar" prefHeight="36" minHeight="36" maxHeight="36" style="-fx-background-color: #ece8fd; -fx-text-fill: #7c3aed; -fx-border-color: #7c3aed; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" text="Modificar" />
-            <Button fx:id="btnStock" disable="true" onAction="#handleStock" prefHeight="36" minHeight="36" maxHeight="36" style="-fx-background-color: #e8f5e9; -fx-text-fill: #27ae60; -fx-border-color: #27ae60; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" text="+ Stock" />
         </HBox>
 
-        <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS">
-            <TableView fx:id="tablaVacunas">
-                <columns>
-                    <TableColumn fx:id="colId" prefWidth="95" minWidth="85" text="ID" />
-                    <TableColumn fx:id="colNombre" prefWidth="140" text="NOMBRE" />
-                    <TableColumn fx:id="colLaboratorio" prefWidth="120" text="LABORATORIO" />
-                    <TableColumn fx:id="colLote" prefWidth="90" text="LOTE" />
-                    <TableColumn fx:id="colStock" prefWidth="70" text="STOCK" />
-                    <TableColumn fx:id="colPrecio" prefWidth="80" text="PRECIO" />
-                    <TableColumn fx:id="colVencimiento" prefWidth="100" text="VENCIMIENTO" />
-                    <TableColumn fx:id="colEstado" prefWidth="115" text="ESTADO" />
-                    <TableColumn fx:id="colAcciones" prefWidth="80" minWidth="60" text="DETALLES" />
-                </columns>
-            </TableView>
-        </StackPane>
+        <ScrollPane fx:id="scrollTarjetas" fitToWidth="true" styleClass="vacunas-scroll" VBox.vgrow="ALWAYS">
+            <GridPane fx:id="gridTarjetas" style="-fx-padding: 4 0 16 0;" />
+        </ScrollPane>
 
     </VBox>
 

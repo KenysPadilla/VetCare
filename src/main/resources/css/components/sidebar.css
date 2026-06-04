@@ -1,3 +1,4 @@
+/* Sidebar — Figma Make Sidebar.tsx */
 
 .sidebar {
     -fx-background-color: white;
@@ -90,10 +91,23 @@
 
 .sidebar-footer {
     -fx-padding: 10 12 14 12;
+    -fx-spacing: 8;
     -fx-border-color: rgba(0, 0, 0, 0.07) transparent transparent transparent;
     -fx-border-width: 1 0 0 0;
 }
 
+.sidebar-notif {
+    -fx-background-color: #fff8e1;
+    -fx-background-radius: 8;
+    -fx-border-color: #f59e0b;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-padding: 8 10 8 10;
+    -fx-spacing: 4;
+    -fx-cursor: hand;
+}
+
+/* Logout button: rojo sólido, igual que Figma */
 .sidebar-footer .btn-danger-filled {
     -fx-background-color: #e53e3e;
     -fx-text-fill: white;
@@ -107,6 +121,7 @@
     -fx-opacity: 0.9;
 }
 
+/* Icon colors inside nav items */
 .nav-item .nav-icon {
     -fx-icon-color: #5a7585;
 }
@@ -121,4 +136,119 @@
 
 .nav-item-active:hover .nav-icon {
     -fx-icon-color: white;
+}
+
+/* =========================================================
+   Accordion groups
+   ========================================================= */
+
+.nav-group {
+    -fx-spacing: 0;
+}
+
+/* Cabecera del grupo */
+.nav-group-header {
+    -fx-background-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 14 0 12;
+    -fx-min-height: 36;
+    -fx-pref-height: 36;
+    -fx-max-height: 36;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-content-display: GRAPHIC_ONLY;
+    -fx-graphic-text-gap: 0;
+}
+
+.nav-group-header:hover {
+    -fx-background-color: #eef6f9;
+}
+
+/* Etiqueta de texto del grupo */
+.nav-group-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4a6374;
+}
+
+.nav-group-header:hover .nav-group-label {
+    -fx-text-fill: #2b87a0;
+}
+
+/* Ícono principal del grupo (izquierda) */
+.nav-group-header .nav-icon {
+    -fx-icon-color: #6a8494;
+}
+
+.nav-group-header:hover .nav-icon {
+    -fx-icon-color: #2b87a0;
+}
+
+/* Flecha de expansión (derecha) */
+.nav-group-arrow {
+    -fx-icon-color: #9aabb5;
+}
+
+.nav-group-header:hover .nav-group-arrow {
+    -fx-icon-color: #2b87a0;
+}
+
+/* Contenedor de ítems hijos: sangría izquierda */
+.nav-group-items {
+    -fx-spacing: 1;
+    -fx-padding: 2 0 2 8;
+}
+
+/* Ítems hijos: misma altura fija que los headers */
+.nav-group-items .nav-item {
+    -fx-font-size: 12.5px;
+    -fx-padding: 0 14 0 16;
+    -fx-min-height: 36;
+    -fx-pref-height: 36;
+    -fx-max-height: 36;
+}
+
+.nav-group-items .nav-item-active {
+    -fx-font-size: 12.5px;
+    -fx-padding: 0 14 0 16;
+    -fx-min-height: 36;
+    -fx-pref-height: 36;
+    -fx-max-height: 36;
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-text-fill: #2b87a0;
+    -fx-font-weight: bold;
+    -fx-effect: none;
+}
+
+.nav-group-items .nav-item-active:hover {
+    -fx-background-color: #eef6f9;
+}
+
+/* Header activo (grupo expandido) */
+.nav-group-header-active {
+    -fx-background-color: #d6edf5;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent transparent transparent #2b87a0;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-radius: 0 8 8 0;
+}
+
+.nav-group-header-active .nav-group-label {
+    -fx-text-fill: #1a6f8a;
+    -fx-font-weight: bold;
+}
+
+.nav-group-header-active .nav-icon {
+    -fx-icon-color: #2b87a0;
+}
+
+.nav-group-header-active .nav-group-arrow {
+    -fx-icon-color: #2b87a0;
+}
+
+.nav-group-header-active:hover {
+    -fx-background-color: #c8e5f0;
 }

@@ -1,3 +1,4 @@
+/* Pantalla de login — Figma Make Login.tsx */
 
 .login-root {
     -fx-background-color: #f5f5f0;
@@ -76,6 +77,7 @@
     -fx-alignment: CENTER;
 }
 
+/* ── Indicador de pasos ── */
 .step-circle-done {
     -fx-background-color: #2b87a0;
     -fx-background-radius: 16;
@@ -107,6 +109,7 @@
     -fx-background-color: #d4dae0;
 }
 
+/* ── Cajas individuales de código ── */
 .digit-box {
     -fx-background-color: #f0f2f4;
     -fx-background-radius: 10;
@@ -128,6 +131,7 @@
     -fx-border-width: 2;
 }
 
+/* ── Paso completado (✓ verde) ── */
 .step-circle-check {
     -fx-background-color: #27ae60;
     -fx-background-radius: 16;
@@ -139,6 +143,7 @@
     -fx-alignment: CENTER;
 }
 
+/* ── Paso activo/actual (número, teal) ── */
 .step-circle-active {
     -fx-background-color: #2b87a0;
     -fx-background-radius: 16;
@@ -150,12 +155,14 @@
     -fx-alignment: CENTER;
 }
 
+/* ── Línea "completada" (teal) ── */
 .step-line-done {
     -fx-pref-height: 1.5;
     -fx-max-height: 1.5;
     -fx-background-color: #2b87a0;
 }
 
+/* ── Botón volver tipo enlace, alineado a la izquierda ── */
 .btn-back-link {
     -fx-background-color: transparent;
     -fx-text-fill: #6b7f8e;

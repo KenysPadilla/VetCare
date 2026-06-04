@@ -23,7 +23,7 @@
     <!-- Sidebar -->
     <left>
         <VBox styleClass="sidebar">
-            <VBox alignment="CENTER" styleClass="sidebar-brand">
+            <VBox alignment="CENTER" onMouseClicked="#handleInicio" styleClass="sidebar-brand" style="-fx-cursor: hand;">
                 <StackPane styleClass="sidebar-logo-box">
                     <ImageView fitHeight="60" fitWidth="60" pickOnBounds="true" preserveRatio="true" smooth="true" styleClass="logo-blue-sidebar">
                         <image>
@@ -37,75 +37,180 @@
 
             <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
                 <VBox styleClass="sidebar-nav">
-                    <Button fx:id="btnInicio" maxWidth="Infinity" onAction="#handleInicio" styleClass="nav-item-active" text="Inicio">
-                        <graphic><FontIcon iconLiteral="fas-home" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnPropietarios" maxWidth="Infinity" onAction="#handlePropietarios" styleClass="nav-item" text="Propietarios">
-                        <graphic><FontIcon iconLiteral="fas-users" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnPacientes" maxWidth="Infinity" onAction="#handlePacientes" styleClass="nav-item" text="Pacientes">
-                        <graphic><FontIcon iconLiteral="fas-paw" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnVeterinarios" maxWidth="Infinity" onAction="#handleVeterinarios" styleClass="nav-item" text="Veterinarios">
-                        <graphic><FontIcon iconLiteral="fas-user-md" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnEstilistas" maxWidth="Infinity" onAction="#handleEstilistas" styleClass="nav-item" text="Estilistas">
-                        <graphic><FontIcon iconLiteral="fas-cut" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
 
-                    <Separator>
-                        <padding>
-                            <Insets bottom="6" top="6" />
-                        </padding>
-                    </Separator>
 
-                    <Button fx:id="btnCitas" maxWidth="Infinity" onAction="#handleCitas" styleClass="nav-item" text="Citas Médicas">
-                        <graphic><FontIcon iconLiteral="fas-calendar-alt" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnConsultas" maxWidth="Infinity" onAction="#handleConsultas" styleClass="nav-item" text="Consultas">
-                        <graphic><FontIcon iconLiteral="fas-stethoscope" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnVacunaciones" maxWidth="Infinity" onAction="#handleVacunaciones" styleClass="nav-item" text="Vacunaciones">
-                        <graphic><FontIcon iconLiteral="fas-syringe" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnCirugias" maxWidth="Infinity" onAction="#handleCirugias" styleClass="nav-item" text="Cirugías">
-                        <graphic><FontIcon iconLiteral="fas-procedures" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnInternaciones" maxWidth="Infinity" onAction="#handleInternaciones" styleClass="nav-item" text="Internaciones">
-                        <graphic><FontIcon iconLiteral="fas-bed" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnLaboratorio" maxWidth="Infinity" onAction="#handleLaboratorio" styleClass="nav-item" text="Laboratorio">
-                        <graphic><FontIcon iconLiteral="fas-flask" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnMedicamentos" maxWidth="Infinity" onAction="#handleMedicamentos" styleClass="nav-item" text="Medicamentos">
-                        <graphic><FontIcon iconLiteral="fas-pills" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnVacunas" maxWidth="Infinity" onAction="#handleVacunas" styleClass="nav-item" text="Vacunas">
-                        <graphic><FontIcon iconLiteral="fas-shield-alt" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
+                    <!-- 1 · Registro -->
+                    <VBox styleClass="nav-group">
+                        <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoRegistro" onAction="#toggleGrupoRegistro">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" prefWidth="200" spacing="8">
+                                    <HBox alignment="CENTER" minWidth="16" maxWidth="16">
+                                        <FontIcon iconLiteral="fas-clipboard-list" iconSize="13" styleClass="nav-icon" />
+                                    </HBox>
+                                    <Label text="Registro" styleClass="nav-group-label" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                    <FontIcon fx:id="arrowRegistro" iconLiteral="fas-chevron-right" iconSize="10" styleClass="nav-group-arrow" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <VBox fx:id="grupoRegistroItems" managed="false" styleClass="nav-group-items" visible="false">
+                            <Button fx:id="btnPropietarios" maxWidth="Infinity" onAction="#handlePropietarios" styleClass="nav-item" text="Propietarios">
+                                <graphic><FontIcon iconLiteral="fas-users" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                            <Button fx:id="btnPacientes" maxWidth="Infinity" onAction="#handlePacientes" styleClass="nav-item" text="Pacientes">
+                                <graphic><FontIcon iconLiteral="fas-paw" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                        </VBox>
+                    </VBox>
 
-                    <Separator>
-                        <padding>
-                            <Insets bottom="6" top="6" />
-                        </padding>
-                    </Separator>
+                    <!-- 2 · Personal -->
+                    <VBox styleClass="nav-group">
+                        <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoPersonal" onAction="#toggleGrupoPersonal">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" prefWidth="200" spacing="8">
+                                    <HBox alignment="CENTER" minWidth="16" maxWidth="16">
+                                        <FontIcon iconLiteral="fas-id-badge" iconSize="13" styleClass="nav-icon" />
+                                    </HBox>
+                                    <Label text="Personal" styleClass="nav-group-label" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                    <FontIcon fx:id="arrowPersonal" iconLiteral="fas-chevron-right" iconSize="10" styleClass="nav-group-arrow" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <VBox fx:id="grupoPersonalItems" managed="false" styleClass="nav-group-items" visible="false">
+                            <Button fx:id="btnVeterinarios" maxWidth="Infinity" onAction="#handleVeterinarios" styleClass="nav-item" text="Veterinarios">
+                                <graphic><FontIcon iconLiteral="fas-user-md" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                            <Button fx:id="btnEstilistas" maxWidth="Infinity" onAction="#handleEstilistas" styleClass="nav-item" text="Estilistas">
+                                <graphic><FontIcon iconLiteral="fas-cut" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                        </VBox>
+                    </VBox>
 
-                    <Button fx:id="btnServicios" maxWidth="Infinity" onAction="#handleServicios" styleClass="nav-item" text="Baño y Motilada">
-                        <graphic><FontIcon iconLiteral="fas-shower" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnFacturacion" maxWidth="Infinity" onAction="#handleFacturacion" styleClass="nav-item" text="Facturación">
-                        <graphic><FontIcon iconLiteral="fas-file-invoice" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnUsuarios" maxWidth="Infinity" onAction="#handleUsuarios" styleClass="nav-item" text="Usuarios">
-                        <graphic><FontIcon iconLiteral="fas-user-cog" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
-                    <Button fx:id="btnSolicitudes" maxWidth="Infinity" onAction="#handleSolicitudes" styleClass="nav-item" text="Solicitudes Chatbot">
-                        <graphic><FontIcon iconLiteral="fas-comments" iconSize="15" styleClass="nav-icon" /></graphic>
-                    </Button>
+                    <!-- 3 · Consulta -->
+                    <VBox styleClass="nav-group">
+                        <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoConsulta" onAction="#toggleGrupoConsulta">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" prefWidth="200" spacing="8">
+                                    <HBox alignment="CENTER" minWidth="16" maxWidth="16">
+                                        <FontIcon iconLiteral="fas-notes-medical" iconSize="13" styleClass="nav-icon" />
+                                    </HBox>
+                                    <Label text="Consulta" styleClass="nav-group-label" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                    <FontIcon fx:id="arrowConsulta" iconLiteral="fas-chevron-right" iconSize="10" styleClass="nav-group-arrow" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <VBox fx:id="grupoConsultaItems" managed="false" styleClass="nav-group-items" visible="false">
+                            <Button fx:id="btnCitas" maxWidth="Infinity" onAction="#handleCitas" styleClass="nav-item" text="Citas Médicas">
+                                <graphic><FontIcon iconLiteral="fas-calendar-alt" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                            <Button fx:id="btnConsultas" maxWidth="Infinity" onAction="#handleConsultas" styleClass="nav-item" text="Consultas">
+                                <graphic><FontIcon iconLiteral="fas-stethoscope" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                        </VBox>
+                    </VBox>
+
+                    <!-- 4 · Procedimientos -->
+                    <VBox styleClass="nav-group">
+                        <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoProcedimientos" onAction="#toggleGrupoProcedimientos">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" prefWidth="200" spacing="8">
+                                    <HBox alignment="CENTER" minWidth="16" maxWidth="16">
+                                        <FontIcon iconLiteral="fas-briefcase-medical" iconSize="13" styleClass="nav-icon" />
+                                    </HBox>
+                                    <Label text="Procedimientos" styleClass="nav-group-label" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                    <FontIcon fx:id="arrowProcedimientos" iconLiteral="fas-chevron-right" iconSize="10" styleClass="nav-group-arrow" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <VBox fx:id="grupoProcedimientosItems" managed="false" styleClass="nav-group-items" visible="false">
+                            <Button fx:id="btnCirugias" maxWidth="Infinity" onAction="#handleCirugias" styleClass="nav-item" text="Cirugías">
+                                <graphic><FontIcon iconLiteral="fas-procedures" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                            <Button fx:id="btnInternaciones" maxWidth="Infinity" onAction="#handleInternaciones" styleClass="nav-item" text="Internaciones">
+                                <graphic><FontIcon iconLiteral="fas-bed" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                            <Button fx:id="btnLaboratorio" maxWidth="Infinity" onAction="#handleLaboratorio" styleClass="nav-item" text="Laboratorio">
+                                <graphic><FontIcon iconLiteral="fas-flask" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                        </VBox>
+                    </VBox>
+
+                    <!-- 5 · Salud Preventiva -->
+                    <VBox styleClass="nav-group">
+                        <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoSaludPreventiva" onAction="#toggleGrupoSaludPreventiva">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" prefWidth="200" spacing="8">
+                                    <HBox alignment="CENTER" minWidth="16" maxWidth="16">
+                                        <FontIcon iconLiteral="fas-heartbeat" iconSize="13" styleClass="nav-icon" />
+                                    </HBox>
+                                    <Label text="Salud Preventiva" styleClass="nav-group-label" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                    <FontIcon fx:id="arrowSaludPreventiva" iconLiteral="fas-chevron-right" iconSize="10" styleClass="nav-group-arrow" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <VBox fx:id="grupoSaludPreventivaItems" managed="false" styleClass="nav-group-items" visible="false">
+                            <Button fx:id="btnVacunas" maxWidth="Infinity" onAction="#handleVacunas" styleClass="nav-item" text="Vacunas">
+                                <graphic><FontIcon iconLiteral="fas-shield-alt" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                            <Button fx:id="btnVacunaciones" maxWidth="Infinity" onAction="#handleVacunaciones" styleClass="nav-item" text="Vacunaciones">
+                                <graphic><FontIcon iconLiteral="fas-syringe" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                            <Button fx:id="btnMedicamentos" maxWidth="Infinity" onAction="#handleMedicamentos" styleClass="nav-item" text="Medicamentos">
+                                <graphic><FontIcon iconLiteral="fas-pills" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                        </VBox>
+                    </VBox>
+
+                    <!-- 6 · Estética -->
+                    <VBox styleClass="nav-group">
+                        <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoEstetica" onAction="#toggleGrupoEstetica">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" prefWidth="200" spacing="8">
+                                    <HBox alignment="CENTER" minWidth="16" maxWidth="16">
+                                        <FontIcon iconLiteral="fas-magic" iconSize="13" styleClass="nav-icon" />
+                                    </HBox>
+                                    <Label text="Estética" styleClass="nav-group-label" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                    <FontIcon fx:id="arrowEstetica" iconLiteral="fas-chevron-right" iconSize="10" styleClass="nav-group-arrow" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <VBox fx:id="grupoEsteticaItems" managed="false" styleClass="nav-group-items" visible="false">
+                            <Button fx:id="btnServicios" maxWidth="Infinity" onAction="#handleServicios" styleClass="nav-item" text="Baño y Motilada">
+                                <graphic><FontIcon iconLiteral="fas-shower" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                        </VBox>
+                    </VBox>
+
+                    <!-- 7 · Administración -->
+                    <VBox styleClass="nav-group">
+                        <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoAdministracion" onAction="#toggleGrupoAdministracion">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" prefWidth="200" spacing="8">
+                                    <HBox alignment="CENTER" minWidth="16" maxWidth="16">
+                                        <FontIcon iconLiteral="fas-building" iconSize="13" styleClass="nav-icon" />
+                                    </HBox>
+                                    <Label text="Administración" styleClass="nav-group-label" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                    <FontIcon fx:id="arrowAdministracion" iconLiteral="fas-chevron-right" iconSize="10" styleClass="nav-group-arrow" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <VBox fx:id="grupoAdministracionItems" managed="false" styleClass="nav-group-items" visible="false">
+                            <Button fx:id="btnFacturacion" maxWidth="Infinity" onAction="#handleFacturacion" styleClass="nav-item" text="Facturación">
+                                <graphic><FontIcon iconLiteral="fas-file-invoice" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                            <Button fx:id="btnUsuarios" maxWidth="Infinity" onAction="#handleUsuarios" styleClass="nav-item" text="Usuarios">
+                                <graphic><FontIcon iconLiteral="fas-user-cog" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                            <Button fx:id="btnSolicitudes" maxWidth="Infinity" onAction="#handleSolicitudes" styleClass="nav-item" text="Solicitudes Chatbot">
+                                <graphic><FontIcon iconLiteral="fas-comments" iconSize="15" styleClass="nav-icon" /></graphic>
+                            </Button>
+                        </VBox>
+                    </VBox>
+
                 </VBox>
             </ScrollPane>
 
             <VBox styleClass="sidebar-footer">
+                <VBox fx:id="panelNotificacion" managed="false" styleClass="sidebar-notif" visible="false" />
                 <Button fx:id="btnCerrarSesion" maxWidth="Infinity" onAction="#handleCerrarSesion" prefHeight="40" style="-fx-background-color: #e53e3e; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-color: transparent; -fx-padding: 8 16 8 16; -fx-cursor: hand;" styleClass="btn-danger-filled" text="Cerrar Sesión" />
             </VBox>
         </VBox>
@@ -255,7 +360,7 @@
             </StackPane>
 
             <HBox styleClass="app-footer">
-                <Label styleClass="app-footer-text" text="VetCare v1.0 - Universidad Popular del Cesar - 2025" />
+                <Label styleClass="app-footer-text" text="VetCare v1.0 — Sistema de Gestión Veterinaria" />
             </HBox>
         </VBox>
     </center>

@@ -125,7 +125,7 @@
                                 <TableColumn fx:id="colExaTipo" prefWidth="140" text="TIPO" />
                                 <TableColumn fx:id="colExaSolicitud" prefWidth="110" text="SOLICITUD" />
                                 <TableColumn fx:id="colExaResultado" prefWidth="110" text="RESULTADO" />
-                                <TableColumn fx:id="colExaResultados" prefWidth="200" text="DETALLES" />
+                                <TableColumn fx:id="colExaResultados" prefWidth="200" text="DETALLE" />
                                 <TableColumn fx:id="colExaCosto" prefWidth="90" text="COSTO" />
                             </columns>
                         </TableView>
