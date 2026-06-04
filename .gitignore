@@ -13,3 +13,4 @@ nbproject/private/
 
 # Config privada
 src/main/resources/config.properties
+src/main/resources/serviceAccountKey.json
