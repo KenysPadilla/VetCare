@@ -8,15 +8,7 @@ import ui.NumericFormatter;
 
 import java.time.LocalDate;
 
-/**
- * Controlador de la ventana de detalle de una vacuna del catalogo.
- *
- * <p>GRASP Indireccion: recibe el objeto {@link Vacuna} ya cargado desde
- * {@link VacunasController}; no accede directamente a ningun DAO ni servicio.</p>
- *
- * <p>Nota: este controlador muestra el detalle del catalogo de vacunas
- * (inventario), NO el historial de vacunaciones aplicadas.</p>
- */
+
 public class DetalleVacunaController {
 
     @FXML private Label lblHeaderNombre;
@@ -28,11 +20,7 @@ public class DetalleVacunaController {
     @FXML private Label lblVencimiento;
     @FXML private Label lblEstado;
 
-    /**
-     * Rellena todos los controles con los datos de la vacuna recibida.
-     *
-     * @param v vacuna del catalogo; no debe ser {@code null}
-     */
+   
     public void setVacuna(Vacuna v) {
         lblHeaderNombre.setText(orDash(v.getNombre()));
 
@@ -46,7 +34,7 @@ public class DetalleVacunaController {
         LocalDate venc = v.getFechaVencimiento();
         lblVencimiento.setText(venc != null ? venc.toString() : "—");
 
-        // Estado: Vencida > Agotada > Disponible
+        
         String estado;
         String color;
         if (venc != null && venc.isBefore(LocalDate.now())) {

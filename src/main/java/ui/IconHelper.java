@@ -15,7 +15,6 @@ public final class IconHelper {
     public static final Color INPUT_MUTED = Color.web("#6b7f8e");
     public static final Color TEAL = Color.web("#2b87a0");
 
-    /** Ancho fijo del contenedor del ícono: todos los nav-items alinean igual. */
     private static final double ICON_BOX = 20;
 
     private IconHelper() {}
@@ -27,11 +26,7 @@ public final class IconHelper {
         return fi;
     }
 
-    /**
-     * Adjunta el ícono de navegación al botón envuelto en un StackPane de
-     * ancho fijo ({@value #ICON_BOX} px) para que el texto arranque siempre
-     * en la misma posición independientemente del ancho natural del glifo.
-     */
+    
     public static void attachNavIcon(Button button, Ikon ikon) {
         FontIcon fi = icon(ikon, 16, NAV_MUTED);
         StackPane box = new StackPane(fi);
@@ -46,14 +41,7 @@ public final class IconHelper {
         button.setGraphicTextGap(8);
     }
 
-    /**
-     * Cambia el color del ícono sin importar si está envuelto en un StackPane
-     * (caso nuevo) o si es directamente un FontIcon (caso legado).
-     *
-     * <p>Si el botón está dentro de un {@code nav-group-items} (ítem de grupo
-     * accordion) se usa {@link #TEAL} en lugar de blanco, porque el fondo activo
-     * es claro y el blanco quedaría invisible.</p>
-     */
+    
     public static void setNavIconActive(Button button, boolean active) {
         Color color;
         if (active) {

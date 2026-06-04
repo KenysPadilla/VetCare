@@ -24,46 +24,23 @@ import ui.StyleManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Controlador del flujo de 3 pasos para recuperacion de contrasena.
- *
- * <p>GRASP Controlador: este controlador actua como receptor de los eventos
- * de la vista y delega toda la logica de negocio a
- * {@link RecuperarPasswordService}. No valida reglas de dominio ni accede
- * directamente a la base de datos.</p>
- *
- * <p>Cada paso del flujo se muestra en su propio {@link VBox} ({@code panelSolicitud},
- * {@code panelCodigo}, {@code panelNuevaPassword}). El metodo {@link #mostrarPanel}
- * oculta el panel actual y hace visible el siguiente, usando las propiedades
- * {@code visible} y {@code managed} para que el layout se reajuste
- * correctamente.</p>
- *
- * <p>Las operaciones de red (envio de correo) y de base de datos se ejecutan
- * en un hilo secundario mediante {@link Task} para no bloquear el hilo
- * de JavaFX.</p>
- */
+
 public class RecuperarPasswordController implements Initializable {
 
-    // -------------------------------------------------------------------------
-    // Paso 1 — Solicitud
-    // -------------------------------------------------------------------------
+    
     @FXML private TextField txtUsuario;
     @FXML private TextField txtCorreo;
     @FXML private Button    btnEnviar;
     @FXML private Button    btnVolver;
     @FXML private Label     lblMensaje;
 
-    // -------------------------------------------------------------------------
-    // Paso 2 — Verificacion del codigo (6 cajas individuales)
-    // -------------------------------------------------------------------------
+    
     @FXML private TextField  txtD1, txtD2, txtD3, txtD4, txtD5, txtD6;
     @FXML private Button     btnVerificar;
     @FXML private Hyperlink  lnkReenviar;
     @FXML private Label      lblMensajeCodigo;
 
-    // -------------------------------------------------------------------------
-    // Paso 3 — Nueva contrasena
-    // -------------------------------------------------------------------------
+    
     @FXML private PasswordField txtNuevaPassword;
     @FXML private TextField     txtNuevaVisible;
     @FXML private PasswordField txtConfirmarPassword;
@@ -76,31 +53,19 @@ public class RecuperarPasswordController implements Initializable {
     private boolean nuevaVisible     = false;
     private boolean confirmarVisible = false;
 
-    // -------------------------------------------------------------------------
-    // Paneles y panel izquierdo
-    // -------------------------------------------------------------------------
+    
     @FXML private VBox  panelSolicitud;
     @FXML private VBox  panelCodigo;
     @FXML private VBox  panelNuevaPassword;
     @FXML private Label lblDescripcionIzquierda;
 
-    // -------------------------------------------------------------------------
-    // Estado interno
-    // -------------------------------------------------------------------------
-    /** Nombre de usuario confirmado en el Paso 1; se reutiliza en Pasos 2 y 3. */
+   
     private String usuarioActual;
 
-    /** Servicio que coordina los 3 pasos del flujo de recuperacion. */
+   
     private final RecuperarPasswordService servicio = new RecuperarPasswordService();
 
-    // -------------------------------------------------------------------------
-    // Inicializacion
-    // -------------------------------------------------------------------------
-
-    /**
-     * Oculta los paneles de los Pasos 2 y 3; solo {@code panelSolicitud}
-     * es visible al abrir la ventana.
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         panelCodigo.setVisible(false);
@@ -141,15 +106,7 @@ public class RecuperarPasswordController implements Initializable {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Handlers FXML
-    // -------------------------------------------------------------------------
-
-    /**
-     * Paso 1: valida los campos, llama a
-     * {@link RecuperarPasswordService#solicitarRecuperacion} en un hilo
-     * secundario y avanza al Paso 2 si tiene exito.
-     */
+    
     @FXML
     private void handleEnviar() {
         String usuario = txtUsuario.getText().trim();
@@ -182,10 +139,7 @@ public class RecuperarPasswordController implements Initializable {
         ejecutarEnHilo(task);
     }
 
-    /**
-     * Paso 2: verifica el codigo ingresado contra el guardado en BD y avanza
-     * al Paso 3 si es correcto y no ha expirado.
-     */
+    
     @FXML
     private void handleVerificar() {
         String codigo = txtD1.getText() + txtD2.getText() + txtD3.getText()
@@ -218,14 +172,10 @@ public class RecuperarPasswordController implements Initializable {
         ejecutarEnHilo(task);
     }
 
-    /**
-     * Paso 2 (reenvio): genera y envia un nuevo codigo al mismo correo,
-     * sin cambiar de panel.
-     */
+   
     @FXML
     private void handleReenviar() {
-        // Capturar el correo en el hilo FX antes de entregar el Task al hilo secundario
-        String correo = txtCorreo.getText().trim();
+        
 
         lnkReenviar.setDisable(true);
         mostrarMensaje(lblMensajeCodigo, "Reenviando codigo...", "#333333");
@@ -341,18 +291,7 @@ public class RecuperarPasswordController implements Initializable {
         navegarALogin();
     }
 
-    // -------------------------------------------------------------------------
-    // Metodos privados de utilidad
-    // -------------------------------------------------------------------------
-
-    /**
-     * Oculta {@code actual} y muestra {@code siguiente}, actualizando las
-     * propiedades {@code visible} y {@code managed} para que el VBox padre
-     * recalcule el layout correctamente.
-     *
-     * @param actual    panel que se oculta
-     * @param siguiente panel que se muestra
-     */
+   
     private void mostrarPanel(VBox actual, VBox siguiente) {
         actual.setVisible(false);
         actual.setManaged(false);
@@ -360,9 +299,7 @@ public class RecuperarPasswordController implements Initializable {
         siguiente.setManaged(true);
     }
 
-    /**
-     * Carga {@code /fxml/login.fxml} y reemplaza la escena actual.
-     */
+    
     private void navegarALogin() {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -378,26 +315,14 @@ public class RecuperarPasswordController implements Initializable {
         }
     }
 
-    /**
-     * Actualiza texto y color de un {@link Label} de mensaje y lo hace visible.
-     *
-     * @param lbl    etiqueta de mensaje a actualizar
-     * @param texto  mensaje a mostrar
-     * @param color  color CSS (p. ej. {@code "#D32F2F"} para error,
-     *               {@code "#1B6B2F"} para exito)
-     */
+   
     private void mostrarMensaje(Label lbl, String texto, String color) {
         lbl.setText(texto);
         lbl.setStyle("-fx-text-fill: " + color + "; -fx-font-size: 12px;");
         lbl.setVisible(true);
     }
 
-    /**
-     * Lanza el {@link Task} en un hilo daemon para no bloquear el cierre
-     * de la aplicacion.
-     *
-     * @param task tarea a ejecutar en segundo plano
-     */
+    
     private void ejecutarEnHilo(Task<Void> task) {
         Thread hilo = new Thread(task);
         hilo.setDaemon(true);

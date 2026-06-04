@@ -20,7 +20,6 @@
 
 <BorderPane prefHeight="800" prefWidth="1280" styleClass="app-content" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PrincipalController">
 
-    <!-- Sidebar -->
     <left>
         <VBox styleClass="sidebar">
             <VBox alignment="CENTER" onMouseClicked="#handleInicio" styleClass="sidebar-brand" style="-fx-cursor: hand;">
@@ -39,7 +38,6 @@
                 <VBox styleClass="sidebar-nav">
 
 
-                    <!-- 1 · Registro -->
                     <VBox styleClass="nav-group">
                         <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoRegistro" onAction="#toggleGrupoRegistro">
                             <graphic>
@@ -62,7 +60,6 @@
                         </VBox>
                     </VBox>
 
-                    <!-- 2 · Personal -->
                     <VBox styleClass="nav-group">
                         <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoPersonal" onAction="#toggleGrupoPersonal">
                             <graphic>
@@ -85,7 +82,6 @@
                         </VBox>
                     </VBox>
 
-                    <!-- 3 · Consulta -->
                     <VBox styleClass="nav-group">
                         <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoConsulta" onAction="#toggleGrupoConsulta">
                             <graphic>
@@ -108,7 +104,6 @@
                         </VBox>
                     </VBox>
 
-                    <!-- 4 · Procedimientos -->
                     <VBox styleClass="nav-group">
                         <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoProcedimientos" onAction="#toggleGrupoProcedimientos">
                             <graphic>
@@ -134,7 +129,6 @@
                         </VBox>
                     </VBox>
 
-                    <!-- 5 · Salud Preventiva -->
                     <VBox styleClass="nav-group">
                         <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoSaludPreventiva" onAction="#toggleGrupoSaludPreventiva">
                             <graphic>
@@ -160,7 +154,6 @@
                         </VBox>
                     </VBox>
 
-                    <!-- 6 · Estética -->
                     <VBox styleClass="nav-group">
                         <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoEstetica" onAction="#toggleGrupoEstetica">
                             <graphic>
@@ -180,7 +173,6 @@
                         </VBox>
                     </VBox>
 
-                    <!-- 7 · Administración -->
                     <VBox styleClass="nav-group">
                         <Button maxWidth="Infinity" styleClass="nav-group-header" fx:id="btnGrupoAdministracion" onAction="#toggleGrupoAdministracion">
                             <graphic>
@@ -216,7 +208,6 @@
         </VBox>
     </left>
 
-    <!-- Área principal -->
     <center>
         <VBox spacing="0">
 
@@ -245,7 +236,6 @@
                             <Insets top="20" bottom="12" />
                         </padding>
 
-                        <!-- KPI cards -->
                         <GridPane hgap="16" styleClass="stats-grid" vgap="16">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
@@ -335,7 +325,6 @@
                             </HBox>
                         </GridPane>
 
-                        <!-- Paneles inferiores -->
                         <HBox spacing="20" styleClass="panels-row">
                             <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="card">
                                 <HBox alignment="CENTER_LEFT">

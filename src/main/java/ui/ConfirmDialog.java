@@ -13,29 +13,13 @@ import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
-/**
- * Diálogos de confirmación estilizados alineados al diseño de VetCare.
- *
- * <p>Reemplaza los {@code Alert.AlertType.CONFIRMATION} nativos del sistema
- * por ventanas con cabecera de color, icono y botones consistentes con el
- * resto de la interfaz.</p>
- */
+
 public class ConfirmDialog {
 
-    /**
-     * Muestra un diálogo de confirmación con diseño personalizado.
-     *
-     * @param titulo        Título visible en la cabecera (ej: "Confirmar Pago")
-     * @param icono         Emoji representativo (ej: "💳", "⚠️", "✅")
-     * @param mensaje       Texto descriptivo de la acción a confirmar
-     * @param textoPrimario Etiqueta del botón de confirmación (ej: "Pagar", "Desactivar")
-     * @param colorPrimario Color HEX de la cabecera y botón primario
-     * @return {@code true} si el usuario confirmó; {@code false} si canceló
-     */
+
     public static boolean mostrar(String titulo, String icono, String mensaje,
                                    String textoPrimario, String colorPrimario) {
 
-        // ── Cabecera coloreada ─────────────────────────────────────────────────
         Label lblIcono = new Label(icono);
         lblIcono.setStyle("-fx-font-size: 20px;");
 
@@ -49,7 +33,6 @@ public class ConfirmDialog {
                 "-fx-background-color: " + colorPrimario + "; "
                 + "-fx-padding: 9 22 9 22;");
 
-        // ── Cuerpo del mensaje ─────────────────────────────────────────────────
         Label lblMsg = new Label(mensaje);
         lblMsg.setWrapText(true);
         lblMsg.setMaxWidth(340);
@@ -60,11 +43,9 @@ public class ConfirmDialog {
         body.setPadding(new Insets(18, 24, 14, 24));
         body.setStyle("-fx-background-color: white;");
 
-        // ── Contenedor principal ───────────────────────────────────────────────
         VBox content = new VBox(header, body);
         content.setStyle("-fx-background-color: white;");
 
-        // ── Diálogo ────────────────────────────────────────────────────────────
         ButtonType btnConfirmar = new ButtonType(textoPrimario, ButtonBar.ButtonData.OK_DONE);
         Dialog<Boolean> dialog  = new Dialog<>();
         dialog.setTitle(titulo);
@@ -74,7 +55,6 @@ public class ConfirmDialog {
                 "-fx-background-color: white; -fx-padding: 0;");
         dialog.getDialogPane().setPrefWidth(400);
 
-        // ── Botón de confirmación (coloreado) ─────────────────────────────────
         Node btnOk = dialog.getDialogPane().lookupButton(btnConfirmar);
         btnOk.setStyle(
                 "-fx-background-color: " + colorPrimario + "; "
@@ -84,7 +64,6 @@ public class ConfirmDialog {
         ((Region) btnOk).setMinHeight(28);
         ((Region) btnOk).setMaxHeight(28);
 
-        // ── Botón cancelar (neutro) ────────────────────────────────────────────
         Node btnCan = dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
         btnCan.setStyle(
                 "-fx-background-color: white; -fx-text-fill: #6b7f8e; "

@@ -24,31 +24,26 @@ import java.util.ResourceBundle;
 
 public class NuevoUsuarioController implements Initializable {
 
-    // ── Acceso al sistema ──
     @FXML private TextField        txtUsername;
     @FXML private ComboBox<String> cbRol;
     @FXML private VBox             pnlEmpleado;
     @FXML private Label            lblEmpleado;
     @FXML private ComboBox<String> cbEmpleado;
 
-    // ── Datos personales ──
     @FXML private TextField txtNombre;
     @FXML private TextField txtApellido;
     @FXML private TextField txtCedula;
     @FXML private TextField txtTelefono;
     @FXML private TextField txtEmail;
 
-    // ── Seguridad ──
     @FXML private PasswordField txtPassword;
     @FXML private PasswordField txtConfirmar;
 
-    // ── Footer ──
     @FXML private Button btnGuardar;
     @FXML private Label  lblMensaje;
 
     private Usuario usuarioEnEdicion = null;
 
-    // Listas paralelas al combo de empleados
     private final List<Veterinario> veterinariosList = new ArrayList<>();
     private final List<Estilista>   estilistasList   = new ArrayList<>();
 
@@ -58,9 +53,7 @@ public class NuevoUsuarioController implements Initializable {
         cbRol.setOnAction(e -> actualizarPorRol());
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Modo edición
-    // ─────────────────────────────────────────────────────────────────────────
+    
 
     public void setModoEdicion(Usuario u) {
         this.usuarioEnEdicion = u;
@@ -68,17 +61,14 @@ public class NuevoUsuarioController implements Initializable {
         txtUsername.setText(u.getNombreUsuario());
         txtUsername.setDisable(true);
 
-        // Poblar datos personales existentes antes de que el combo los sobreescriba
         txtNombre.setText(nvl(u.getNombre(), ""));
         txtApellido.setText(nvl(u.getApellido(), ""));
         txtCedula.setText(nvl(u.getCedula(), ""));
         txtTelefono.setText(nvl(u.getTelefono(), ""));
         txtEmail.setText(nvl(u.getEmail(), ""));
 
-        // Esto dispara actualizarPorRol() → carga empleados si aplica
         cbRol.setValue(u.getRol());
 
-        // Si hay empleado vinculado, seleccionarlo (auto-rellena y deshabilita campos)
         if (u.getCedulaEmpleado() != null) {
             seleccionarEmpleadoPorCedula(u.getCedulaEmpleado());
         }
@@ -86,9 +76,7 @@ public class NuevoUsuarioController implements Initializable {
         btnGuardar.setText("Actualizar");
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Lógica de rol → combo de empleados + estado de campos personales
-    // ─────────────────────────────────────────────────────────────────────────
+    
 
     private void actualizarPorRol() {
         String rol = cbRol.getValue();
@@ -99,7 +87,6 @@ public class NuevoUsuarioController implements Initializable {
             lblEmpleado.setText("Estilista vinculado");
             cargarEmpleados(false);
         } else {
-            // ADMIN / RECEPCIONISTA: sin empleado → campos personales editables
             pnlEmpleado.setVisible(false);
             pnlEmpleado.setManaged(false);
             cbEmpleado.getSelectionModel().clearSelection();
@@ -128,17 +115,15 @@ public class NuevoUsuarioController implements Initializable {
             }
             pnlEmpleado.setVisible(true);
             pnlEmpleado.setManaged(true);
-            habilitarDatosPersonales(true); // limpiar hasta que se elija uno
+            habilitarDatosPersonales(true); 
             limpiarDatosPersonales();
         } catch (SQLException ex) {
             mostrarMensaje("Error al cargar empleados: " + ex.getMessage(), "#D32F2F");
         }
 
-        // Cuando el usuario elige un empleado del combo → auto-rellena datos personales
         cbEmpleado.setOnAction(ev -> autoRellenarDesdeEmpleado());
     }
 
-    /** Rellena y bloquea los campos personales con los datos del empleado elegido. */
     private void autoRellenarDesdeEmpleado() {
         int idx = cbEmpleado.getSelectionModel().getSelectedIndex();
         if (idx < 0) {
@@ -167,11 +152,9 @@ public class NuevoUsuarioController implements Initializable {
         txtTelefono.setText(nvl(telefono, ""));
         txtEmail.setText(nvl(email, ""));
 
-        // Datos vienen del empleado → solo lectura
         habilitarDatosPersonales(false);
     }
 
-    /** Busca en la lista cargada el empleado con la cédula indicada y lo selecciona. */
     private void seleccionarEmpleadoPorCedula(String cedula) {
         List<?> lista = !veterinariosList.isEmpty() ? veterinariosList : estilistasList;
         for (int i = 0; i < lista.size(); i++) {
@@ -201,9 +184,7 @@ public class NuevoUsuarioController implements Initializable {
         txtEmail.clear();
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Guardar / Actualizar
-    // ─────────────────────────────────────────────────────────────────────────
+    
 
     @FXML
     private void handleGuardar() {
@@ -306,9 +287,7 @@ public class NuevoUsuarioController implements Initializable {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Helpers
-    // ─────────────────────────────────────────────────────────────────────────
+    
 
     private boolean requiereEmpleado(String rol) {
         return "VETERINARIO".equals(rol) || "ESTILISTA".equals(rol);

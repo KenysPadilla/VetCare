@@ -1,4 +1,3 @@
-/* Cards — dashboard y contenido */
 
 .card {
     -fx-background-color: white;
@@ -50,7 +49,6 @@
     -fx-text-fill: #1a2e3b;
 }
 
-/* Colores de KPI — sin depender de .label para máxima compatibilidad */
 .stat-card-value.stat-card-value-teal,
 .label.stat-card-value.stat-card-value-teal       { -fx-text-fill: #2b87a0; }
 

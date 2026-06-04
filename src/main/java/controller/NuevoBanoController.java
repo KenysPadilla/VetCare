@@ -22,18 +22,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * Controlador del formulario de registro de nuevo servicio de bano.
- *
- * <p>Carga pacientes y estilistas desde la base de datos en
- * {@code initialize()}. Los combos los muestran usando su {@code toString()}.
- * El tipo de bano, la hora y los servicios adicionales se seleccionan de
- * listas fijas. El precio queda fijo en {@code 50000.0}.</p>
- *
- * <p>El valor almacenado para {@code tipo_bano} sigue la convencion Oracle
- * en mayusculas; la presentacion al usuario usa nombres legibles con tildes.
- * La conversion se realiza en {@link #mapearTipoBano(String)}.</p>
- */
+
 public class NuevoBanoController implements Initializable {
 
     @FXML private ComboBox<Paciente>  cbPaciente;
@@ -100,16 +89,7 @@ public class NuevoBanoController implements Initializable {
         cerrarVentana();
     }
 
-    // -------------------------------------------------------------------------
-    // Mapeo de valores de presentacion a codigos Oracle
-    // -------------------------------------------------------------------------
-
-    /**
-     * Convierte el valor legible del combo a su codigo Oracle en mayusculas.
-     *
-     * @param display texto mostrado al usuario
-     * @return codigo Oracle para {@code tipo_bano}
-     */
+    
     private String mapearTipoBano(String display) {
         switch (display) {
             case "Básico":     return "BASICO";

@@ -34,7 +34,6 @@ public class NuevoMedicamentoController implements Initializable {
     @FXML private Button           btnGuardar;
     @FXML private Label            lblMensaje;
 
-    /** No nulo cuando el formulario abre en modo edicion. */
     private Medicamento medicamentoEnEdicion = null;
 
     @Override
@@ -50,11 +49,7 @@ public class NuevoMedicamentoController implements Initializable {
         NumericFormatter.apply(txtPrecio);
     }
 
-    /**
-     * Pre-rellena el formulario con los datos del medicamento a editar
-     * y cambia el boton a "Actualizar".
-     * {@code txtDosis} no esta mapeado a ninguna columna Oracle y se deja vacio.
-     */
+   
     public void setModoEdicion(Medicamento m) {
         this.medicamentoEnEdicion = m;
         txtNombre.setText(m.getNombre());

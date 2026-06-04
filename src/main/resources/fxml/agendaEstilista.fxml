@@ -17,7 +17,6 @@
     <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
           AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-        <!-- HEADER -->
         <VBox styleClass="detail-header" spacing="4">
             <HBox alignment="CENTER_LEFT" spacing="12" styleClass="detail-header-brand">
                 <HBox alignment="CENTER" styleClass="detail-header-logo-box">
@@ -32,7 +31,6 @@
             </HBox>
         </VBox>
 
-        <!-- TABLE -->
         <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS"
                    style="-fx-padding: 16 20 0 20;">
             <TableView fx:id="tablaAgenda">
@@ -49,7 +47,6 @@
             </TableView>
         </StackPane>
 
-        <!-- FOOTER -->
         <HBox alignment="CENTER_RIGHT" styleClass="detail-footer">
             <Button text="Cerrar" onAction="#handleCerrar" prefHeight="28" minHeight="28" maxHeight="28" prefWidth="100"
                     styleClass="btn-cerrar" />

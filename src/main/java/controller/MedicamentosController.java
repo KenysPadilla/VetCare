@@ -203,7 +203,6 @@ public class MedicamentosController implements Initializable {
             }
         });
 
-        // ── Columna "Detalles" — botón Ver ──
         colAcciones.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
         colAcciones.setCellFactory(col -> new TableCell<>() {
             private final Button btnVer = crearChip("Ver", "action-chip action-chip-ver");

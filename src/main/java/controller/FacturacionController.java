@@ -279,7 +279,6 @@ public class FacturacionController implements Initializable {
             if (ingresosPorDia[d] > maxDia) { maxDia = ingresosPorDia[d]; diaMax = d; }
         }
 
-        // Barras como Region con altura proporcional al maximo del mes
         contenedorBarras.getChildren().clear();
         final double ALTURA_MAX = 80.0;
         int diaHoy = LocalDate.now().getDayOfMonth();
@@ -296,12 +295,10 @@ public class FacturacionController implements Initializable {
             contenedorBarras.getChildren().add(barra);
         }
 
-        // Etiquetas del eje X: 3 puntos de referencia
         lblEje1.setText("1 " + mesCorto);
         lblEje15.setText("15 " + mesCorto);
         lblEjeFin.setText(diasEnMes + " " + mesCorto);
 
-        // Indicador de tendencia vs mes anterior
         double totalActual = 0;
         for (double v : ingresosPorDia) totalActual += v;
         actualizarTendencia(totalActual, totalMesAnterior);

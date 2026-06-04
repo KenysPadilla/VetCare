@@ -41,7 +41,6 @@ public class NuevaVacunacionController implements Initializable {
             ComboBoxFilter.apply(cbPaciente,    pacientes, Object::toString);
             ComboBoxFilter.apply(cbVeterinario, vets,      Object::toString);
 
-            // Solo cargar vacunas disponibles (no Vencido, no Sin stock)
             List<Vacuna> disponibles = new ArrayList<>();
             for (Vacuna v : new VacunaService().listarTodos()) {
                 String estado = v.calcularEstado();
@@ -72,7 +71,6 @@ public class NuevaVacunacionController implements Initializable {
             return;
         }
 
-        // Validación de estado en el momento de guardar (doble verificación)
         Vacuna vac = cbVacuna.getValue();
         String estado = vac.calcularEstado();
         if ("Vencido".equals(estado) || "Sin stock".equals(estado)) {
@@ -100,7 +98,6 @@ public class NuevaVacunacionController implements Initializable {
             cerrarVentana();
         } catch (java.sql.SQLException e) {
             String msg = e.getMessage();
-            // El VacunacionDAO lanza un mensaje claro si no hay stock
             mostrarMensaje(msg != null && msg.contains("stock")
                     ? msg : "Error al guardar: " + msg, "#D32F2F");
         }

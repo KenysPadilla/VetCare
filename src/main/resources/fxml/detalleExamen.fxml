@@ -20,7 +20,7 @@
     <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
           AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-        <!-- HEADER -->
+       
         <VBox styleClass="detail-header" spacing="8">
             <HBox alignment="CENTER_LEFT" spacing="12" styleClass="detail-header-brand">
                 <HBox alignment="CENTER" styleClass="detail-header-logo-box">
@@ -33,7 +33,7 @@
                     <Label fx:id="lblHeaderSub" styleClass="detail-header-subtitle" />
                 </VBox>
             </HBox>
-            <!-- ID + Estado row -->
+            
             <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 2 0 0 0;">
                 <Label fx:id="lblIdExamen"
                        style="-fx-font-family: 'Consolas'; -fx-font-size: 13px; -fx-font-weight: bold;
@@ -44,11 +44,11 @@
             </HBox>
         </VBox>
 
-        <!-- CONTENT -->
+        
         <ScrollPane fitToWidth="true" styleClass="form-scroll" VBox.vgrow="ALWAYS">
             <VBox styleClass="detail-content" spacing="14">
 
-                <!-- Paciente -->
+                
                 <Label text="PACIENTE" styleClass="detail-section-title" />
                 <GridPane styleClass="detail-grid" hgap="12" vgap="9">
                     <columnConstraints>
@@ -65,7 +65,7 @@
 
                 <Separator style="-fx-opacity: 0.3;" />
 
-                <!-- Datos del examen -->
+                
                 <Label text="DATOS DEL EXAMEN" styleClass="detail-section-title" />
                 <GridPane styleClass="detail-grid" hgap="12" vgap="9">
                     <columnConstraints>
@@ -86,7 +86,7 @@
 
                 <Separator style="-fx-opacity: 0.3;" />
 
-                <!-- Resultado del examen -->
+                
                 <Label text="RESULTADO DEL EXAMEN" styleClass="detail-section-title" />
                 <VBox styleClass="lab-result-panel">
                     <Label text="INFORME CLÍNICO" styleClass="lab-result-header-label" />
@@ -94,7 +94,7 @@
                               styleClass="lab-result-text" />
                 </VBox>
 
-                <!-- Observaciones -->
+               
                 <Label text="OBSERVACIONES" styleClass="detail-section-title" />
                 <VBox styleClass="lab-obs-panel">
                     <Label text="NOTAS ADICIONALES" styleClass="lab-obs-header-label" />
@@ -106,7 +106,7 @@
         </VBox>
         </ScrollPane>
 
-        <!-- FOOTER -->
+        
         <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="detail-footer">
             <Region HBox.hgrow="ALWAYS" />
             <Button text="Cerrar" onAction="#handleCerrar"

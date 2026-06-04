@@ -47,7 +47,6 @@
 
                 <Separator />
 
-                <!-- ── Servicios registrados del paciente ── -->
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" styleClass="form-section-title" text="Servicios del paciente" />
                     <Label fx:id="lblServiciosInfo" style="-fx-text-fill: #6b7f8e; -fx-font-size: 11px;" text="Selecciona los que deseas incluir en la factura" />

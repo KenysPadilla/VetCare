@@ -42,7 +42,7 @@ public class NuevoExamenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        // --- Converters ---
+        
         cbPaciente.setConverter(new StringConverter<Paciente>() {
             @Override public String toString(Paciente p) { return p == null ? "" : p.getNombre() + " (" + p.getEspecie() + ")"; }
             @Override public Paciente fromString(String s) { return null; }
@@ -64,7 +64,6 @@ public class NuevoExamenController implements Initializable {
             @Override public Veterinario fromString(String s) { return null; }
         });
 
-        // --- Cargar combos estáticos ---
         try {
             List<Paciente> pacientes = new PacienteService().listarTodos();
             ComboBoxFilter.apply(cbPaciente, pacientes, Object::toString);
@@ -84,7 +83,6 @@ public class NuevoExamenController implements Initializable {
         cbPrioridad.getItems().addAll("NORMAL", "URGENTE");
         cbPrioridad.getSelectionModel().selectFirst();
 
-        // cbConsulta starts disabled until a patient is selected
         cbConsulta.setDisable(true);
         NumericFormatter.apply(txtCosto);
     }
@@ -137,7 +135,6 @@ public class NuevoExamenController implements Initializable {
             cbConsulta.setValue(null);
             cbConsulta.setPromptText("Sin consulta asociada");
         } else {
-            // Re-trigger patient selection to reload consultations
             handlePacienteSeleccionado();
         }
     }

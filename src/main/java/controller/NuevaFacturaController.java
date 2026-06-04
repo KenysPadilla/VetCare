@@ -62,12 +62,10 @@ public class NuevaFacturaController implements Initializable {
 
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yy");
 
-    // ── Selección de propietario / paciente / método de pago ──
     @FXML private ComboBox<Propietario> cbPropietario;
     @FXML private ComboBox<Paciente>    cbPaciente;
     @FXML private ComboBox<String>      cbMetodoPago;
 
-    // ── Tabla de servicios del paciente (con checkboxes) ──
     @FXML private Label                                      lblServiciosInfo;
     @FXML private TableView<ServicioFacturable>              tablaServicios;
     @FXML private TableColumn<ServicioFacturable, Boolean>   colSeleccionar;
@@ -77,7 +75,6 @@ public class NuevaFacturaController implements Initializable {
     @FXML private TableColumn<ServicioFacturable, String>    colCostoServicio;
     @FXML private TableColumn<ServicioFacturable, String>    colSubtotalServicio;
 
-    // ── Tabla de conceptos confirmados ──
     @FXML private TableView<DetalleFactura>            tablaDetalles;
     @FXML private TableColumn<DetalleFactura, String>  colConcepto;
     @FXML private TableColumn<DetalleFactura, String>  colTipo;
@@ -85,7 +82,6 @@ public class NuevaFacturaController implements Initializable {
     @FXML private TableColumn<DetalleFactura, Double>  colPrecio;
     @FXML private TableColumn<DetalleFactura, Double>  colSubtotal;
 
-    // ── Totales ──
     @FXML private Label lblSubtotal;
     @FXML private Label lblIva;
     @FXML private Label lblTotal;
@@ -96,7 +92,7 @@ public class NuevaFacturaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            // ── Conceptos table ──
+            
             colConcepto.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
             colConcepto.setCellFactory(col -> {
                 Text text = new Text();
@@ -114,8 +110,7 @@ public class NuevaFacturaController implements Initializable {
             });
             colTipo.setCellValueFactory(new PropertyValueFactory<>("tipoConcepto"));
 
-            // Lambdas explícitas en lugar de PropertyValueFactory para evitar fallos
-            // de reflexión con primitivos (int, double) en JavaFX 21
+            
             colCantidad.setCellValueFactory(data ->
                     new javafx.beans.property.SimpleObjectProperty<>(data.getValue().getCantidad()));
             colPrecio.setCellValueFactory(data ->
@@ -135,7 +130,7 @@ public class NuevaFacturaController implements Initializable {
                 }
             });
 
-            // ── Services table ──
+            
             tablaServicios.setEditable(true);
             colSeleccionar.setCellValueFactory(data -> data.getValue().seleccionadoProperty());
             colSeleccionar.setCellFactory(CheckBoxTableCell.forTableColumn(colSeleccionar));
@@ -162,7 +157,7 @@ public class NuevaFacturaController implements Initializable {
             colSubtotalServicio.setCellValueFactory(data ->
                     new SimpleStringProperty(ui.NumericFormatter.formatCurrency(data.getValue().getCosto())));
 
-            // ── StringConverters ──
+            
             cbPropietario.setConverter(new StringConverter<Propietario>() {
                 @Override public String toString(Propietario p) {
                     return p == null ? "" : p.getNombreCompleto() + " — CC: " + p.getCedula();
@@ -178,7 +173,7 @@ public class NuevaFacturaController implements Initializable {
 
             cbMetodoPago.getItems().addAll("Efectivo", "Tarjeta", "Transferencia");
 
-            // ── Propietarios ──
+            
             try {
                 List<Propietario> propietarios = new PropietarioService().listarTodos();
                 ComboBoxFilter.apply(cbPropietario, propietarios, Object::toString);
@@ -186,7 +181,7 @@ public class NuevaFacturaController implements Initializable {
                 mostrarMensaje("Error al cargar propietarios: " + e.getMessage(), "#D32F2F");
             }
 
-            // ── Al cambiar propietario: recargar pacientes y limpiar servicios ──
+            
             cbPropietario.setOnAction(e -> {
                 cbPaciente.getItems().clear();
                 cbPaciente.setValue(null);
@@ -202,7 +197,6 @@ public class NuevaFacturaController implements Initializable {
                 }
             });
 
-            // ── Al cambiar paciente: cargar servicios y auto-poblar líneas ──
             cbPaciente.setOnAction(e -> {
                 tablaServicios.getItems().clear();
                 detallesActuales.clear();
@@ -223,15 +217,11 @@ public class NuevaFacturaController implements Initializable {
         }
     }
 
-    /**
-     * Consulta todos los servicios registrados para el paciente (consultas,
-     * cirugías, laboratorio, internaciones, estética) y los carga en la tabla
-     * de selección.
-     */
+    
     private void cargarServiciosPaciente(Paciente paciente) {
         int id = paciente.getId();
 
-        // Consultas
+        
         try {
             for (Consulta c : new ConsultaService().listarPorPaciente(id)) {
                 String desc  = "Consulta: " + nvl(c.getDiagnostico(), "sin diagnóstico");
@@ -257,7 +247,7 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        // Cirugías
+        
         try {
             for (Cirugia c : new CirugiaService().listarPorPaciente(id)) {
                 String desc  = "Cirugía: " + nvl(c.getTipoCirugia(), "sin tipo");
@@ -266,7 +256,7 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        // Laboratorio
+        
         try {
             for (ExamenLab e : new ExamenLabService().listarPorPaciente(id)) {
                 String desc  = "Lab: " + nvl(e.getTipoExamen(), "sin tipo");
@@ -275,8 +265,7 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        // Internaciones — se cobra únicamente la estancia (días × costo_diario).
-        // Los medicamentos administrados se facturan como líneas MEDICAMENTO individuales.
+        
         try {
             InternacionService intSvc = new InternacionService();
             for (Internacion i : intSvc.listarPorPaciente(id)) {
@@ -300,7 +289,7 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        // Vacunaciones
+        
         try {
             for (Vacunacion v : new VacunacionService().listarPorPaciente(id)) {
                 String nombre = v.getVacuna() != null ? v.getVacuna().getNombre() : "Vacuna";
@@ -312,7 +301,7 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        // Estética
+        
         try {
             for (ServicioEstetico s : new ServicioEsteticoService().listarPorPaciente(id)) {
                 String tipoDesc;
@@ -351,18 +340,14 @@ public class NuevaFacturaController implements Initializable {
         return mapa;
     }
 
-    /** Pre-marca todos los servicios como seleccionados.
-     *  Los conceptos de la factura se llenan únicamente al presionar "Agregar seleccionados". */
+    
     private void autoAgregarTodosServicios() {
         for (ServicioFacturable sf : tablaServicios.getItems()) {
             sf.setSeleccionado(true);
         }
     }
 
-    /**
-     * Convierte los servicios marcados en la tabla de servicios en conceptos
-     * de la factura y los agrega a tablaDetalles.
-     */
+    
     @FXML
     private void handleAgregarSeleccionados() {
         List<ServicioFacturable> seleccionados = tablaServicios.getItems().stream()
@@ -401,7 +386,7 @@ public class NuevaFacturaController implements Initializable {
                 + "-fx-font-size: 13px; -fx-padding: 8 12 8 12; -fx-background-color: white;";
         final String labelStyle = "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #2d5a3d;";
 
-        // ── Campos ────────────────────────────────────────────────────
+        
         ComboBox<String> cbTipo = new ComboBox<>();
         cbTipo.getItems().addAll(
                 "CONSULTA", "INTERNACIÓN", "CIRUGÍA", "LABORATORIO",
@@ -432,7 +417,7 @@ public class NuevaFacturaController implements Initializable {
         Label lblSubtotal = new Label("$0.00");
         lblSubtotal.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #27ae60;");
 
-        // ── Subtotal en tiempo real ───────────────────────────────────
+        
         Runnable recalcular = () -> {
             try {
                 int    c = Integer.parseInt(txtCantidad.getText().trim());
@@ -445,7 +430,6 @@ public class NuevaFacturaController implements Initializable {
         txtCantidad.textProperty().addListener((obs, o, n) -> recalcular.run());
         txtPrecio.textProperty().addListener((obs, o, n) -> recalcular.run());
 
-        // ── Layout  (orden: Tipo+Cantidad → Descripción → Precio → Subtotal) ──
         Label lTipo   = new Label("Tipo de concepto");  lTipo.setStyle(labelStyle);
         Label lCant   = new Label("Cantidad");          lCant.setStyle(labelStyle);
         Label lDesc   = new Label("Descripción *");     lDesc.setStyle(labelStyle);
@@ -477,7 +461,6 @@ public class NuevaFacturaController implements Initializable {
         content.setPadding(new Insets(20, 20, 10, 20));
         content.setPrefWidth(440);
 
-        // ── Dialog ───────────────────────────────────────────────────
         ButtonType btnAgregar = new ButtonType("Agregar", ButtonBar.ButtonData.OK_DONE);
         Dialog<DetalleFactura> dialog = new Dialog<>();
         dialog.setTitle("Agregar concepto manual");
@@ -501,7 +484,6 @@ public class NuevaFacturaController implements Initializable {
         ((Region) btnCan).setMinHeight(28);
         ((Region) btnCan).setMaxHeight(28);
 
-        // Mostrar/ocultar campo "Otro" según selección de tipo
         cbTipo.valueProperty().addListener((obs, o, n) -> {
             boolean esOtro = "OTRO".equals(n);
             vbOtro.setVisible(esOtro);
@@ -510,7 +492,6 @@ public class NuevaFacturaController implements Initializable {
             dialog.getDialogPane().getScene().getWindow().sizeToScene();
         });
 
-        // Deshabilitar "Agregar" hasta que los campos obligatorios estén llenos
         Runnable validar = () -> {
             boolean descVacia   = txtDesc.getText().trim().isEmpty();
             boolean precioVacio = txtPrecio.getText().trim().isEmpty();
