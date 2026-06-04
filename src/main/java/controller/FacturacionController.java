@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -214,6 +213,7 @@ public class FacturacionController implements Initializable {
         String inlineStyle = ui.StyleManager.chipStyle(cssClass);
         if (inlineStyle != null) {
             btn.setStyle(inlineStyle);
+            ui.StyleManager.applyHover(btn, cssClass);
         } else {
             btn.getStyleClass().add(cssClass);
         }
@@ -282,12 +282,15 @@ public class FacturacionController implements Initializable {
         // Barras como Region con altura proporcional al maximo del mes
         contenedorBarras.getChildren().clear();
         final double ALTURA_MAX = 80.0;
+        int diaHoy = LocalDate.now().getDayOfMonth();
         for (int d = 1; d <= diasEnMes; d++) {
             Region barra = new Region();
             HBox.setHgrow(barra, Priority.ALWAYS);
             double altura = (maxDia > 0) ? (ingresosPorDia[d] / maxDia) * ALTURA_MAX : 2.0;
-            barra.setPrefHeight(Math.max(altura, 2.0));
-            String color = (d == diaMax && maxDia > 0) ? "#2b87a0" : "#e8f4f8";
+            double alturaFinal = Math.max(altura, 2.0);
+            barra.setPrefHeight(alturaFinal);
+            barra.setMaxHeight(alturaFinal);
+            String color = (d == diaHoy) ? "#2b87a0" : "#e8f4f8";
             barra.setStyle("-fx-background-color: " + color
                     + "; -fx-background-radius: 3 3 0 0; -fx-background-insets: 0;");
             contenedorBarras.getChildren().add(barra);

@@ -66,7 +66,7 @@ public class DetalleVacunacionController {
         String color = switch (estadoDisplay) {
             case "Aplicada"   -> "#27ae60";
             case "Pendiente"  -> "#e67e22";
-            case "Programada" -> "#8b5cf6";
+            case "Programada" -> "#2b87a0";
             default           -> "#6b7f8e";
         };
         lblEstado.setStyle("-fx-font-weight: bold; -fx-text-fill: " + color + ";");

@@ -57,7 +57,7 @@ public class DetalleBanoController {
         lblEstado.setText(estado);
         String colorEstado;
         switch (estado) {
-            case "PROGRAMADO": colorEstado = "#1976D2"; break;
+            case "PROGRAMADO": colorEstado = "#2b87a0"; break;
             case "REALIZADO":  colorEstado = "#1B6B2F"; break;
             case "CANCELADO":  colorEstado = "#C62828"; break;
             default:           colorEstado = "#555555";

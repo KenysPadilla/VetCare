@@ -4,16 +4,22 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.SolicitudCita;
 import service.FirebaseService;
 import service.SolicitudCitaService;
+import ui.StyleManager;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -36,6 +42,7 @@ public class SolicitudesController implements Initializable {
     @FXML private TableColumn<SolicitudCita, String> colFecha;
     @FXML private TableColumn<SolicitudCita, String> colHora;
     @FXML private TableColumn<SolicitudCita, String> colFechaSolicitud;
+    @FXML private TableColumn<SolicitudCita, Void> colAcciones;
     @FXML private Button btnAceptar;
     @FXML private Button btnRechazar;
     @FXML private Label lblMensaje;
@@ -102,6 +109,29 @@ public class SolicitudesController implements Initializable {
         colFechaSolicitud.setCellValueFactory(data -> new SimpleStringProperty(
                 data.getValue().getFechaSolicitud() != null
                         ? data.getValue().getFechaSolicitud().toLocalDate().format(FECHA_FMT) : "—"));
+
+        colAcciones.setCellFactory(col -> new TableCell<>() {
+            private final Button btn = new Button("Ver");
+            {
+                String estilo = ui.StyleManager.chipStyle("action-chip action-chip-ver");
+                if (estilo != null) {
+                    btn.setStyle(estilo);
+                    ui.StyleManager.applyHover(btn, "action-chip action-chip-ver");
+                } else {
+                    btn.getStyleClass().addAll("action-chip", "action-chip-ver");
+                }
+                btn.setMinWidth(javafx.scene.layout.Region.USE_PREF_SIZE);
+                btn.setOnAction(e -> {
+                    SolicitudCita s = getTableRow().getItem();
+                    if (s != null) verDetalle(s);
+                });
+            }
+            @Override
+            protected void updateItem(Void v, boolean empty) {
+                super.updateItem(v, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
 
         cargarDatos();
     }
@@ -234,6 +264,25 @@ public class SolicitudesController implements Initializable {
         lblStatHoy.setText(String.valueOf(citasHoy));
         lblStatSemana.setText(String.valueOf(semana));
         lblStatMascotas.setText(String.valueOf(conMascota));
+    }
+
+    private void verDetalle(SolicitudCita s) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/detalleSolicitud.fxml"));
+            Parent root = loader.load();
+            DetalleSolicitudController ctrl = loader.getController();
+            ctrl.setSolicitud(s);
+            Stage stage = new Stage();
+            stage.setTitle("Detalle — Solicitud de " + (s.getNombrePropietario() != null ? s.getNombrePropietario() : ""));
+            Scene scene = new Scene(root);
+            StyleManager.apply(scene);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void mostrarMensaje(String texto, String color) {

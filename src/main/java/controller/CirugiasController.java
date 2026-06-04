@@ -270,6 +270,7 @@ public class CirugiasController implements Initializable {
         String inlineStyle = ui.StyleManager.chipStyle(cssClass);
         if (inlineStyle != null) {
             btn.setStyle(inlineStyle);
+            ui.StyleManager.applyHover(btn, cssClass);
         } else {
             btn.getStyleClass().add(cssClass);
         }
@@ -288,8 +289,11 @@ public class CirugiasController implements Initializable {
     private String claseBadgeEstado(String estado) {
         if (estado == null) return "badge-programada";
         return switch (estado) {
+            case "Programada" -> "badge-programada";
             case "En Curso"   -> "badge-pendiente-naranja";
-            case "Finalizada" -> "badge-confirmado";
+            case "Realizada",
+                 "Finalizada" -> "badge-confirmado";
+            case "Cancelada"  -> "badge-cancelada";
             default           -> "badge-programada";
         };
     }

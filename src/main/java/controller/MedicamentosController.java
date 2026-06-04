@@ -219,8 +219,12 @@ public class MedicamentosController implements Initializable {
     private Button crearChip(String texto, String cssClass) {
         Button btn = new Button(texto);
         String inlineStyle = ui.StyleManager.chipStyle(cssClass);
-        if (inlineStyle != null) btn.setStyle(inlineStyle);
-        else btn.getStyleClass().add(cssClass);
+        if (inlineStyle != null) {
+            btn.setStyle(inlineStyle);
+            ui.StyleManager.applyHover(btn, cssClass);
+        } else {
+            btn.getStyleClass().add(cssClass);
+        }
         btn.setMinWidth(javafx.scene.layout.Region.USE_PREF_SIZE);
         return btn;
     }

@@ -168,7 +168,7 @@ public class CitasController implements Initializable {
             return "badge-activo";
         }
         return switch (estado) {
-            case "PROGRAMADA" -> "badge-pendiente";
+            case "PROGRAMADA" -> "badge-programada";
             case "EN_CURSO"   -> "badge-en-curso";
             case "REALIZADA"  -> "badge-confirmado";
             case "CANCELADA"  -> "badge-cancelada";

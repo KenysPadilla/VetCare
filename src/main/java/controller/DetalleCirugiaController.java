@@ -51,9 +51,10 @@ public class DetalleCirugiaController {
         String est = c.getEstado() != null ? c.getEstado() : "Programada";
         lblEstado.setText(est);
         lblEstado.setStyle(switch (est) {
-            case "En Curso"   -> "-fx-text-fill: #e67e22; -fx-font-weight: bold;";
-            case "Finalizada" -> "-fx-text-fill: #27ae60; -fx-font-weight: bold;";
-            default           -> "-fx-text-fill: #2b87a0; -fx-font-weight: bold;";
+            case "En Curso"              -> "-fx-text-fill: #e67e22; -fx-font-weight: bold;";
+            case "Finalizada","Realizada"-> "-fx-text-fill: #27ae60; -fx-font-weight: bold;";
+            case "Cancelada"             -> "-fx-text-fill: #e53e3e; -fx-font-weight: bold;";
+            default                      -> "-fx-text-fill: #2b87a0; -fx-font-weight: bold;";
         });
 
         java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy  HH:mm");
@@ -97,9 +98,20 @@ public class DetalleCirugiaController {
         String base = partes[0].trim();
         String obs  = partes.length > 1 ? partes[1].trim() : "";
 
-        boolean exitosa = !base.toLowerCase().contains("complic") && !base.toLowerCase().contains("fall");
+        String baseLower = base.toLowerCase();
+        boolean cancelada = baseLower.contains("cancel");
+        boolean exitosa   = !cancelada
+                            && !baseLower.contains("complic")
+                            && !baseLower.contains("fall");
 
-        if (exitosa) {
+        if (cancelada) {
+            lblResultadoBadge.setText("✕  " + base);
+            lblResultadoBadge.setStyle(
+                "-fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 5 14 5 14; " +
+                "-fx-background-radius: 20; -fx-border-radius: 20; " +
+                "-fx-background-color: #fff0f0; -fx-text-fill: #e53e3e; " +
+                "-fx-border-color: #fcc; -fx-border-width: 1;");
+        } else if (exitosa) {
             lblResultadoBadge.setText("✓  " + base);
             lblResultadoBadge.setStyle(
                 "-fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 5 14 5 14; " +

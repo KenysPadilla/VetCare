@@ -177,6 +177,7 @@ public class ConsultasController implements Initializable {
         String inlineStyle = ui.StyleManager.chipStyle(cssClass);
         if (inlineStyle != null) {
             btn.setStyle(inlineStyle);
+            ui.StyleManager.applyHover(btn, cssClass);
         } else {
             btn.getStyleClass().add(cssClass);
         }

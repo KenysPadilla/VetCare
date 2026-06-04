@@ -74,7 +74,6 @@ public class PrincipalController implements Initializable {
     // Panel dinámico actividad
     @FXML private VBox vboxActividad;
 
-    @FXML private Button btnInicio;
     @FXML private Button btnPropietarios;
     @FXML private Button btnPacientes;
     @FXML private Button btnVeterinarios;
@@ -131,7 +130,7 @@ public class PrincipalController implements Initializable {
 
     private Button[] allNavButtons() {
         return new Button[] {
-                btnInicio, btnPropietarios, btnPacientes, btnVeterinarios, btnEstilistas,
+                btnPropietarios, btnPacientes, btnVeterinarios, btnEstilistas,
                 btnCitas, btnConsultas, btnVacunaciones, btnCirugias, btnInternaciones,
                 btnLaboratorio, btnMedicamentos, btnVacunas, btnServicios, btnFacturacion,
                 btnUsuarios, btnSolicitudes
@@ -151,7 +150,6 @@ public class PrincipalController implements Initializable {
         inicializarGrupos();
         configureSidebarIcons();
         mostrarCabeceraInicio();
-        activarNav(btnInicio);
         cargarDashboard();
         iniciarPollingNotificaciones();
     }
@@ -463,7 +461,6 @@ public class PrincipalController implements Initializable {
     // -------------------------------------------------------------------------
 
     private void configureSidebarIcons() {
-        IconHelper.attachNavIcon(btnInicio, FontAwesomeSolid.HOME);
         IconHelper.attachNavIcon(btnPropietarios, FontAwesomeSolid.USER);
         IconHelper.attachNavIcon(btnPacientes, FontAwesomeSolid.PAW);
         IconHelper.attachNavIcon(btnVeterinarios, FontAwesomeSolid.USER_MD);
@@ -514,7 +511,6 @@ public class PrincipalController implements Initializable {
         contenedorPrincipal.getChildren().clear();
         if (panelInicio != null) contenedorPrincipal.getChildren().add(panelInicio);
         mostrarCabeceraInicio();
-        activarNav(btnInicio);
         cargarDashboard();
     }
 
