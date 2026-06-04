@@ -11,7 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -19,19 +19,28 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Factura;
+import org.kordamp.ikonli.javafx.FontIcon;
 import service.FacturaService;
+import ui.ConfirmDialog;
+import ui.NumericFormatter;
 import ui.StyleManager;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.Optional;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -46,6 +55,12 @@ public class FacturacionController implements Initializable {
     @FXML private Label lblStatPendientes;
     @FXML private Label lblStatPagadas;
     @FXML private Label lblStatIngresos;
+    @FXML private HBox contenedorBarras;
+    @FXML private Label lblEje1;
+    @FXML private Label lblEje15;
+    @FXML private Label lblEjeFin;
+    @FXML private FontIcon iconTendencia;
+    @FXML private Label lblPorcentaje;
     @FXML private TableView<Factura> tablaFacturas;
     @FXML private TableColumn<Factura, String> colId;
     @FXML private TableColumn<Factura, String> colPropietario;
@@ -115,11 +130,11 @@ public class FacturacionController implements Initializable {
                         ? data.getValue().getFechaHora().format(FECHA_FMT) : "—"));
 
         colSubtotal.setCellValueFactory(data -> new SimpleStringProperty(
-                String.format("$%.2f", data.getValue().getSubtotal())));
+                NumericFormatter.formatCurrency(data.getValue().getSubtotal())));
         colImpuesto.setCellValueFactory(data -> new SimpleStringProperty(
-                String.format("$%.2f", data.getValue().getSubtotal() * Factura.TASA_IVA)));
+                NumericFormatter.formatCurrency(data.getValue().getSubtotal() * Factura.TASA_IVA)));
         colTotal.setCellValueFactory(data -> new SimpleStringProperty(
-                String.format("$%.2f", data.getValue().getTotal())));
+                NumericFormatter.formatCurrency(data.getValue().getTotal())));
         colTotal.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String t, boolean empty) {
@@ -198,6 +213,7 @@ public class FacturacionController implements Initializable {
         String inlineStyle = ui.StyleManager.chipStyle(cssClass);
         if (inlineStyle != null) {
             btn.setStyle(inlineStyle);
+            ui.StyleManager.applyHover(btn, cssClass);
         } else {
             btn.getStyleClass().add(cssClass);
         }
@@ -206,22 +222,20 @@ public class FacturacionController implements Initializable {
     }
 
     private String etiquetaEstado(String estado) {
-        if (estado == null) {
-            return "—";
-        }
+        if (estado == null) return "—";
         return switch (estado) {
             case "PENDIENTE" -> "Pendiente";
-            case "PAGADA" -> "Pagada";
-            case "ANULADA" -> "Anulada";
-            default -> estado;
+            case "PAGADA"    -> "Pagada";
+            case "ANULADA"   -> "Anulada";
+            default          -> estado;
         };
     }
 
     private String claseEstado(String etiqueta) {
         return switch (etiqueta) {
-            case "Pagada" -> "badge-confirmado";
+            case "Pagada"  -> "badge-confirmado";
             case "Anulada" -> "badge-critico";
-            default -> "badge-pendiente";
+            default        -> "badge-pendiente";
         };
     }
 
@@ -231,9 +245,90 @@ public class FacturacionController implements Initializable {
             todasLasFacturas.addAll(service.listarTodos());
             actualizarComboPropietarios();
             aplicarFiltros();
+            cargarGraficaIngresos();
         } catch (SQLException e) {
             mostrarAlerta("Error al cargar facturas: " + e.getMessage());
         }
+    }
+
+    private void cargarGraficaIngresos() {
+        YearMonth mesActual  = YearMonth.now();
+        YearMonth mesAnterior = mesActual.minusMonths(1);
+        int diasEnMes = mesActual.lengthOfMonth();
+        int mesNum    = mesActual.getMonthValue();
+        int anioNum   = mesActual.getYear();
+        String mesCorto = mesActual.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+
+        double[] ingresosPorDia = new double[diasEnMes + 1];
+        double totalMesAnterior = 0;
+
+        for (Factura f : todasLasFacturas) {
+            if (!"PAGADA".equals(f.getEstadoFactura()) || f.getFechaHora() == null) continue;
+            LocalDate fecha = f.getFechaHora().toLocalDate();
+            if (fecha.getYear() == anioNum && fecha.getMonthValue() == mesNum) {
+                ingresosPorDia[fecha.getDayOfMonth()] += f.getTotal();
+            } else if (fecha.getYear() == mesAnterior.getYear()
+                    && fecha.getMonthValue() == mesAnterior.getMonthValue()) {
+                totalMesAnterior += f.getTotal();
+            }
+        }
+
+        double maxDia = 0;
+        int diaMax = 1;
+        for (int d = 1; d <= diasEnMes; d++) {
+            if (ingresosPorDia[d] > maxDia) { maxDia = ingresosPorDia[d]; diaMax = d; }
+        }
+
+        // Barras como Region con altura proporcional al maximo del mes
+        contenedorBarras.getChildren().clear();
+        final double ALTURA_MAX = 80.0;
+        int diaHoy = LocalDate.now().getDayOfMonth();
+        for (int d = 1; d <= diasEnMes; d++) {
+            Region barra = new Region();
+            HBox.setHgrow(barra, Priority.ALWAYS);
+            double altura = (maxDia > 0) ? (ingresosPorDia[d] / maxDia) * ALTURA_MAX : 2.0;
+            double alturaFinal = Math.max(altura, 2.0);
+            barra.setPrefHeight(alturaFinal);
+            barra.setMaxHeight(alturaFinal);
+            String color = (d == diaHoy) ? "#2b87a0" : "#e8f4f8";
+            barra.setStyle("-fx-background-color: " + color
+                    + "; -fx-background-radius: 3 3 0 0; -fx-background-insets: 0;");
+            contenedorBarras.getChildren().add(barra);
+        }
+
+        // Etiquetas del eje X: 3 puntos de referencia
+        lblEje1.setText("1 " + mesCorto);
+        lblEje15.setText("15 " + mesCorto);
+        lblEjeFin.setText(diasEnMes + " " + mesCorto);
+
+        // Indicador de tendencia vs mes anterior
+        double totalActual = 0;
+        for (double v : ingresosPorDia) totalActual += v;
+        actualizarTendencia(totalActual, totalMesAnterior);
+    }
+
+    private void actualizarTendencia(double totalActual, double totalAnterior) {
+        if (totalAnterior == 0 && totalActual == 0) {
+            iconTendencia.setIconLiteral("fas-chart-line");
+            iconTendencia.setStyle("-fx-icon-color: #8a9fad;");
+            lblPorcentaje.setText("—");
+            lblPorcentaje.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #8a9fad;");
+            return;
+        }
+        if (totalAnterior == 0) {
+            iconTendencia.setIconLiteral("fas-arrow-up");
+            iconTendencia.setStyle("-fx-icon-color: #27ae60;");
+            lblPorcentaje.setText("Nuevo");
+            lblPorcentaje.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #27ae60;");
+            return;
+        }
+        double pct = ((totalActual - totalAnterior) / totalAnterior) * 100.0;
+        boolean sube = pct >= 0;
+        String color = sube ? "#27ae60" : "#e53e3e";
+        iconTendencia.setIconLiteral(sube ? "fas-arrow-up" : "fas-arrow-down");
+        iconTendencia.setStyle("-fx-icon-color: " + color + ";");
+        lblPorcentaje.setText(String.format("%+.1f%%", pct));
+        lblPorcentaje.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: " + color + ";");
     }
 
     private void actualizarComboPropietarios() {
@@ -251,28 +346,22 @@ public class FacturacionController implements Initializable {
 
     private void aplicarFiltros() {
         String texto = txtBuscar.getText() != null ? txtBuscar.getText().trim().toLowerCase() : "";
-        String prop = cbPropietario.getValue();
+        String prop  = cbPropietario.getValue();
         String estado = cbEstadoPago.getValue();
 
         List<Factura> filtradas = new ArrayList<>();
         for (Factura f : todasLasFacturas) {
             if (prop != null && !"Todos".equals(prop)) {
                 String nombre = f.getPropietario() != null ? f.getPropietario().getNombreCompleto() : "";
-                if (!prop.equals(nombre)) {
-                    continue;
-                }
+                if (!prop.equals(nombre)) continue;
             }
-            if (estado != null && !"Todos".equals(estado) && !estado.equals(f.getEstadoFactura())) {
-                continue;
-            }
+            if (estado != null && !"Todos".equals(estado) && !estado.equals(f.getEstadoFactura())) continue;
             if (!texto.isEmpty()) {
                 String busqueda = (
                         (f.getPropietario() != null ? f.getPropietario().getNombreCompleto() : "") + " "
-                                + (f.getPaciente() != null ? f.getPaciente().getNombre() : "")
+                        + (f.getPaciente() != null ? f.getPaciente().getNombre() : "")
                 ).toLowerCase();
-                if (!busqueda.contains(texto)) {
-                    continue;
-                }
+                if (!busqueda.contains(texto)) continue;
             }
             filtradas.add(f);
         }
@@ -282,8 +371,7 @@ public class FacturacionController implements Initializable {
     }
 
     private void actualizarEstadisticas() {
-        int pendientes = 0;
-        int pagadas = 0;
+        int pendientes = 0, pagadas = 0;
         double ingresos = 0;
         for (Factura f : todasLasFacturas) {
             if ("PENDIENTE".equals(f.getEstadoFactura())) {
@@ -296,7 +384,7 @@ public class FacturacionController implements Initializable {
         lblStatTotal.setText(String.valueOf(todasLasFacturas.size()));
         lblStatPendientes.setText(String.valueOf(pendientes));
         lblStatPagadas.setText(String.valueOf(pagadas));
-        lblStatIngresos.setText(String.format("$%,.0f", ingresos));
+        lblStatIngresos.setText(NumericFormatter.formatCurrency(ingresos));
     }
 
     @FXML
@@ -351,29 +439,28 @@ public class FacturacionController implements Initializable {
             mostrarAlerta("Solo las facturas pendientes pueden marcarse como pagadas.");
             return;
         }
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Confirmar Pago");
-        confirm.setHeaderText(null);
-        confirm.setContentText("¿Confirmar pago de Factura #" + sel.getId()
-                + " por $" + String.format("%.2f", sel.getTotal()) + "?");
-        Optional<ButtonType> result = confirm.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            try {
-                service.actualizarEstado(sel.getId(), "PAGADA");
-                cargarDatos();
-            } catch (SQLException e) {
-                mostrarAlerta("Error: " + e.getMessage());
-            }
+        ChoiceDialog<String> dlgMetodo = new ChoiceDialog<>("EFECTIVO",
+                java.util.List.of("EFECTIVO", "TARJETA", "TRANSFERENCIA", "OTRO"));
+        dlgMetodo.setTitle("Registrar Pago");
+        dlgMetodo.setHeaderText("Factura #" + sel.getId()
+                + " — " + NumericFormatter.formatCurrency(sel.getTotal()));
+        dlgMetodo.setContentText("Método de pago:");
+        Optional<String> metodo = dlgMetodo.showAndWait();
+        if (metodo.isEmpty()) return;
+        try {
+            service.pagar(sel.getId(), metodo.get());
+            cargarDatos();
+        } catch (SQLException e) {
+            mostrarAlerta("Error: " + e.getMessage());
         }
     }
 
     private void anular(Factura sel) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Confirmar Anulación");
-        confirm.setHeaderText(null);
-        confirm.setContentText("¿Anular la Factura #" + sel.getId() + "?");
-        Optional<ButtonType> result = confirm.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (ConfirmDialog.mostrar(
+                "Anular Factura", "🗑",
+                "¿Anular la Factura #" + sel.getId() + "?\n"
+                        + "Esta acción no se puede deshacer.",
+                "Anular", "#e53e3e")) {
             try {
                 service.anular(sel.getId());
                 cargarDatos();

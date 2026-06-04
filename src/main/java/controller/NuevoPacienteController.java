@@ -7,23 +7,102 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.Paciente;
 import model.Propietario;
 import service.PacienteService;
 import service.PropietarioService;
 
+import util.ComboBoxFilter;
+
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class NuevoPacienteController implements Initializable {
+
+    private static final List<String> TODAS_LAS_ESPECIES = Arrays.asList(
+        "Perro", "Gato", "Conejo", "Hámster Dorado", "Hámster Ruso",
+        "Cobaya / Cuy", "Chinchilla", "Hurón", "Rata Doméstica", "Ratón Doméstico",
+        "Erizo Africano", "Degú", "Jerbo", "Mini Pig",
+        "Ave", "Loro / Papagayo", "Periquito / Perico", "Canario",
+        "Cacatúa", "Guacamayo", "Agapornis", "Cotorra",
+        "Reptil", "Iguana", "Tortuga", "Serpiente", "Gecko", "Camaleón",
+        "Pez", "Otro"
+    );
+
+    private static final List<String> TODAS_LAS_RAZAS = Arrays.asList(
+        // ── Perros ──────────────────────────────────────────────────────
+        "Labrador Retriever", "Golden Retriever", "Pastor Alemán",
+        "Bulldog Francés", "Bulldog Inglés", "French Poodle",
+        "Beagle", "Rottweiler", "Yorkshire Terrier", "Chihuahua",
+        "Dachshund / Teckel", "Boxer", "Doberman Pinscher", "Husky Siberiano",
+        "Border Collie", "Cocker Spaniel Inglés", "Cocker Spaniel Americano",
+        "Shih Tzu", "Maltés", "Pomerania / Spitz", "Schnauzer Miniatura",
+        "Schnauzer Estándar", "Schnauzer Gigante", "Pit Bull Terrier",
+        "American Bully", "Dálmata", "Shar-Pei", "Akita Inu", "Shiba Inu",
+        "Bichón Frisé", "Gran Danés", "Samoyedo", "Alaskan Malamute",
+        "Jack Russell Terrier", "Pug / Carlino", "Basset Hound", "Chow Chow",
+        "Weimaraner", "Australian Shepherd", "Australian Cattle Dog",
+        "Bernese Mountain Dog", "Cavalier King Charles Spaniel",
+        "Springer Spaniel Inglés", "Setter Irlandés", "Setter Inglés",
+        "Bull Terrier", "Staffordshire Bull Terrier",
+        "American Staffordshire Terrier", "Airedale Terrier",
+        "West Highland White Terrier", "Cairn Terrier", "Scottish Terrier",
+        "Fox Terrier Pelo Liso", "Fox Terrier Pelo Duro", "Border Terrier",
+        "Welsh Corgi Pembroke", "Welsh Corgi Cardigan", "Rough Collie",
+        "Shetland Sheepdog", "Old English Sheepdog", "Lhasa Apso",
+        "Pekingés", "Cane Corso", "Dogo Argentino", "Fila Brasileño",
+        "Boerboel", "Mastín Napolitano", "Mastín Inglés", "Mastín Tibetano",
+        "Pastor Belga Malinois", "Pastor Belga Tervuren",
+        "Pastor Blanco Suizo", "Rhodesian Ridgeback", "Greyhound / Galgo",
+        "Whippet", "Afghan Hound", "Saluki", "Irish Wolfhound",
+        "Borzoi", "Vizsla Húngaro", "Braco Alemán",
+        "Nova Scotia Duck Tolling Retriever", "Flat-Coated Retriever",
+        "Chesapeake Bay Retriever", "Irish Water Spaniel",
+        "Newfoundland / Terranova", "San Bernardo", "Leonberger",
+        "Miniature Pinscher", "Maltipoo", "Labradoodle", "Goldendoodle",
+        "Cockapoo", "Havanés", "Coton de Tuléar", "Bichón Habanero",
+        "Perro de Agua Español", "Cimarrón Uruguayo", "Galgo Español",
+        "Podenco Ibicenco", "Perro Sin Pelo del Perú", "Xoloitzcuintle",
+        "Spitz Japonés",
+        // ── Gatos ───────────────────────────────────────────────────────
+        "Persa", "Siamés", "Maine Coon", "Ragdoll", "Bengalí",
+        "British Shorthair", "Abisinio", "Sphynx", "Scottish Fold",
+        "Birmano", "Angora Turco", "Azul Ruso", "Devon Rex", "Cornish Rex",
+        "Selkirk Rex", "American Shorthair", "American Curl",
+        "Noruego del Bosque", "Siberiano", "Bombay", "Burmés",
+        "Tonkinés", "Ocicat", "Mau Egipcio", "Balinés",
+        "Turkish Van", "Somali", "Chartreux", "Manx",
+        "Singapura", "Javanés",
+        // ── Aves ────────────────────────────────────────────────────────
+        "Periquito Australiano", "Periquito Americano", "Canario",
+        "Loro Amazónico", "Loro Gris Africano", "Cacatúa",
+        "Cacatúa Ninfa / Cockatiel", "Agapornis", "Guacamayo Azul y Amarillo",
+        "Guacamayo Rojo", "Cotorra", "Perico", "Tucán", "Paloma", "Jilguero",
+        // ── Reptiles ────────────────────────────────────────────────────
+        "Iguana Verde", "Iguana Rinoceronte", "Gecko Leopardo",
+        "Gecko de Cresta", "Camaleón Velado", "Tortuga de Tierra",
+        "Tortuga Acuática", "Tortuga Mediterránea", "Boa Constrictor",
+        "Serpiente Maíz", "Dragón Barbudo", "Lagartija de Jardín",
+        // ── Pequeños mamíferos ──────────────────────────────────────────
+        "Hámster Dorado", "Hámster Ruso", "Hámster Chino",
+        "Conejo", "Cobaya / Cuy", "Ratón Doméstico", "Rata Doméstica",
+        "Hurón", "Chinchilla", "Erizo Africano", "Jerbo", "Degú",
+        // ── General ─────────────────────────────────────────────────────
+        "Mestizo", "Otra"
+    );
 
     @FXML private ComboBox<Propietario> cbPropietario;
     @FXML private TextField             txtNombre;
     @FXML private ComboBox<String>      cbEspecie;
     @FXML private TextField             txtEspecieOtro;
-    @FXML private TextField             txtRaza;
+    @FXML private ComboBox<String>      cbRaza;
+    @FXML private TextField             txtRazaOtra;
     @FXML private ComboBox<String>      cbSexo;
     @FXML private TextField             txtPeso;
     @FXML private DatePicker            dpFechaNacimiento;
@@ -31,34 +110,67 @@ public class NuevoPacienteController implements Initializable {
     @FXML private Button                btnGuardar;
     @FXML private Label                 lblMensaje;
 
-    /** No nulo cuando el formulario abre en modo edicion. */
     private Paciente pacienteEnEdicion = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            cbPropietario.getItems().addAll(new PropietarioService().listarTodos());
+            List<Propietario> propietarios = new PropietarioService().listarTodos();
+            ComboBoxFilter.apply(cbPropietario, propietarios, Object::toString);
         } catch (SQLException e) {
             System.err.println("Error cargando propietarios: " + e.getMessage());
         }
-        cbEspecie.getItems().addAll("Perro", "Gato", "Ave", "Reptil", "Otro");
-        cbEspecie.setOnAction(e -> {
-            boolean esOtro = "Otro".equals(cbEspecie.getValue());
+
+        // ComboBox de especie con filtro en tiempo real
+        cbEspecie.setEditable(true);
+        cbEspecie.getItems().addAll(TODAS_LAS_ESPECIES);
+        cbEspecie.getEditor().addEventHandler(KeyEvent.KEY_RELEASED, ev -> {
+            String texto = cbEspecie.getEditor().getText();
+            String lower = texto == null ? "" : texto.toLowerCase();
+            List<String> filtradas = TODAS_LAS_ESPECIES.stream()
+                .filter(e -> e.toLowerCase().contains(lower))
+                .collect(Collectors.toList());
+            cbEspecie.getItems().setAll(filtradas);
+            cbEspecie.getEditor().setText(texto);
+            cbEspecie.getEditor().positionCaret(texto == null ? 0 : texto.length());
+            if (!filtradas.isEmpty()) cbEspecie.show();
+        });
+        cbEspecie.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            boolean esOtro = "Otro".equals(newVal);
             txtEspecieOtro.setVisible(esOtro);
             txtEspecieOtro.setManaged(esOtro);
             if (!esOtro) txtEspecieOtro.clear();
         });
+
         cbSexo.getItems().addAll("Macho", "Hembra");
+
+        // ComboBox de raza con filtro en tiempo real
+        cbRaza.setEditable(true);
+        cbRaza.getItems().addAll(TODAS_LAS_RAZAS);
+
+        cbRaza.getEditor().addEventHandler(KeyEvent.KEY_RELEASED, ev -> {
+            String texto = cbRaza.getEditor().getText();
+            String lower = texto == null ? "" : texto.toLowerCase();
+            List<String> filtradas = TODAS_LAS_RAZAS.stream()
+                .filter(r -> r.toLowerCase().contains(lower))
+                .collect(Collectors.toList());
+            cbRaza.getItems().setAll(filtradas);
+            cbRaza.getEditor().setText(texto);
+            cbRaza.getEditor().positionCaret(texto == null ? 0 : texto.length());
+            if (!filtradas.isEmpty()) cbRaza.show();
+        });
+
+        cbRaza.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            boolean esOtra = "Otra".equals(newVal);
+            txtRazaOtra.setVisible(esOtra);
+            txtRazaOtra.setManaged(esOtra);
+            if (!esOtra) txtRazaOtra.clear();
+        });
     }
 
-    /**
-     * Pre-rellena el formulario con los datos del paciente a editar,
-     * deshabilita el selector de propietario y cambia el boton a "Actualizar".
-     */
     public void setModoEdicion(Paciente pac) {
         this.pacienteEnEdicion = pac;
 
-        // Seleccionar el propietario en el combo por cedula
         if (pac.getPropietario() != null) {
             String cedula = pac.getPropietario().getCedula();
             for (Propietario p : cbPropietario.getItems()) {
@@ -71,16 +183,27 @@ public class NuevoPacienteController implements Initializable {
         cbPropietario.setDisable(true);
 
         txtNombre.setText(pac.getNombre());
-        java.util.List<String> especiesFijas = java.util.List.of("Perro", "Gato", "Ave", "Reptil");
-        if (pac.getEspecie() != null && !especiesFijas.contains(pac.getEspecie())) {
+
+        String especie = pac.getEspecie() != null ? pac.getEspecie() : "";
+        if (!especie.isEmpty() && !TODAS_LAS_ESPECIES.contains(especie)) {
             cbEspecie.setValue("Otro");
-            txtEspecieOtro.setText(pac.getEspecie());
+            txtEspecieOtro.setText(especie);
             txtEspecieOtro.setVisible(true);
             txtEspecieOtro.setManaged(true);
         } else {
-            cbEspecie.setValue(pac.getEspecie());
+            cbEspecie.setValue(especie.isEmpty() ? null : especie);
         }
-        txtRaza.setText(pac.getRaza() != null ? pac.getRaza() : "");
+
+        String raza = pac.getRaza() != null ? pac.getRaza() : "";
+        if (!raza.isEmpty() && !TODAS_LAS_RAZAS.contains(raza)) {
+            cbRaza.setValue("Otra");
+            txtRazaOtra.setText(raza);
+            txtRazaOtra.setVisible(true);
+            txtRazaOtra.setManaged(true);
+        } else {
+            cbRaza.setValue(raza.isEmpty() ? null : raza);
+        }
+
         cbSexo.setValue(pac.getSexo());
         if (pac.getPeso() > 0) {
             txtPeso.setText(String.valueOf(pac.getPeso()));
@@ -92,8 +215,15 @@ public class NuevoPacienteController implements Initializable {
 
     @FXML
     private void handleGuardar() {
-        String especieVal = "Otro".equals(cbEspecie.getValue())
-                ? txtEspecieOtro.getText().trim() : cbEspecie.getValue();
+        String especieVal;
+        if ("Otro".equals(cbEspecie.getValue())) {
+            especieVal = txtEspecieOtro.getText().trim();
+        } else if (cbEspecie.getValue() != null) {
+            especieVal = cbEspecie.getValue();
+        } else {
+            especieVal = cbEspecie.getEditor().getText() != null
+                ? cbEspecie.getEditor().getText().trim() : "";
+        }
 
         if (txtNombre.getText().trim().isEmpty()
                 || especieVal == null || especieVal.isEmpty() || cbSexo.getValue() == null) {
@@ -101,12 +231,22 @@ public class NuevoPacienteController implements Initializable {
             return;
         }
 
+        String razaVal;
+        if ("Otra".equals(cbRaza.getValue())) {
+            razaVal = txtRazaOtra.getText().trim();
+        } else if (cbRaza.getValue() != null) {
+            razaVal = cbRaza.getValue();
+        } else {
+            razaVal = cbRaza.getEditor().getText() != null
+                ? cbRaza.getEditor().getText().trim() : "";
+        }
+
         try {
             Paciente pac = new Paciente();
-            pac.setPropietario(cbPropietario.getValue()); // puede ser null
+            pac.setPropietario(cbPropietario.getValue());
             pac.setNombre(txtNombre.getText().trim());
             pac.setEspecie(especieVal);
-            pac.setRaza(txtRaza.getText().trim());
+            pac.setRaza(razaVal);
             pac.setSexo(cbSexo.getValue());
             if (!txtPeso.getText().trim().isEmpty()) {
                 pac.setPeso(Double.parseDouble(txtPeso.getText().trim()));

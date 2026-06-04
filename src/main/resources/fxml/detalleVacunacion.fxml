@@ -75,6 +75,8 @@
                     <Label fx:id="lblFechaAplicacion"  styleClass="detail-field-value" GridPane.rowIndex="0" GridPane.columnIndex="1" />
                     <Label text="Próxima dosis:"       styleClass="detail-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
                     <Label fx:id="lblFechaProxima"     styleClass="detail-field-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="Estado:"              styleClass="detail-field-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <Label fx:id="lblEstado"           styleClass="detail-field-value" GridPane.rowIndex="2" GridPane.columnIndex="1" />
                 </GridPane>
 
                 <Label text="OBSERVACIONES" styleClass="detail-section-title" />

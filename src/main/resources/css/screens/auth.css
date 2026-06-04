@@ -1,0 +1,175 @@
+/* Pantalla de login — Figma Make Login.tsx */
+
+.login-root {
+    -fx-background-color: #f5f5f0;
+}
+
+.login-brand-panel {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a2e3b 0%, #1e3d52 50%, #2b87a0 100%);
+    -fx-alignment: CENTER;
+    -fx-spacing: 24;
+    -fx-padding: 48 52 48 52;
+}
+
+.login-brand-title {
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.login-brand-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #a0c4d8;
+    -fx-wrap-text: true;
+    -fx-text-alignment: CENTER;
+    -fx-alignment: CENTER;
+    -fx-max-width: 340;
+}
+
+.login-brand-feature {
+    -fx-font-size: 13px;
+    -fx-text-fill: rgba(255, 255, 255, 0.60);
+    -fx-wrap-text: false;
+}
+
+.login-form-panel {
+    -fx-background-color: #f5f5f0;
+    -fx-alignment: CENTER;
+}
+
+.login-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.24), 48, 0, 0, 16);
+    -fx-padding: 36 40 36 40;
+    -fx-max-width: 430;
+    -fx-min-width: 390;
+    -fx-spacing: 20;
+}
+
+.login-card-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.login-card-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6b7f8e;
+    -fx-padding: 0 0 4 0;
+}
+
+.login-logo {
+    -fx-fit-width: 160;
+    -fx-fit-height: 160;
+    -fx-preserve-ratio: true;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.20), 20, 0, 0, 8);
+}
+
+.logo-blue-inline {
+    -fx-fit-width: 28;
+    -fx-fit-height: 28;
+    -fx-preserve-ratio: true;
+}
+
+.code-input-field {
+    -fx-font-size: 20px;
+    -fx-alignment: CENTER;
+}
+
+/* ── Indicador de pasos ── */
+.step-circle-done {
+    -fx-background-color: #2b87a0;
+    -fx-background-radius: 16;
+    -fx-min-width: 32;  -fx-max-width: 32;
+    -fx-min-height: 32; -fx-max-height: 32;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER;
+}
+
+.step-circle-pending {
+    -fx-background-color: transparent;
+    -fx-border-color: #c0cdd6;
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-min-width: 32;  -fx-max-width: 32;
+    -fx-min-height: 32; -fx-max-height: 32;
+    -fx-text-fill: #6b7f8e;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER;
+}
+
+.step-line {
+    -fx-pref-height: 1.5;
+    -fx-max-height: 1.5;
+    -fx-background-color: #d4dae0;
+}
+
+/* ── Cajas individuales de código ── */
+.digit-box {
+    -fx-background-color: #f0f2f4;
+    -fx-background-radius: 10;
+    -fx-border-color: transparent;
+    -fx-border-radius: 10;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+    -fx-alignment: CENTER;
+    -fx-pref-width: 50;
+    -fx-min-width: 50;
+    -fx-max-width: 50;
+    -fx-pref-height: 56;
+}
+
+.digit-box:focused {
+    -fx-background-color: #eef7fa;
+    -fx-border-color: #2b87a0;
+    -fx-border-width: 2;
+}
+
+/* ── Paso completado (✓ verde) ── */
+.step-circle-check {
+    -fx-background-color: #27ae60;
+    -fx-background-radius: 16;
+    -fx-min-width: 32;  -fx-max-width: 32;
+    -fx-min-height: 32; -fx-max-height: 32;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-alignment: CENTER;
+}
+
+/* ── Paso activo/actual (número, teal) ── */
+.step-circle-active {
+    -fx-background-color: #2b87a0;
+    -fx-background-radius: 16;
+    -fx-min-width: 32;  -fx-max-width: 32;
+    -fx-min-height: 32; -fx-max-height: 32;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER;
+}
+
+/* ── Línea "completada" (teal) ── */
+.step-line-done {
+    -fx-pref-height: 1.5;
+    -fx-max-height: 1.5;
+    -fx-background-color: #2b87a0;
+}
+
+/* ── Botón volver tipo enlace, alineado a la izquierda ── */
+.btn-back-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6b7f8e;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 2 0 8 0;
+    -fx-background-insets: 0;
+    -fx-alignment: CENTER_LEFT;
+}

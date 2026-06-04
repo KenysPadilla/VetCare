@@ -7,11 +7,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -32,7 +33,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PacientesController implements Initializable {
@@ -52,7 +52,6 @@ public class PacientesController implements Initializable {
     @FXML private TableColumn<Paciente, String> colSexo;
     @FXML private TableColumn<Paciente, Paciente> colEdadPeso;
     @FXML private TableColumn<Paciente, String> colPropietario;
-    @FXML private TableColumn<Paciente, String> colVeterinario;
     @FXML private TableColumn<Paciente, String> colUltimaVisita;
     @FXML private TableColumn<Paciente, Paciente> colAcciones;
     @FXML private Button btnEditar;
@@ -85,11 +84,10 @@ public class PacientesController implements Initializable {
                     return;
                 }
                 Paciente p = getTableView().getItems().get(getIndex());
-                Label emoji = new Label(emojiEspecie(p.getEspecie()));
-                emoji.getStyleClass().add("species-emoji");
+                FontIcon icon = iconEspecie(p.getEspecie());
                 Label name = new Label(nombre);
                 name.getStyleClass().add("owner-name-cell");
-                HBox row = new HBox(8, emoji, name);
+                HBox row = new HBox(8, icon, name);
                 row.setAlignment(Pos.CENTER_LEFT);
                 setGraphic(row);
             }
@@ -114,16 +112,6 @@ public class PacientesController implements Initializable {
                 data.getValue().getPropietario() != null
                         ? data.getValue().getPropietario().getNombreCompleto()
                         : "Sin propietario"));
-
-        colVeterinario.setCellValueFactory(data -> new SimpleStringProperty("Sin asignar"));
-        colVeterinario.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(String vet, boolean empty) {
-                super.updateItem(vet, empty);
-                setText(empty || vet == null ? null : vet);
-                setStyle(empty || vet == null ? "" : "-fx-text-fill: #6b7f8e;");
-            }
-        });
 
         colUltimaVisita.setCellValueFactory(data -> new SimpleStringProperty("—"));
         colUltimaVisita.setCellFactory(col -> new TableCell<>() {
@@ -187,6 +175,7 @@ public class PacientesController implements Initializable {
         String inlineStyle = ui.StyleManager.chipStyle(cssClass);
         if (inlineStyle != null) {
             btn.setStyle(inlineStyle);
+            ui.StyleManager.applyHover(btn, cssClass);
         } else {
             btn.getStyleClass().add(cssClass);
         }
@@ -194,18 +183,26 @@ public class PacientesController implements Initializable {
         return btn;
     }
 
-    private String emojiEspecie(String especie) {
-        if (especie == null) {
-            return "🐾";
+    private FontIcon iconEspecie(String especie) {
+        String lit = "fas-paw";
+        if (especie != null) {
+            String e = especie.toLowerCase();
+            if (e.contains("perro")   || e.contains("canin"))              lit = "fas-dog";
+            else if (e.contains("gato")    || e.contains("felin"))         lit = "fas-cat";
+            else if (e.contains("ave")     || e.contains("pájaro")
+                  || e.contains("pajaro")  || e.contains("loro")
+                  || e.contains("canario") || e.contains("periquito"))     lit = "fas-dove";
+            else if (e.contains("pez")     || e.contains("peces"))         lit = "fas-fish";
+            else if (e.contains("reptil")  || e.contains("iguana")
+                  || e.contains("lagarto") || e.contains("gecko")
+                  || e.contains("tortuga") || e.contains("serpiente"))     lit = "fas-frog";
+            else if (e.contains("caballo") || e.contains("equino"))        lit = "fas-horse";
+            else if (e.contains("conejo"))                                  lit = "fas-paw";
         }
-        String e = especie.toLowerCase();
-        if (e.contains("perro") || e.contains("canin")) {
-            return "🐕";
-        }
-        if (e.contains("gato") || e.contains("felin")) {
-            return "🐈";
-        }
-        return "🐾";
+        FontIcon icon = new FontIcon(lit);
+        icon.setIconSize(18);
+        icon.setIconColor(Color.web("#c2843a"));
+        return icon;
     }
 
     private boolean esPerro(String especie) {

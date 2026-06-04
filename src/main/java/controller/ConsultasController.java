@@ -11,13 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,6 +23,8 @@ import javafx.stage.Stage;
 import model.Consulta;
 import service.CitaService;
 import service.ConsultaService;
+import ui.ConfirmDialog;
+import ui.NumericFormatter;
 import ui.StyleManager;
 
 import java.net.URL;
@@ -33,7 +32,6 @@ import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ConsultasController implements Initializable {
@@ -142,13 +140,13 @@ public class ConsultasController implements Initializable {
         });
 
         colCosto.setCellValueFactory(data -> new SimpleStringProperty(
-                String.format("$%,.2f", data.getValue().getCosto())));
+                NumericFormatter.formatCurrency(data.getValue().getCosto())));
         colCosto.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String val, boolean empty) {
                 super.updateItem(val, empty);
                 setText(empty || val == null ? null : val);
-                setStyle(empty || val == null ? "" : "-fx-text-fill: #1B6B2F; -fx-font-weight: bold; -fx-alignment: CENTER-RIGHT;");
+                setStyle(empty || val == null ? "" : "-fx-text-fill: #27ae60; -fx-font-weight: bold; -fx-alignment: CENTER-RIGHT;");
             }
         });
 
@@ -179,6 +177,7 @@ public class ConsultasController implements Initializable {
         String inlineStyle = ui.StyleManager.chipStyle(cssClass);
         if (inlineStyle != null) {
             btn.setStyle(inlineStyle);
+            ui.StyleManager.applyHover(btn, cssClass);
         } else {
             btn.getStyleClass().add(cssClass);
         }
@@ -272,27 +271,6 @@ public class ConsultasController implements Initializable {
         }
     }
 
-    private void verPrescripcion(Consulta sel) {
-        String tratamiento = sel.getTratamiento();
-        Alert prescripcion = new Alert(Alert.AlertType.INFORMATION);
-        prescripcion.setTitle("Tratamiento — Consulta #" + sel.getId());
-        prescripcion.setHeaderText(
-                (sel.getPaciente() != null ? sel.getPaciente().getNombre() : "?") + "  |  "
-                        + (sel.getFechaHora() != null ? sel.getFechaHora().format(FECHA_FMT) : "?"));
-
-        if (tratamiento == null || tratamiento.trim().isEmpty()) {
-            prescripcion.setContentText("Sin tratamiento registrado.");
-        } else {
-            TextArea ta = new TextArea(tratamiento);
-            ta.setEditable(false);
-            ta.setWrapText(true);
-            ta.setPrefSize(480, 260);
-            prescripcion.getDialogPane().setContent(ta);
-            prescripcion.getDialogPane().setPrefWidth(520);
-        }
-        prescripcion.showAndWait();
-    }
-
     @FXML
     private void handleEditar() {
         Consulta sel = tablaConsultas.getSelectionModel().getSelectedItem();
@@ -323,15 +301,11 @@ public class ConsultasController implements Initializable {
             mostrarAlerta("Seleccione una consulta para eliminar.");
             return;
         }
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Confirmar eliminación");
-        confirmacion.setHeaderText(null);
-        confirmacion.setContentText(
-                "¿Desea eliminar la Consulta #" + sel.getId() + "?\n"
-                        + "Si tenía una cita asociada, la cita volverá a estado PROGRAMADA.");
-        Optional<ButtonType> resultado = confirmacion.showAndWait();
-
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+        if (ConfirmDialog.mostrar(
+                "Eliminar Consulta", "🗑",
+                "¿Eliminar la Consulta #" + sel.getId() + "?\n"
+                        + "Si tenía una cita asociada, la cita volverá a estado PROGRAMADA.",
+                "Eliminar", "#e53e3e")) {
             try {
                 if (sel.getCita() != null) {
                     new CitaService().actualizarEstado(sel.getCita().getId(), "PROGRAMADA");

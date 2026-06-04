@@ -69,7 +69,7 @@
                     <TableColumn fx:id="colCorreo" prefWidth="180" text="EMAIL" />
                     <TableColumn fx:id="colCiudad" prefWidth="140" text="DIRECCIÓN" />
                     <TableColumn fx:id="colMascotas" prefWidth="100" text="MASCOTAS" />
-                    <TableColumn fx:id="colAcciones" prefWidth="80" minWidth="60" text="DETALLES" />
+                    <TableColumn fx:id="colAcciones" prefWidth="80" minWidth="60" text="DETALLE" />
                 </columns>
             </TableView>
         </StackPane>

@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,6 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.ServicioEstetico;
 import service.ServicioEsteticoService;
+import ui.NumericFormatter;
 import ui.StyleManager;
 
 import java.net.URL;
@@ -37,7 +37,22 @@ public class ServiciosEsteticosController implements Initializable {
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter HORA_FMT = DateTimeFormatter.ofPattern("HH:mm");
 
-    @FXML private TabPane tabPane;
+    private static final String ESTILO_TAB_ACTIVO =
+            "-fx-background-color: white; -fx-text-fill: #2b87a0;" +
+            "-fx-font-size: 12.5px; -fx-font-weight: bold;" +
+            "-fx-background-radius: 999; -fx-border-color: transparent; -fx-border-width: 0;" +
+            "-fx-padding: 7 22 7 22; -fx-cursor: hand;" +
+            "-fx-effect: dropshadow(gaussian, rgba(26,46,59,0.14), 6, 0, 0, 1);";
+    private static final String ESTILO_TAB_INACTIVO =
+            "-fx-background-color: transparent; -fx-text-fill: #8a9fad;" +
+            "-fx-font-size: 12.5px; -fx-font-weight: normal;" +
+            "-fx-background-radius: 999; -fx-border-color: transparent; -fx-border-width: 0;" +
+            "-fx-padding: 7 22 7 22; -fx-cursor: hand;";
+
+    @FXML private Button btnTabBano;
+    @FXML private Button btnTabMotilada;
+    @FXML private VBox contenidoBano;
+    @FXML private VBox contenidoMotilada;
     @FXML private TextField txtBuscarBano;
     @FXML private TextField txtBuscarMotilada;
     @FXML private Label lblStatTotal;
@@ -73,9 +88,31 @@ public class ServiciosEsteticosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnTabBano.setStyle(ESTILO_TAB_ACTIVO);
+        btnTabMotilada.setStyle(ESTILO_TAB_INACTIVO);
         configurarTablaBanos();
         configurarTablaMotiladas();
         cargarDatos();
+    }
+
+    @FXML
+    private void handleSwitchBano() {
+        btnTabBano.setStyle(ESTILO_TAB_ACTIVO);
+        btnTabMotilada.setStyle(ESTILO_TAB_INACTIVO);
+        contenidoBano.setVisible(true);
+        contenidoBano.setManaged(true);
+        contenidoMotilada.setVisible(false);
+        contenidoMotilada.setManaged(false);
+    }
+
+    @FXML
+    private void handleSwitchMotilada() {
+        btnTabMotilada.setStyle(ESTILO_TAB_ACTIVO);
+        btnTabBano.setStyle(ESTILO_TAB_INACTIVO);
+        contenidoMotilada.setVisible(true);
+        contenidoMotilada.setManaged(true);
+        contenidoBano.setVisible(false);
+        contenidoBano.setManaged(false);
     }
 
     private void configurarTablaBanos() {
@@ -148,7 +185,7 @@ public class ServiciosEsteticosController implements Initializable {
                         ? data.getValue().getFechaHora().format(HORA_FMT) : "—"));
 
         cPrecio.setCellValueFactory(data -> new SimpleStringProperty(
-                String.format("$%.2f", data.getValue().getPrecio())));
+                NumericFormatter.formatCurrency(data.getValue().getPrecio())));
 
         cEstado.setCellValueFactory(data -> new SimpleStringProperty(
                 etiquetaEstado(data.getValue().getEstadoServicio())));
@@ -219,6 +256,7 @@ public class ServiciosEsteticosController implements Initializable {
         String inlineStyle = ui.StyleManager.chipStyle(cssClass);
         if (inlineStyle != null) {
             btn.setStyle(inlineStyle);
+            ui.StyleManager.applyHover(btn, cssClass);
         } else {
             btn.getStyleClass().add(cssClass);
         }

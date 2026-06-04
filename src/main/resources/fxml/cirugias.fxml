@@ -61,9 +61,10 @@
                     <TableColumn fx:id="colVeterinario" prefWidth="120" text="VETERINARIO" />
                     <TableColumn fx:id="colFechaHora" prefWidth="110" text="FECHA" />
                     <TableColumn fx:id="colAnestesia" prefWidth="100" text="ANESTESIA" />
+                    <TableColumn fx:id="colDuracion" prefWidth="95" text="DURACIÓN" />
                     <TableColumn fx:id="colEstado" prefWidth="120" text="ESTADO" />
                     <TableColumn fx:id="colCosto" prefWidth="90" text="COSTO" />
-                    <TableColumn fx:id="colResultado" prefWidth="80" text="DETALLES" />
+                    <TableColumn fx:id="colResultado" prefWidth="80" text="DETALLE" />
                     <TableColumn fx:id="colOperaciones" prefWidth="110" text="" />
                 </columns>
             </TableView>

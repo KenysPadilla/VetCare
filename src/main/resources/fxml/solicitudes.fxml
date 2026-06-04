@@ -58,6 +58,7 @@
                     <TableColumn fx:id="colFecha" prefWidth="90" text="FECHA CITA" />
                     <TableColumn fx:id="colHora" prefWidth="70" text="HORA" />
                     <TableColumn fx:id="colFechaSolicitud" prefWidth="110" text="RECIBIDA" />
+                    <TableColumn fx:id="colAcciones" prefWidth="80" minWidth="70" text="DETALLE" />
                 </columns>
                 <placeholder>
                     <Label styleClass="cell-subtext" text="No hay solicitudes pendientes." />

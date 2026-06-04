@@ -25,6 +25,8 @@ import service.MedicamentoService;
 import service.PacienteService;
 import service.VeterinarioService;
 
+import util.ComboBoxFilter;
+
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -50,8 +52,6 @@ public class NuevaConsultaController implements Initializable {
     @FXML private ListView<String>       lvPrescritos;
     @FXML private TextField              txtPrecioConsulta;
     @FXML private Label                  lblResumenConsulta;
-    @FXML private Label                  lblResumenMedicamentos;
-    @FXML private Label                  lblTotalCosto;
 
     private List<Medicamento> todosMedicamentos = new ArrayList<>();
 
@@ -115,7 +115,10 @@ public class NuevaConsultaController implements Initializable {
         // ── Carga de citas disponibles ──
         try {
             List<Cita> citasDisponibles = new CitaService().listarDisponiblesParaConsulta();
-            cbCita.getItems().setAll(citasDisponibles);
+            ComboBoxFilter.apply(cbCita, citasDisponibles,
+                c -> "Cita #" + c.getId()
+                    + (c.getPaciente() != null ? " – " + c.getPaciente().getNombre() : "")
+                    + (c.getFechaHora() != null ? " " + c.getFechaHora().toLocalDate() : ""));
             if (citasDisponibles.isEmpty()) {
                 mostrarMensaje("No hay citas disponibles en este momento.", "#856404");
             }
@@ -125,12 +128,14 @@ public class NuevaConsultaController implements Initializable {
 
         // ── Carga de pacientes y veterinarios (para modo sin cita) ──
         try {
-            cbPaciente.getItems().setAll(new PacienteService().listarTodos());
+            List<Paciente> pacientes = new PacienteService().listarTodos();
+            ComboBoxFilter.apply(cbPaciente, pacientes, Object::toString);
         } catch (java.sql.SQLException e) {
             mostrarMensaje("Error al cargar pacientes: " + e.getMessage(), "#D32F2F");
         }
         try {
-            cbVeterinario.getItems().setAll(new VeterinarioService().listarActivos());
+            List<Veterinario> vets = new VeterinarioService().listarActivos();
+            ComboBoxFilter.apply(cbVeterinario, vets, Object::toString);
         } catch (java.sql.SQLException e) {
             mostrarMensaje("Error al cargar veterinarios: " + e.getMessage(), "#D32F2F");
         }
@@ -162,6 +167,7 @@ public class NuevaConsultaController implements Initializable {
 
         lvPrescritos.setItems(prescripciones);
 
+        ui.NumericFormatter.apply(txtPrecioConsulta);
         txtPrecioConsulta.textProperty().addListener((obs, o, n) -> recalcularTotal());
         recalcularTotal();
     }
@@ -232,13 +238,8 @@ public class NuevaConsultaController implements Initializable {
             mostrarMensaje("Síntomas y diagnóstico son obligatorios.", "#D32F2F");
             return;
         }
-        double precioConsulta;
-        try {
-            String txtPrecio = txtPrecioConsulta.getText().trim().replace(",", ".");
-            if (txtPrecio.isEmpty()) throw new NumberFormatException("vacío");
-            precioConsulta = Double.parseDouble(txtPrecio);
-            if (precioConsulta < 0) throw new NumberFormatException("negativo");
-        } catch (NumberFormatException e) {
+        double precioConsulta = ui.NumericFormatter.toDouble(txtPrecioConsulta);
+        if (precioConsulta <= 0) {
             mostrarMensaje("Ingrese un precio válido para la consulta.", "#D32F2F");
             return;
         }
@@ -303,6 +304,9 @@ public class NuevaConsultaController implements Initializable {
             cerrarVentana();
         } catch (java.sql.SQLException e) {
             mostrarMensaje("Error al guardar: " + e.getMessage(), "#D32F2F");
+        } catch (RuntimeException e) {
+            mostrarMensaje("Error inesperado: " + e.getMessage(), "#D32F2F");
+            e.printStackTrace();
         }
     }
 
@@ -312,18 +316,8 @@ public class NuevaConsultaController implements Initializable {
     }
 
     private void recalcularTotal() {
-        double base = 0;
-        try {
-            String txt = txtPrecioConsulta.getText().trim().replace(",", ".");
-            if (!txt.isEmpty()) base = Double.parseDouble(txt);
-        } catch (NumberFormatException ignored) {}
-
-        double totalMed = 0;
-        for (Medicamento m : medicamentosPrescritos) totalMed += m.getPrecio();
-
-        lblResumenConsulta.setText(String.format("$%,.2f", base));
-        lblResumenMedicamentos.setText(String.format("$%,.2f", totalMed));
-        lblTotalCosto.setText(String.format("$%,.2f", base + totalMed));
+        double base = ui.NumericFormatter.toDouble(txtPrecioConsulta);
+        lblResumenConsulta.setText(base > 0 ? ui.NumericFormatter.formatCurrency(base) : "—");
     }
 
     private void cerrarVentana() {

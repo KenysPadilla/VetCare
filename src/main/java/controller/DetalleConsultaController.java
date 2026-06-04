@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import model.Consulta;
+import ui.NumericFormatter;
 
 public class DetalleConsultaController {
 
@@ -48,7 +49,7 @@ public class DetalleConsultaController {
             lblEspecialidad.setText("—");
         }
 
-        lblCosto.setText("$" + String.format("%.2f", c.getCosto()));
+        lblCosto.setText(NumericFormatter.formatCurrency(c.getCosto()));
         taSintomas.setText(orDash(c.getSintomas()));
         taDiagnostico.setText(orDash(c.getDiagnostico()));
         taTratamiento.setText(orDash(c.getTratamiento()));

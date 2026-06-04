@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import model.Vacunacion;
+import ui.NumericFormatter;
 
 public class DetalleVacunacionController {
 
@@ -18,6 +19,7 @@ public class DetalleVacunacionController {
     @FXML private Label   lblVeterinario;
     @FXML private Label   lblFechaAplicacion;
     @FXML private Label   lblFechaProxima;
+    @FXML private Label   lblEstado;
     @FXML private TextArea taObservaciones;
 
     public void setDatos(Vacunacion v) {
@@ -41,7 +43,7 @@ public class DetalleVacunacionController {
         if (v.getVacuna() != null) {
             lblVacuna.setText(orDash(v.getVacuna().getNombre()));
             lblLaboratorio.setText(orDash(v.getVacuna().getLaboratorio()));
-            lblPrecio.setText("$" + String.format("%,.2f", v.getVacuna().getPrecio()));
+            lblPrecio.setText(NumericFormatter.formatCurrency(v.getVacuna().getPrecio()));
         } else {
             lblVacuna.setText("—");
             lblLaboratorio.setText("—");
@@ -58,6 +60,16 @@ public class DetalleVacunacionController {
                 ? v.getFechaHoraAplicacion().toString().replace("T", "  ") : "—");
         lblFechaProxima.setText(v.getFechaProxima() != null
                 ? v.getFechaProxima().toString() : "No programada");
+
+        String estadoDisplay = VacunacionesController.calcularEstadoDisplay(v);
+        lblEstado.setText(estadoDisplay);
+        String color = switch (estadoDisplay) {
+            case "Aplicada"   -> "#27ae60";
+            case "Pendiente"  -> "#e67e22";
+            case "Programada" -> "#2b87a0";
+            default           -> "#6b7f8e";
+        };
+        lblEstado.setStyle("-fx-font-weight: bold; -fx-text-fill: " + color + ";");
 
         taObservaciones.setText(orDash(v.getObservaciones()));
     }

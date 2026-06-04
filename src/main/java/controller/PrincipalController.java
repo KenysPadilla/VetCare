@@ -28,7 +28,17 @@ import service.PacienteService;
 import service.VeterinarioService;
 import ui.IconHelper;
 import ui.NavHelper;
+import ui.NumericFormatter;
 import ui.StyleManager;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
+import javafx.geometry.Insets;
+import javafx.scene.layout.Priority;
+import javafx.util.Duration;
+import org.kordamp.ikonli.javafx.FontIcon;
+import service.SolicitudCitaService;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -64,7 +74,6 @@ public class PrincipalController implements Initializable {
     // Panel dinámico actividad
     @FXML private VBox vboxActividad;
 
-    @FXML private Button btnInicio;
     @FXML private Button btnPropietarios;
     @FXML private Button btnPacientes;
     @FXML private Button btnVeterinarios;
@@ -82,15 +91,46 @@ public class PrincipalController implements Initializable {
     @FXML private Button btnUsuarios;
     @FXML private Button btnSolicitudes;
     @FXML private Button btnCerrarSesion;
+    @FXML private VBox   panelNotificacion;
+
+    // Accordion: VBox con los ítems de cada grupo (visible/managed toggled)
+    @FXML private VBox grupoRegistroItems;
+    @FXML private VBox grupoPersonalItems;
+    @FXML private VBox grupoConsultaItems;
+    @FXML private VBox grupoProcedimientosItems;
+    @FXML private VBox grupoSaludPreventivaItems;
+    @FXML private VBox grupoEsteticaItems;
+    @FXML private VBox grupoAdministracionItems;
+
+    // Accordion: íconos de flecha (se rotan con RotateTransition)
+    @FXML private FontIcon arrowRegistro;
+    @FXML private FontIcon arrowPersonal;
+    @FXML private FontIcon arrowConsulta;
+    @FXML private FontIcon arrowProcedimientos;
+    @FXML private FontIcon arrowSaludPreventiva;
+    @FXML private FontIcon arrowEstetica;
+    @FXML private FontIcon arrowAdministracion;
+
+    // Accordion: botones cabecera (para aplicar/quitar la clase activa)
+    @FXML private Button btnGrupoRegistro;
+    @FXML private Button btnGrupoPersonal;
+    @FXML private Button btnGrupoConsulta;
+    @FXML private Button btnGrupoProcedimientos;
+    @FXML private Button btnGrupoSaludPreventiva;
+    @FXML private Button btnGrupoEstetica;
+    @FXML private Button btnGrupoAdministracion;
 
     private Node panelInicio;
+    private Timeline pollingTimeline;
+    private int pendingCount   = 0;
+    private int dismissedCount = 0;
 
     private static final DateTimeFormatter FMT_HORA  = DateTimeFormatter.ofPattern("HH:mm");
     private static final DateTimeFormatter FMT_FECHA = DateTimeFormatter.ofPattern("dd/MM");
 
     private Button[] allNavButtons() {
         return new Button[] {
-                btnInicio, btnPropietarios, btnPacientes, btnVeterinarios, btnEstilistas,
+                btnPropietarios, btnPacientes, btnVeterinarios, btnEstilistas,
                 btnCitas, btnConsultas, btnVacunaciones, btnCirugias, btnInternaciones,
                 btnLaboratorio, btnMedicamentos, btnVacunas, btnServicios, btnFacturacion,
                 btnUsuarios, btnSolicitudes
@@ -107,10 +147,82 @@ public class PrincipalController implements Initializable {
         contenedorPrincipal.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) StyleManager.apply(newScene);
         });
+        inicializarGrupos();
         configureSidebarIcons();
         mostrarCabeceraInicio();
-        activarNav(btnInicio);
         cargarDashboard();
+        iniciarPollingNotificaciones();
+    }
+
+    // -------------------------------------------------------------------------
+    // Notificaciones — solicitudes pendientes del chatbot
+    // -------------------------------------------------------------------------
+
+    private void iniciarPollingNotificaciones() {
+        verificarSolicitudesPendientes();
+        pollingTimeline = new Timeline(new KeyFrame(Duration.seconds(30), e -> verificarSolicitudesPendientes()));
+        pollingTimeline.setCycleCount(Animation.INDEFINITE);
+        pollingTimeline.play();
+    }
+
+    private void verificarSolicitudesPendientes() {
+        try {
+            int count = new SolicitudCitaService().listarPendientes().size();
+            if (count > dismissedCount) {
+                mostrarNotificacion(count);
+            } else if (count == 0) {
+                dismissedCount = 0;
+                ocultarNotificacion();
+            }
+        } catch (Exception ignored) {}
+    }
+
+    private void mostrarNotificacion(int count) {
+        pendingCount = count;
+        panelNotificacion.getChildren().clear();
+
+        FontIcon icono = new FontIcon(FontAwesomeSolid.BELL);
+        icono.setIconSize(12);
+        icono.setStyle("-fx-icon-color: #d97706;");
+
+        String texto = count == 1 ? "1 solicitud pendiente" : count + " solicitudes pendientes";
+        Label lblTexto = new Label(texto);
+        lblTexto.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #92400e;");
+        HBox.setHgrow(lblTexto, Priority.ALWAYS);
+        lblTexto.setMaxWidth(Double.MAX_VALUE);
+
+        Button btnCerrar = new Button("×");
+        btnCerrar.setStyle("-fx-background-color: transparent; -fx-text-fill: #92400e;"
+                + "-fx-font-size: 15px; -fx-cursor: hand; -fx-padding: 0 2 0 2; -fx-border-color: transparent;");
+        btnCerrar.setOnAction(e -> {
+            e.consume();
+            dismissedCount = pendingCount;
+            ocultarNotificacion();
+        });
+
+        HBox fila = new HBox(6, icono, lblTexto, btnCerrar);
+        fila.setAlignment(Pos.CENTER_LEFT);
+
+        Label lblSub = new Label("del chatbot · toca para ver");
+        lblSub.setStyle("-fx-font-size: 11px; -fx-text-fill: #b45309;");
+        VBox.setMargin(lblSub, new Insets(0, 0, 0, 18));
+
+        panelNotificacion.getChildren().addAll(fila, lblSub);
+        panelNotificacion.setOnMouseClicked(e -> {
+            if (!(e.getTarget() instanceof Button)) {
+                dismissedCount = pendingCount;
+                ocultarNotificacion();
+                handleSolicitudes();
+            }
+        });
+
+        panelNotificacion.setVisible(true);
+        panelNotificacion.setManaged(true);
+    }
+
+    private void ocultarNotificacion() {
+        panelNotificacion.setVisible(false);
+        panelNotificacion.setManaged(false);
     }
 
     // -------------------------------------------------------------------------
@@ -197,7 +309,7 @@ public class PrincipalController implements Initializable {
                             && !"ANULADA".equals(f.getEstadoFactura()))
                     .mapToDouble(Factura::getTotal)
                     .sum();
-            lblFacturacionHoy.setText("$" + String.format("%,.0f", totalHoy));
+            lblFacturacionHoy.setText(NumericFormatter.formatCurrency(totalHoy));
         } catch (Exception ignored) { lblFacturacionHoy.setText("—"); }
 
         // --- Veterinarios ---
@@ -349,7 +461,6 @@ public class PrincipalController implements Initializable {
     // -------------------------------------------------------------------------
 
     private void configureSidebarIcons() {
-        IconHelper.attachNavIcon(btnInicio, FontAwesomeSolid.HOME);
         IconHelper.attachNavIcon(btnPropietarios, FontAwesomeSolid.USER);
         IconHelper.attachNavIcon(btnPacientes, FontAwesomeSolid.PAW);
         IconHelper.attachNavIcon(btnVeterinarios, FontAwesomeSolid.USER_MD);
@@ -400,7 +511,6 @@ public class PrincipalController implements Initializable {
         contenedorPrincipal.getChildren().clear();
         if (panelInicio != null) contenedorPrincipal.getChildren().add(panelInicio);
         mostrarCabeceraInicio();
-        activarNav(btnInicio);
         cargarDashboard();
     }
 
@@ -412,6 +522,7 @@ public class PrincipalController implements Initializable {
             contenedorPrincipal.getChildren().add(vista);
             mostrarCabeceraModulo(titulo);
             activarNav(navButton);
+            abrirGrupoDeBoton(navButton);
         } catch (Exception e) {
             mostrarCabeceraModulo("Error al cargar: " + titulo);
             e.printStackTrace();
@@ -435,8 +546,81 @@ public class PrincipalController implements Initializable {
     @FXML private void handleVacunas()       { cargarVista("vacunas.fxml",             "Vacunas",         btnVacunas);       }
     @FXML private void handleSolicitudes()   { cargarVista("solicitudes.fxml",         "Solicitudes",     btnSolicitudes);   }
 
+    // -------------------------------------------------------------------------
+    // Accordion sidebar — toggle, colores activos y auto-apertura
+    // -------------------------------------------------------------------------
+
+    /** Agrupación de las tres referencias que definen un grupo del accordion. */
+    private record NavGrupo(Button header, VBox items, FontIcon arrow) {}
+    private List<NavGrupo> navGrupos;
+
+    /** Construye la lista de grupos. Llamar desde initialize() tras la inyección FXML. */
+    private void inicializarGrupos() {
+        navGrupos = List.of(
+            new NavGrupo(btnGrupoRegistro,       grupoRegistroItems,        arrowRegistro),
+            new NavGrupo(btnGrupoPersonal,        grupoPersonalItems,        arrowPersonal),
+            new NavGrupo(btnGrupoConsulta,        grupoConsultaItems,        arrowConsulta),
+            new NavGrupo(btnGrupoProcedimientos,  grupoProcedimientosItems,  arrowProcedimientos),
+            new NavGrupo(btnGrupoSaludPreventiva, grupoSaludPreventivaItems, arrowSaludPreventiva),
+            new NavGrupo(btnGrupoEstetica,        grupoEsteticaItems,        arrowEstetica),
+            new NavGrupo(btnGrupoAdministracion,  grupoAdministracionItems,  arrowAdministracion)
+        );
+    }
+
+    /** Cierra un grupo: oculta ítems, quita clase activa y gira la flecha a 0°. */
+    private void cerrarGrupo(NavGrupo g) {
+        g.items().setVisible(false);
+        g.items().setManaged(false);
+        g.header().getStyleClass().remove("nav-group-header-active");
+        RotateTransition rt = new RotateTransition(Duration.millis(180), g.arrow());
+        rt.setToAngle(0);
+        rt.play();
+    }
+
+    /** Abre un grupo: cierra todos los demás, muestra ítems, añade clase activa y gira la flecha a 90°. */
+    private void abrirGrupo(NavGrupo target) {
+        navGrupos.stream()
+                 .filter(g -> g.items().isVisible() && g != target)
+                 .forEach(this::cerrarGrupo);
+        target.items().setVisible(true);
+        target.items().setManaged(true);
+        if (!target.header().getStyleClass().contains("nav-group-header-active")) {
+            target.header().getStyleClass().add("nav-group-header-active");
+        }
+        RotateTransition rt = new RotateTransition(Duration.millis(180), target.arrow());
+        rt.setToAngle(90);
+        rt.play();
+    }
+
+    /** Toggle: si estaba abierto lo cierra; si estaba cerrado abre (y cierra el anterior). */
+    private void toggleGrupo(NavGrupo g) {
+        if (g.items().isVisible()) cerrarGrupo(g);
+        else                       abrirGrupo(g);
+    }
+
+    @FXML private void toggleGrupoRegistro()        { toggleGrupo(navGrupos.get(0)); }
+    @FXML private void toggleGrupoPersonal()        { toggleGrupo(navGrupos.get(1)); }
+    @FXML private void toggleGrupoConsulta()        { toggleGrupo(navGrupos.get(2)); }
+    @FXML private void toggleGrupoProcedimientos()  { toggleGrupo(navGrupos.get(3)); }
+    @FXML private void toggleGrupoSaludPreventiva() { toggleGrupo(navGrupos.get(4)); }
+    @FXML private void toggleGrupoEstetica()        { toggleGrupo(navGrupos.get(5)); }
+    @FXML private void toggleGrupoAdministracion()  { toggleGrupo(navGrupos.get(6)); }
+
+    /**
+     * Abre automáticamente el grupo que contiene el botón dado.
+     * Se invoca desde cargarVista() para que al navegar desde cualquier
+     * punto (tarjetas KPI, etc.) el grupo quede visible y marcado.
+     */
+    private void abrirGrupoDeBoton(Button btn) {
+        navGrupos.stream()
+                 .filter(g -> g.items().getChildren().stream().anyMatch(n -> n == btn))
+                 .findFirst()
+                 .ifPresent(g -> { if (!g.items().isVisible()) abrirGrupo(g); });
+    }
+
     @FXML
     private void handleCerrarSesion() {
+        if (pollingTimeline != null) pollingTimeline.stop();
         util.Sesion.cerrarSesion();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));

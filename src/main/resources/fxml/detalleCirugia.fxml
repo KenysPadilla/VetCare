@@ -55,16 +55,24 @@
                         <ColumnConstraints minWidth="130" prefWidth="130" />
                         <ColumnConstraints hgrow="ALWAYS" />
                     </columnConstraints>
-                    <Label text="Fecha / Hora:"      styleClass="detail-field-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <Label text="Fecha programada:"  styleClass="detail-field-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
                     <Label fx:id="lblFechaHora"      styleClass="detail-field-value" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-                    <Label text="Veterinario:"       styleClass="detail-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                    <Label fx:id="lblVeterinario"    styleClass="detail-field-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-                    <Label text="Tipo de Cirugía:"   styleClass="detail-field-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                    <Label fx:id="lblTipoCirugia"    styleClass="detail-field-value" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-                    <Label text="Anestesia:"         styleClass="detail-field-label" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-                    <Label fx:id="lblAnestesia"      styleClass="detail-field-value" GridPane.rowIndex="3" GridPane.columnIndex="1" />
-                    <Label text="Costo:"             styleClass="detail-field-label" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-                    <Label fx:id="lblCosto" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                    <Label text="Estado:"            styleClass="detail-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <Label fx:id="lblEstado"         styleClass="detail-field-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="Veterinario:"       styleClass="detail-field-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <Label fx:id="lblVeterinario"    styleClass="detail-field-value" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                    <Label text="Tipo de Cirugía:"   styleClass="detail-field-label" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                    <Label fx:id="lblTipoCirugia"    styleClass="detail-field-value" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                    <Label text="Anestesia:"         styleClass="detail-field-label" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                    <Label fx:id="lblAnestesia"      styleClass="detail-field-value" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                    <Label text="Inicio:"            styleClass="detail-field-label" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                    <Label fx:id="lblHoraInicio"     styleClass="detail-field-value" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                    <Label text="Fin:"               styleClass="detail-field-label" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+                    <Label fx:id="lblHoraFin"        styleClass="detail-field-value" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                    <Label text="Duración:"          styleClass="detail-field-label" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+                    <Label fx:id="lblDuracion"       styleClass="detail-field-value" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+                    <Label text="Costo:"             styleClass="detail-field-label" GridPane.rowIndex="8" GridPane.columnIndex="0" />
+                    <Label fx:id="lblCosto" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" GridPane.rowIndex="8" GridPane.columnIndex="1" />
                 </GridPane>
 
                 <Label text="PROCEDIMIENTO Y RESULTADO" styleClass="detail-section-title" />
@@ -76,9 +84,15 @@
                                      -fx-font-size: 12px; -fx-text-fill: #3d5a6a; -fx-padding: 0;" />
                 </VBox>
 
-                <Label text="Resultado / Evolución:" styleClass="detail-field-label" />
-                <VBox styleClass="lab-obs-panel">
-                    <TextArea fx:id="taResultado" prefHeight="85" editable="false" wrapText="true"
+                <Label text="Resultado:" styleClass="detail-field-label" />
+                <Label fx:id="lblResultadoBadge"
+                       style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 5 14 5 14;
+                              -fx-background-radius: 20; -fx-border-radius: 20;" />
+
+                <Label fx:id="lblObsLabel" text="Observaciones:" styleClass="detail-field-label"
+                       style="-fx-padding: 4 0 0 0;" />
+                <VBox fx:id="obsPanel" styleClass="lab-obs-panel">
+                    <TextArea fx:id="taResultado" prefHeight="70" editable="false" wrapText="true"
                               style="-fx-background-color: transparent; -fx-border-color: transparent;
                                      -fx-font-size: 12px; -fx-text-fill: #3d5a6a; -fx-padding: 0;" />
                 </VBox>

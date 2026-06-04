@@ -12,6 +12,7 @@ import model.Internacion;
 import model.InternacionMedicamento;
 import model.Medicamento;
 import service.InternacionService;
+import ui.NumericFormatter;
 
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
@@ -69,7 +70,7 @@ public class DetalleInternacionController {
         lblVeterinario.setText(i.getVeterinario() != null
                 ? "Dr. " + i.getVeterinario().getNombreCompleto() : "—");
 
-        lblCostoDia.setText("$" + String.format("%.2f", i.getCostoDia()));
+        lblCostoDia.setText(NumericFormatter.formatCurrency(i.getCostoDia()));
 
         // Cargar medicamentos desde la base de datos
         try {
@@ -84,15 +85,15 @@ public class DetalleInternacionController {
         double costoMeds = i.calcularCostoMedicamentos();
         double costoDias = i.calcularCostoDias();
 
-        lblCostoDias.setText(internado ? "En curso" : "$" + String.format("%.2f", costoDias));
-        lblCostoMeds.setText("$" + String.format("%.2f", costoMeds));
+        lblCostoDias.setText(internado ? "En curso" : NumericFormatter.formatCurrency(costoDias));
+        lblCostoMeds.setText(NumericFormatter.formatCurrency(costoMeds));
 
         if (internado) {
             lblCostoTotal.setText(costoMeds > 0
-                    ? "En curso + $" + String.format("%.2f", costoMeds) + " (medic.)"
+                    ? "En curso + " + NumericFormatter.formatCurrency(costoMeds) + " (medic.)"
                     : "En curso");
         } else {
-            lblCostoTotal.setText("$" + String.format("%.2f", costoDias + costoMeds));
+            lblCostoTotal.setText(NumericFormatter.formatCurrency(costoDias + costoMeds));
         }
 
         taMotivo.setText(orDash(i.getMotivo()));

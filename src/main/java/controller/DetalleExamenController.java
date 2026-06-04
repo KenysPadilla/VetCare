@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import model.ExamenLab;
+import ui.NumericFormatter;
 
 import java.time.format.DateTimeFormatter;
 
@@ -64,7 +65,7 @@ public class DetalleExamenController {
                 ? e.getFechaHora().toLocalDate().format(FECHA_FMT) : "—");
         lblVeterinario.setText(e.getVeterinario() != null
                 ? "Dr. " + e.getVeterinario().getNombreCompleto() : "—");
-        lblCosto.setText("$" + String.format("%.2f", e.getCosto()));
+        lblCosto.setText(NumericFormatter.formatCurrency(e.getCosto()));
 
         taResultado.setText(tieneResultado ? e.getResultado() : "Sin resultado registrado.");
         taObservaciones.setText(orDash(e.getObservaciones()));

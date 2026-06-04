@@ -107,12 +107,12 @@
                             style="-fx-background-color: #e8f4f8; -fx-text-fill: #2b87a0; -fx-border-color: #2b87a0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;"
                             text="Ver Detalle" />
                     <Button fx:id="btnModificar" onAction="#handleModificar" prefHeight="36" minHeight="36" maxHeight="36"
-                            style="-fx-background-color: #e8f4f8; -fx-text-fill: #2b87a0; -fx-border-color: #2b87a0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;"
+                            style="-fx-background-color: #fef1e0; -fx-text-fill: #e67e22; -fx-border-color: #e67e22; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;"
                             text="Modificar" />
                     <Region HBox.hgrow="ALWAYS" />
                     <Button fx:id="btnEnCurso" onAction="#handleMarcarEnCurso" prefHeight="36" minHeight="36" maxHeight="36"
-                            style="-fx-background-color: #fef1e0; -fx-text-fill: #e67e22; -fx-border-color: #e67e22; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;"
-                            text="En Curso" />
+                            style="-fx-background-color: #edf9f2; -fx-text-fill: #27ae60; -fx-border-color: #27ae60; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;"
+                            text="Iniciar" />
                     <Button fx:id="btnCancelar" onAction="#handleCancelarCita" prefHeight="36" minHeight="36" maxHeight="36"
                             style="-fx-background-color: #fde8e8; -fx-text-fill: #e53e3e; -fx-border-color: #e53e3e; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;"
                             text="Cancelar" />

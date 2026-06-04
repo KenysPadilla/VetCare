@@ -19,6 +19,7 @@ import service.ConsultaService;
 import service.ExamenLabService;
 import service.InternacionService;
 import service.VacunacionService;
+import ui.NumericFormatter;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -113,7 +114,7 @@ public class HistorialClinicoController implements Initializable {
         colCirVeterinario.setCellValueFactory(d -> new SimpleStringProperty(
                 d.getValue().getVeterinario() != null ? d.getValue().getVeterinario().getNombreCompleto() : "—"));
         colCirCosto.setCellValueFactory(d -> new SimpleStringProperty(
-                String.format("$%.2f", d.getValue().getCosto())));
+                NumericFormatter.formatCurrency(d.getValue().getCosto())));
 
         colIntIngreso.setCellValueFactory(d -> new SimpleStringProperty(
                 d.getValue().getFechaHoraIngreso() != null
@@ -126,9 +127,9 @@ public class HistorialClinicoController implements Initializable {
         colIntVeterinario.setCellValueFactory(d -> new SimpleStringProperty(
                 d.getValue().getVeterinario() != null ? d.getValue().getVeterinario().getNombreCompleto() : "—"));
         colIntCostoDia.setCellValueFactory(d -> new SimpleStringProperty(
-                String.format("$%.2f", d.getValue().getCostoDia())));
+                NumericFormatter.formatCurrency(d.getValue().getCostoDia())));
         colIntCostoTotal.setCellValueFactory(d -> new SimpleStringProperty(
-                String.format("$%.2f", d.getValue().calcularCostoTotal())));
+                NumericFormatter.formatCurrency(d.getValue().calcularCostoTotal())));
 
         colExaTipo.setCellValueFactory(d -> new SimpleStringProperty(
                 d.getValue().getTipoExamen() != null ? d.getValue().getTipoExamen() : "—"));
@@ -139,7 +140,7 @@ public class HistorialClinicoController implements Initializable {
         colExaResultados.setCellValueFactory(d -> new SimpleStringProperty(
                 d.getValue().getResultado() != null ? d.getValue().getResultado() : "—"));
         colExaCosto.setCellValueFactory(d -> new SimpleStringProperty(
-                String.format("$%.2f", d.getValue().getCosto())));
+                NumericFormatter.formatCurrency(d.getValue().getCosto())));
     }
 
     public void setPaciente(Paciente p) {

@@ -15,11 +15,15 @@ import model.Paciente;
 import model.Veterinario;
 import service.ConsultaService;
 import service.ExamenLabService;
+import ui.NumericFormatter;
 import service.PacienteService;
 import service.VeterinarioService;
 
+import util.ComboBoxFilter;
+
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -30,6 +34,7 @@ public class NuevoExamenController implements Initializable {
     @FXML private ComboBox<Consulta>    cbConsulta;
     @FXML private ComboBox<Veterinario> cbVeterinario;
     @FXML private ComboBox<String>      cbTipoExamen;
+    @FXML private ComboBox<String>      cbPrioridad;
     @FXML private DatePicker            dpFechaSolicitud;
     @FXML private TextField             txtCosto;
     @FXML private Label                 lblMensaje;
@@ -61,21 +66,27 @@ public class NuevoExamenController implements Initializable {
 
         // --- Cargar combos estáticos ---
         try {
-            cbPaciente.getItems().setAll(new PacienteService().listarTodos());
+            List<Paciente> pacientes = new PacienteService().listarTodos();
+            ComboBoxFilter.apply(cbPaciente, pacientes, Object::toString);
         } catch (SQLException e) {
             mostrarMensaje("Error al cargar pacientes: " + e.getMessage(), "#D32F2F");
         }
         try {
-            cbVeterinario.getItems().setAll(new VeterinarioService().listarActivos());
+            List<Veterinario> vets = new VeterinarioService().listarActivos();
+            ComboBoxFilter.apply(cbVeterinario, vets, Object::toString);
         } catch (SQLException e) {
             mostrarMensaje("Error al cargar veterinarios: " + e.getMessage(), "#D32F2F");
         }
 
-        cbTipoExamen.getItems().addAll(
-                "Hemograma", "Uroanálisis", "Cultivo", "Coprológico", "Rayos X", "Ecografía");
+        ComboBoxFilter.apply(cbTipoExamen, Arrays.asList(
+                "Hemograma", "Uroanálisis", "Cultivo", "Coprológico", "Rayos X", "Ecografía"));
+
+        cbPrioridad.getItems().addAll("NORMAL", "URGENTE");
+        cbPrioridad.getSelectionModel().selectFirst();
 
         // cbConsulta starts disabled until a patient is selected
         cbConsulta.setDisable(true);
+        NumericFormatter.apply(txtCosto);
     }
 
     @FXML
@@ -146,15 +157,7 @@ public class NuevoExamenController implements Initializable {
             return;
         }
 
-        double costo = 0.0;
-        if (!txtCosto.getText().trim().isEmpty()) {
-            try {
-                costo = Double.parseDouble(txtCosto.getText().trim());
-            } catch (NumberFormatException ex) {
-                mostrarMensaje("El costo debe ser un valor numérico.", "#D32F2F");
-                return;
-            }
-        }
+        double costo = NumericFormatter.toDouble(txtCosto);
 
         try {
             ExamenLab e = new ExamenLab();
@@ -166,6 +169,7 @@ public class NuevoExamenController implements Initializable {
             e.setVeterinario(cbVeterinario.getValue());
             e.setFechaHora(dpFechaSolicitud.getValue().atTime(java.time.LocalTime.now()));
             e.setTipoExamen(cbTipoExamen.getValue());
+            e.setPrioridad(cbPrioridad.getValue() != null ? cbPrioridad.getValue() : "NORMAL");
             e.setResultado("");
             e.setObservaciones("");
             e.setCosto(costo);

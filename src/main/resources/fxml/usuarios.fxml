@@ -56,12 +56,11 @@
         <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS">
             <TableView fx:id="tablaUsuarios">
                 <columns>
-                    <TableColumn fx:id="colUsuario" prefWidth="160" text="USUARIO" />
-                    <TableColumn fx:id="colNombre" prefWidth="160" text="NOMBRE" />
-                    <TableColumn fx:id="colRol" prefWidth="120" text="ROL" />
-                    <TableColumn fx:id="colCorreo" prefWidth="180" text="CORREO" />
-                    <TableColumn fx:id="colEstado" prefWidth="110" text="ESTADO" />
-                    <TableColumn fx:id="colEmpleado" prefWidth="200" text="EMPLEADO VINCULADO" />
+                    <TableColumn fx:id="colUsuario"  prefWidth="180" text="USUARIO" />
+                    <TableColumn fx:id="colRol"      prefWidth="130" text="ROL" />
+                    <TableColumn fx:id="colCorreo"   prefWidth="220" text="CORREO" />
+                    <TableColumn fx:id="colEstado"   prefWidth="110" text="ESTADO" />
+                    <TableColumn fx:id="colEmpleado" prefWidth="220" text="EMPLEADO VINCULADO" />
                 </columns>
             </TableView>
         </StackPane>

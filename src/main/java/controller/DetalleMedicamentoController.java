@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import model.Medicamento;
+import ui.NumericFormatter;
 
 import java.time.LocalDate;
 
@@ -38,7 +39,7 @@ public class DetalleMedicamentoController {
         lblFabricante.setText(orDash(m.getFabricante()));
         lblConcentracion.setText(orDash(m.getConcentracion()));
         lblPrecio.setText(m.getPrecio() > 0
-                ? String.format("$ %.2f", m.getPrecio()) : "—");
+                ? NumericFormatter.formatCurrency(m.getPrecio()) : "—");
 
         lblStock.setText(m.getStockDisponible() + " unidades");
 

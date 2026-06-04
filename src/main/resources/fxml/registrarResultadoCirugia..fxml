@@ -8,15 +8,17 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefWidth="480" prefHeight="410" styleClass="detail-dialog"
+<AnchorPane prefWidth="460" prefHeight="390" styleClass="detail-dialog"
             xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
             fx:controller="controller.RegistrarResultadoCirugiaController">
 
     <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
           AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
+        <!-- Cabecera -->
         <VBox styleClass="detail-header" spacing="4">
             <HBox alignment="CENTER_LEFT" spacing="12" styleClass="detail-header-brand">
                 <HBox alignment="CENTER" styleClass="detail-header-logo-box">
@@ -31,29 +33,35 @@
             </HBox>
         </VBox>
 
-        <VBox styleClass="detail-content" spacing="18" VBox.vgrow="ALWAYS">
+        <!-- Cuerpo -->
+        <VBox styleClass="detail-content" spacing="14" VBox.vgrow="ALWAYS">
 
             <Label text="RESULTADO DE LA CIRUGÍA" styleClass="detail-section-title" />
+            <Label text="Seleccione el resultado del procedimiento quirúrgico"
+                   style="-fx-font-size: 11px; -fx-text-fill: #8a9fad;" />
 
-            <HBox spacing="16" alignment="CENTER">
-                <ToggleButton fx:id="btnExitosa" prefWidth="196" prefHeight="76" />
-                <ToggleButton fx:id="btnComplicacion" prefWidth="196" prefHeight="76" />
+            <HBox spacing="12" alignment="CENTER" style="-fx-padding: 4 0 4 0;">
+                <ToggleButton fx:id="btnExitosa"     prefWidth="196" prefHeight="62" HBox.hgrow="ALWAYS" />
+                <ToggleButton fx:id="btnComplicacion" prefWidth="196" prefHeight="62" HBox.hgrow="ALWAYS" />
             </HBox>
 
-            <Label text="OBSERVACIONES (opcional)" styleClass="detail-section-title" />
-            <VBox styleClass="lab-obs-panel">
-                <TextArea fx:id="taObservaciones" prefHeight="95" wrapText="true"
-                          promptText="Describa detalles del resultado, complicaciones o seguimiento recomendado..."
-                          style="-fx-font-size: 12px;" />
+            <Label text="OBSERVACIONES (opcional)" styleClass="detail-section-title"
+                   style="-fx-padding: 4 0 0 0;" />
+            <VBox styleClass="lab-obs-panel" VBox.vgrow="ALWAYS">
+                <TextArea fx:id="taObservaciones" prefHeight="90" wrapText="true"
+                          promptText="Detalles del resultado, seguimiento recomendado..."
+                          style="-fx-font-size: 12px; -fx-background-color: transparent;
+                                 -fx-border-color: transparent;" />
             </VBox>
 
         </VBox>
 
+        <!-- Pie -->
         <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="detail-footer">
             <Button text="Cancelar" onAction="#handleCancelar"
-                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="100" styleClass="btn-cancelar" />
-            <Button text="Guardar" onAction="#handleGuardar"
-                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="100" styleClass="btn-cerrar" />
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="110" styleClass="btn-cancelar" />
+            <Button text="Guardar resultado" onAction="#handleGuardar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="150" styleClass="btn-cerrar" />
         </HBox>
 
     </VBox>

@@ -72,7 +72,6 @@
                     <TableColumn fx:id="colSexo" prefWidth="70" minWidth="60" text="SEXO" />
                     <TableColumn fx:id="colEdadPeso" prefWidth="100" text="EDAD / PESO" />
                     <TableColumn fx:id="colPropietario" prefWidth="130" text="PROPIETARIO" />
-                    <TableColumn fx:id="colVeterinario" prefWidth="110" text="VETERINARIO" />
                     <TableColumn fx:id="colUltimaVisita" prefWidth="100" text="ÚLTIMA VISITA" />
                     <TableColumn fx:id="colAcciones" prefWidth="135" minWidth="120" text="HISTORIA CLÍNICA" />
                 </columns>

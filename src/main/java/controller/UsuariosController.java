@@ -41,7 +41,6 @@ public class UsuariosController implements Initializable {
     @FXML private Label lblStatAdmin;
     @FXML private TableView<Usuario> tablaUsuarios;
     @FXML private TableColumn<Usuario, Usuario> colUsuario;
-    @FXML private TableColumn<Usuario, String> colNombre;
     @FXML private TableColumn<Usuario, String> colRol;
     @FXML private TableColumn<Usuario, String> colCorreo;
     @FXML private TableColumn<Usuario, String> colEstado;
@@ -77,13 +76,13 @@ public class UsuariosController implements Initializable {
                 avatar.setStyle("-fx-background-color: #2b87a0;");
                 Label name = new Label(u.getNombreUsuario());
                 name.getStyleClass().add("owner-name-cell");
-                setGraphic(new HBox(10, avatar, name));
+                HBox hbox = new HBox(10, avatar, name);
+                hbox.setAlignment(Pos.CENTER_LEFT);
+                setAlignment(Pos.CENTER_LEFT);
+                setGraphic(hbox);
             }
         });
 
-        colNombre.setCellValueFactory(data -> new SimpleStringProperty(
-                (data.getValue().getNombre() != null ? data.getValue().getNombre() : "")
-                        + " " + (data.getValue().getApellido() != null ? data.getValue().getApellido() : "")));
 
         colRol.setCellValueFactory(data -> new SimpleStringProperty(
                 data.getValue().getRol() != null ? data.getValue().getRol() : "—"));
@@ -111,6 +110,7 @@ public class UsuariosController implements Initializable {
             protected void updateItem(String email, boolean empty) {
                 super.updateItem(email, empty);
                 setText(empty || email == null ? null : email);
+                setAlignment(Pos.CENTER_LEFT);
                 setStyle(empty || email == null ? "" : "-fx-text-fill: #6b7f8e; -fx-font-size: 11px;");
             }
         });
@@ -141,6 +141,7 @@ public class UsuariosController implements Initializable {
             protected void updateItem(String nombre, boolean empty) {
                 super.updateItem(nombre, empty);
                 setText(empty || nombre == null ? null : nombre);
+                setAlignment(Pos.CENTER_LEFT);
                 setStyle(empty || nombre == null || "—".equals(nombre)
                         ? "-fx-text-fill: #6b7f8e;"
                         : "-fx-font-weight: bold; -fx-text-fill: #1a2e3b;");
@@ -154,6 +155,7 @@ public class UsuariosController implements Initializable {
         String inlineStyle = ui.StyleManager.chipStyle(cssClass);
         if (inlineStyle != null) {
             btn.setStyle(inlineStyle);
+            ui.StyleManager.applyHover(btn, cssClass);
         } else {
             btn.getStyleClass().add(cssClass);
         }

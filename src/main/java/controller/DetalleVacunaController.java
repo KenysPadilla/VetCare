@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import model.Vacuna;
+import ui.NumericFormatter;
 
 import java.time.LocalDate;
 
@@ -40,7 +41,7 @@ public class DetalleVacunaController {
         lblLote.setText(orDash(v.getLote()));
         lblStock.setText(v.getStockDisponible() + " unidades");
         lblPrecio.setText(v.getPrecio() > 0
-                ? String.format("$ %.2f", v.getPrecio()) : "—");
+                ? NumericFormatter.formatCurrency(v.getPrecio()) : "—");
 
         LocalDate venc = v.getFechaVencimiento();
         lblVencimiento.setText(venc != null ? venc.toString() : "—");

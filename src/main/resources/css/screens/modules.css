@@ -1,0 +1,669 @@
+/* Módulos de listado — Figma Make shared.tsx */
+
+.module-page {
+    -fx-background-color: #f0f4f7;
+    -fx-padding: 8 24 24 24;
+    -fx-spacing: 16;
+}
+
+.module-page-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #8a9fad;
+    -fx-padding: 0;
+}
+
+.module-page-header {
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 12;
+    -fx-padding: 0 0 2 0;
+}
+
+.module-toolbar-row {
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 12;
+}
+
+.mini-stats-row {
+    -fx-hgap: 16;
+    -fx-vgap: 16;
+}
+
+.mini-stat-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: rgba(0, 0, 0, 0.08);
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 16 20 16 20;
+    -fx-spacing: 6;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.04), 8, 0, 0, 2);
+    -fx-cursor: hand;
+}
+
+.mini-stat-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.12), 14, 0, 0, 5);
+    -fx-border-color: rgba(0, 0, 0, 0.13);
+}
+
+.mini-stat-label,
+.label.mini-stat-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #6b7f8e;
+}
+
+.mini-stat-value,
+.label.mini-stat-value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+/* Colores de valor — sin depender de .label para máxima compatibilidad */
+.mini-stat-value.mini-stat-teal,
+.label.mini-stat-value.mini-stat-teal   { -fx-text-fill: #2b87a0; }
+
+.mini-stat-value.mini-stat-green,
+.label.mini-stat-value.mini-stat-green  { -fx-text-fill: #27ae60; }
+
+.mini-stat-value.mini-stat-muted,
+.label.mini-stat-value.mini-stat-muted  { -fx-text-fill: #6b7f8e; }
+
+.mini-stat-value.mini-stat-orange,
+.label.mini-stat-value.mini-stat-orange { -fx-text-fill: #e67e22; }
+
+.mini-stat-value.mini-stat-purple,
+.label.mini-stat-value.mini-stat-purple { -fx-text-fill: #8b5cf6; }
+
+.mini-stat-value.mini-stat-red,
+.label.mini-stat-value.mini-stat-red    { -fx-text-fill: #e53e3e; }
+
+.search-field-wrap {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(0, 0, 0, 0.10);
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 0 12 0 10;
+    -fx-spacing: 8;
+    -fx-alignment: CENTER_LEFT;
+    -fx-pref-height: 38;
+}
+
+.search-field-wrap .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 8 4 8 4;
+}
+
+.search-icon-fx {
+    -fx-icon-color: #6b7f8e;
+}
+
+.filter-combo {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-border-color: rgba(0,0,0,0.10);
+    -fx-border-insets: 0;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-font-size: 13px;
+    -fx-pref-height: 38;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.filter-combo:focused,
+.filter-combo:showing {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-border-color: #2b87a0;
+    -fx-border-width: 1.5;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.module-table-wrap {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: rgba(0, 0, 0, 0.07);
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.06), 12, 0, 0, 4);
+}
+
+.module-table-wrap .table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 12;
+}
+
+.avatar-circle {
+    -fx-min-width: 32;
+    -fx-min-height: 32;
+    -fx-max-width: 32;
+    -fx-max-height: 32;
+    -fx-background-radius: 16;
+    -fx-alignment: CENTER;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.owner-name-cell {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.badge-activo {
+    -fx-background-color: #edf9f2;
+    -fx-text-fill: #27ae60;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
+.badge-inactivo {
+    -fx-background-color: #f0f2f4;
+    -fx-text-fill: #6b7f8e;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
+.badge-mascotas {
+    -fx-background-color: #e8f4f8;
+    -fx-text-fill: #2b87a0;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10 4 10;
+}
+
+.action-chip {
+    -fx-background-radius: 7;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 6 14 6 14;
+    -fx-border-color: transparent;
+}
+
+.action-chip-ver {
+    -fx-background-color: #2b87a0;
+    -fx-text-fill: white;
+}
+
+.action-chip-ver:hover {
+    -fx-background-color: #236f86;
+}
+
+.action-chip-editar {
+    -fx-background-color: rgba(139, 92, 246, 0.12);
+    -fx-text-fill: #8b5cf6;
+    -fx-border-color: #8b5cf6;
+    -fx-border-width: 1;
+    -fx-border-radius: 7;
+}
+
+.action-chip-eliminar {
+    -fx-background-color: #e53e3e;
+    -fx-text-fill: white;
+}
+
+.action-chip-eliminar:hover {
+    -fx-background-color: #c53030;
+}
+
+.action-chip-historia {
+    -fx-background-color: #2b87a0;
+    -fx-text-fill: white;
+}
+
+.action-chip-historia:hover {
+    -fx-background-color: #236f86;
+}
+
+.action-chip-iniciar {
+    -fx-background-color: rgba(39, 174, 96, 0.12);
+    -fx-text-fill: #27ae60;
+    -fx-border-color: #27ae60;
+    -fx-border-width: 1;
+    -fx-border-radius: 7;
+}
+
+.action-chip-iniciar:hover {
+    -fx-opacity: 0.82;
+}
+
+.action-chip-finalizar {
+    -fx-background-color: #fff4e8;
+    -fx-text-fill: #e67e22;
+    -fx-border-color: #e67e22;
+    -fx-border-width: 1;
+    -fx-border-radius: 7;
+}
+
+.action-chip-finalizar:hover {
+    -fx-opacity: 0.82;
+}
+
+.badge-critico {
+    -fx-background-color: #fff0f0;
+    -fx-text-fill: #e53e3e;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
+.species-emoji {
+    -fx-font-size: 18px;
+    -fx-min-width: 24;
+}
+
+.cell-subtext {
+    -fx-font-size: 11px;
+    -fx-text-fill: #6b7f8e;
+}
+
+.cell-maintext {
+    -fx-font-size: 13px;
+    -fx-text-fill: #1a2e3b;
+}
+
+.vet-cards-scroll {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.vet-cards-flow {
+    -fx-hgap: 16;
+    -fx-vgap: 16;
+    -fx-padding: 4;
+}
+
+.vet-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: rgba(0, 0, 0, 0.07);
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.07), 14, 0, 0, 4);
+    -fx-max-width: infinity;
+    -fx-cursor: hand;
+}
+
+.vet-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.14), 20, 0, 0, 7);
+    -fx-border-color: rgba(43, 135, 160, 0.25);
+}
+
+.vet-card-accent {
+    -fx-pref-height: 4;
+    -fx-max-height: 4;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.vet-card-body {
+    -fx-padding: 20;
+    -fx-spacing: 12;
+}
+
+.vet-card-name {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.vet-card-specialty {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7f8e;
+}
+
+.vet-card-contact {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7f8e;
+}
+
+.vet-card-stat-box {
+    -fx-background-color: #f8fafb;
+    -fx-background-radius: 8;
+    -fx-padding: 8 4 8 4;
+    -fx-alignment: CENTER;
+}
+
+.vet-card-stat-value {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.vet-card-stat-label {
+    -fx-font-size: 10px;
+    -fx-text-fill: #6b7f8e;
+}
+
+.badge-disponible {
+    -fx-background-color: #edf9f2;
+    -fx-text-fill: #27ae60;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10 4 10;
+}
+
+.badge-no-disponible {
+    -fx-background-color: #f0f2f4;
+    -fx-text-fill: #6b7f8e;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10 4 10;
+}
+
+.citas-layout {
+    -fx-spacing: 20;
+}
+
+.calendar-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: rgba(0, 0, 0, 0.07);
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+    -fx-padding: 20;
+    -fx-spacing: 12;
+    -fx-min-width: 280;
+    -fx-pref-width: 300;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.06), 12, 0, 0, 4);
+}
+
+.calendar-month-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.calendar-legend-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #6b7f8e;
+}
+
+.citas-list-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: rgba(0, 0, 0, 0.08);
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+}
+
+.citas-list-header {
+    -fx-padding: 16 20 16 20;
+    -fx-border-color: transparent transparent rgba(0, 0, 0, 0.08) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.citas-list-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.badge-programada {
+    -fx-background-color: #e8f4f8;
+    -fx-text-fill: #2b87a0;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
+.badge-cancelada {
+    -fx-background-color: #fff0f0;
+    -fx-text-fill: #e53e3e;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
+/* ── Badges de estado para Vacunaciones ── */
+.badge-confirmado {
+    -fx-background-color: #edf9f2;
+    -fx-text-fill: #27ae60;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
+.badge-en-curso,
+.badge-pendiente-naranja {
+    -fx-background-color: #fff4e8;
+    -fx-text-fill: #e67e22;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
+.badge-programada-purpura {
+    -fx-background-color: #f0eeff;
+    -fx-text-fill: #8b5cf6;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 4 12 4 12;
+}
+
+.estilista-cards-flow {
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+    -fx-padding: 4;
+}
+
+.estilista-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: rgba(0, 0, 0, 0.07);
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.07), 14, 0, 0, 4);
+    -fx-max-width: infinity;
+    -fx-cursor: hand;
+}
+
+.estilista-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.14), 20, 0, 0, 7);
+    -fx-border-color: rgba(43, 135, 160, 0.25);
+}
+
+.estilista-card-body {
+    -fx-padding: 20;
+    -fx-spacing: 20;
+}
+
+.service-chip {
+    -fx-background-radius: 12;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10 4 10;
+}
+
+.followup-date {
+    -fx-text-fill: #2b87a0;
+    -fx-font-size: 12px;
+}
+
+.citas-actions-bar {
+    -fx-spacing: 10;
+    -fx-padding: 12 0 0 0;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.filter-banner {
+    -fx-font-size: 13px;
+    -fx-text-fill: #2b87a0;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12 8 12;
+    -fx-background-color: #e8f4f8;
+    -fx-background-radius: 8;
+}
+
+.btn-add {
+    -fx-font-size: 13px;
+}
+
+/* ── TabPane — Toggle Switch ── */
+
+.module-tab-pane {
+    -fx-background-color: transparent;
+    -fx-tab-min-height: 0;
+    -fx-tab-max-height: 38;
+    -fx-padding: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.module-tab-pane > .tab-header-area {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* tab-header-background: sin color — el track va en headers-region */
+.module-tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* PISTA: gris suave — track neutro sin colores fuertes */
+.module-tab-pane > .tab-header-area > .headers-region {
+    -fx-background-color: #e8ecf0;
+    -fx-background-radius: 999;
+    -fx-padding: 4 4 4 4;
+}
+
+/* ── Tab inactivo ── */
+.module-tab-pane .tab {
+    -fx-background-color: transparent;
+    -fx-background-radius: 999;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 7 22 7 22;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.module-tab-pane .tab:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.60);
+    -fx-background-radius: 999;
+}
+
+/* Texto inactivo: gris sobre pista clara */
+.module-tab-pane .tab .tab-label {
+    -fx-text-fill: #8a9fad;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: normal;
+    -fx-padding: 0;
+}
+
+/* ── Tab activo: píldora blanca con sombra sutil y texto teal ── */
+.module-tab-pane .tab:selected {
+    -fx-background-color: white;
+    -fx-background-insets: 2;
+    -fx-background-radius: 999;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.14), 6, 0, 0, 1);
+}
+
+.module-tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #2b87a0;
+    -fx-font-weight: bold;
+    -fx-font-size: 12.5px;
+}
+
+/* Eliminar focus ring */
+.module-tab-pane .tab:focused {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+}
+
+.module-tab-pane .tab:focused:selected {
+    -fx-background-color: white;
+    -fx-background-insets: 2;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.14), 6, 0, 0, 1);
+}
+
+.module-tab-pane .tab:focused:selected .tab-label {
+    -fx-text-fill: #2b87a0;
+    -fx-font-weight: bold;
+}
+
+.module-tab-pane .tab-container {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+}
+
+/* Área de contenido */
+.module-tab-pane > .tab-content-area {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 12 0 0 0;
+}
+
+/* (bloque ingresos-chart eliminado — grafica usa HBox de Regions, sin BarChart) */
+
+/* ── Tarjetas de Vacunas ── */
+.vacunas-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background: transparent;
+}
+.vacunas-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.vacuna-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: #e8ecef;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(26,46,59,0.07), 14, 0, 0, 4);
+}
+.vacuna-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(26,46,59,0.14), 18, 0, 0, 6);
+    -fx-border-color: rgba(43,135,160,0.22);
+}
+
+/* ProgressBar base */
+.vacuna-progress {
+    -fx-pref-height: 8;
+    -fx-min-height: 8;
+    -fx-max-height: 8;
+}
+.vacuna-progress .track {
+    -fx-background-color: #eef2f5;
+    -fx-background-radius: 999;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.vacuna-progress .bar {
+    -fx-background-radius: 999;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.vacuna-progress-green .bar  { -fx-background-color: #27ae60; }
+.vacuna-progress-orange .bar { -fx-background-color: #e67e22; }
+.vacuna-progress-red .bar    { -fx-background-color: #e53e3e; }

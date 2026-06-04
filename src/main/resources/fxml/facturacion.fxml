@@ -42,6 +42,30 @@
             </VBox>
         </HBox>
 
+        <!-- ── Gráfica: Ingresos del Mes ── -->
+        <VBox styleClass="card" spacing="0" style="-fx-padding: 14 20 10 20;">
+            <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 10 0;">
+                <Label text="Ingresos del Mes" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a2e3b;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <HBox alignment="CENTER_RIGHT" spacing="4">
+                    <FontIcon fx:id="iconTendencia" iconLiteral="fas-arrow-up" iconSize="12" style="-fx-icon-color: #27ae60;" />
+                    <Label fx:id="lblPorcentaje" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" text="" />
+                    <Label text="vs mes anterior" style="-fx-font-size: 11px; -fx-text-fill: #6b7f8e;" />
+                </HBox>
+            </HBox>
+            <!-- Barras: Regions con altura proporcional, alineadas al fondo -->
+            <HBox fx:id="contenedorBarras" alignment="BOTTOM_LEFT" spacing="2"
+                  prefHeight="80" minHeight="80" maxHeight="80" />
+            <!-- Eje X: solo 3 etiquetas con justify-between -->
+            <HBox style="-fx-padding: 4 0 0 0;">
+                <Label fx:id="lblEje1" style="-fx-font-size: 10px; -fx-text-fill: #6b7f8e;" text="1 Jun" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="lblEje15" style="-fx-font-size: 10px; -fx-text-fill: #6b7f8e;" text="15 Jun" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="lblEjeFin" style="-fx-font-size: 10px; -fx-text-fill: #6b7f8e;" text="30 Jun" />
+            </HBox>
+        </VBox>
+
         <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-toolbar-row">
             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
                 <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
@@ -65,7 +89,7 @@
                     <TableColumn fx:id="colTotal" prefWidth="90" text="TOTAL" />
                     <TableColumn fx:id="colEstado" prefWidth="115" text="ESTADO" />
                     <TableColumn fx:id="colMetodoPago" prefWidth="100" text="PAGO" />
-                    <TableColumn fx:id="colAcciones" prefWidth="80" text="DETALLES" />
+                    <TableColumn fx:id="colAcciones" prefWidth="80" text="DETALLE" />
                     <TableColumn fx:id="colOperaciones" prefWidth="190" text="" />
                 </columns>
             </TableView>

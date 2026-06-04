@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import model.ServicioEstetico;
+import ui.NumericFormatter;
 
 /**
  * Controlador de la ventana de detalle de un servicio de baño.
@@ -56,7 +57,7 @@ public class DetalleBanoController {
         lblEstado.setText(estado);
         String colorEstado;
         switch (estado) {
-            case "PROGRAMADO": colorEstado = "#1976D2"; break;
+            case "PROGRAMADO": colorEstado = "#2b87a0"; break;
             case "REALIZADO":  colorEstado = "#1B6B2F"; break;
             case "CANCELADO":  colorEstado = "#C62828"; break;
             default:           colorEstado = "#555555";
@@ -64,7 +65,7 @@ public class DetalleBanoController {
         lblEstado.setStyle("-fx-font-weight: bold; -fx-text-fill: " + colorEstado + ";");
 
         lblPrecio.setText(s.getPrecio() > 0
-                ? String.format("$ %.0f", s.getPrecio()) : "—");
+                ? NumericFormatter.formatCurrency(s.getPrecio()) : "—");
 
         // Detalles del baño
         lblTipoBano.setText(orDash(s.getTipoBano()));

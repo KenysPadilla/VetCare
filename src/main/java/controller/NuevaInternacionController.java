@@ -15,11 +15,15 @@ import model.Paciente;
 import model.Veterinario;
 import service.ConsultaService;
 import service.InternacionService;
+import ui.NumericFormatter;
 import service.PacienteService;
 import service.VeterinarioService;
 
+import util.ComboBoxFilter;
+
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -53,6 +57,15 @@ public class NuevaInternacionController implements Initializable {
         cbConsulta.setConverter(new StringConverter<Consulta>() {
             @Override
             public String toString(Consulta c) {
+                if (c == null) return "Sin consulta asociada";
+                String diag = c.getDiagnostico();
+                String diagCorto = (diag != null && diag.length() > 30)
+                        ? diag.substring(0, 30) + "…" : diag;
+                return "Consulta #" + c.getId()
+                        + (c.getFechaHora() != null
+                           ? " — " + c.getFechaHora().toLocalDate() : "")
+                        + (diagCorto != null && !diagCorto.isBlank()
+                           ? " — " + diagCorto : "");
             }
             @Override
             public Consulta fromString(String s) { return null; }
@@ -62,10 +75,13 @@ public class NuevaInternacionController implements Initializable {
         cbConsulta.setDisable(true);
 
         dpFechaIngreso.setValue(java.time.LocalDate.now());
+        NumericFormatter.apply(txtCostoDia);
 
         try {
-            cbPaciente.getItems().setAll(new PacienteService().listarTodos());
-            cbVeterinario.getItems().setAll(new VeterinarioService().listarActivos());
+            List<Paciente>    pacientes = new PacienteService().listarTodos();
+            List<Veterinario> vets      = new VeterinarioService().listarActivos();
+            ComboBoxFilter.apply(cbPaciente,    pacientes, Object::toString);
+            ComboBoxFilter.apply(cbVeterinario, vets,      Object::toString);
         } catch (java.sql.SQLException e) {
             mostrarMensaje("Error al cargar datos: " + e.getMessage(), "#D32F2F");
         }
@@ -141,13 +157,7 @@ public class NuevaInternacionController implements Initializable {
             return;
         }
 
-        double costoDia;
-        try {
-            costoDia = Double.parseDouble(txtCostoDia.getText().trim());
-        } catch (NumberFormatException e) {
-            mostrarMensaje("El costo diario debe ser un valor numérico.", "#D32F2F");
-            return;
-        }
+        double costoDia = NumericFormatter.toDouble(txtCostoDia);
 
         // La consulta es null si: cbConsulta está deshabilitado, o si no se seleccionó ninguna
         Consulta consultaAsociada = (cbConsulta.isDisabled() || cbConsulta.getValue() == null)

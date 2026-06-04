@@ -1,70 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<HBox prefHeight="600" prefWidth="960" styleClass="login-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<AnchorPane styleClass="module-page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LaboratorioController">
 
-    <!-- Panel izquierdo: marca -->
-    <VBox minWidth="480" maxWidth="480" alignment="CENTER" spacing="20" styleClass="login-brand-panel">
-        <ImageView fitHeight="160" fitWidth="160" pickOnBounds="true" preserveRatio="true" smooth="true" styleClass="login-logo">
-            <image>
-                <Image url="@../images/logo-white.png" />
-            </image>
-        </ImageView>
-        <Label style="-fx-font-size: 40px; -fx-font-weight: bold;" styleClass="login-brand-title" text="VetCare" />
-        <Label styleClass="login-brand-subtitle" text="Gestión Integral de Clínica Veterinaria" />
-    </VBox>
+    <VBox spacing="12" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-    <!-- Panel derecho: formulario flotante -->
-    <VBox HBox.hgrow="ALWAYS" minWidth="480" alignment="CENTER" styleClass="login-form-panel">
-        <Region VBox.vgrow="ALWAYS" />
+        <HBox alignment="CENTER_LEFT" styleClass="module-page-header">
+            <Label style="-fx-font-size: 13px;" styleClass="module-page-subtitle" text="Exámenes de laboratorio solicitados y resultados" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleNuevo" prefHeight="40" minHeight="40" maxHeight="40" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary btn-add" text="+  Nuevo Examen" />
+        </HBox>
 
-        <VBox alignment="CENTER" spacing="20" styleClass="login-card">
-
-            <VBox spacing="4">
-                <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" styleClass="login-card-title" text="Iniciar Sesión" />
-                <Label styleClass="login-card-subtitle" text="ingresar usuario y contraseña" />
+        <HBox spacing="16">
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Total Exámenes" />
+                <Label fx:id="lblStatTotal" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2b87a0;" styleClass="mini-stat-value mini-stat-teal" text="0" />
             </VBox>
-
-            <VBox spacing="6" styleClass="field-group">
-                <Label styleClass="field-label" text="Usuario" />
-                <HBox fx:id="boxUsuario" alignment="CENTER_LEFT" spacing="8" styleClass="input-with-icon">
-                    <FontIcon iconLiteral="fas-user" iconSize="14" styleClass="input-icon-fx" />
-                    <TextField fx:id="txtUsuario" HBox.hgrow="ALWAYS" promptText="Ingrese su usuario" />
-                </HBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Con Resultado" />
+                <Label fx:id="lblStatConResultado" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" styleClass="mini-stat-value mini-stat-green" text="0" />
             </VBox>
-
-            <VBox spacing="6" styleClass="field-group">
-                <Label styleClass="field-label" text="Contraseña" />
-                <HBox fx:id="boxPassword" alignment="CENTER_LEFT" spacing="4" styleClass="input-with-icon">
-                    <FontIcon iconLiteral="fas-lock" iconSize="14" styleClass="input-icon-fx" />
-                    <PasswordField fx:id="txtPassword" HBox.hgrow="ALWAYS" promptText="Ingresa tu contraseña" />
-                    <Button fx:id="btnTogglePassword" onAction="#handleTogglePassword" styleClass="btn-icon" />
-                </HBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Pendientes" />
+                <Label fx:id="lblStatPendientes" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" styleClass="mini-stat-value mini-stat-orange" text="0" />
             </VBox>
+            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat-card">
+                <Label style="-fx-font-size: 12px;" styleClass="mini-stat-label" text="Este Mes" />
+                <Label fx:id="lblStatMes" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;" styleClass="mini-stat-value mini-stat-purple" text="0" />
+            </VBox>
+        </HBox>
 
-            <HBox alignment="CENTER_RIGHT">
-                <Hyperlink fx:id="linkRecuperar" onAction="#handleRecuperar" text="¿Olvidaste tu contraseña?" />
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="module-toolbar-row">
+            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-field-wrap">
+                <FontIcon iconLiteral="fas-search" iconSize="14" styleClass="search-icon-fx" />
+                <TextField fx:id="txtBuscar" onAction="#handleBuscar" prefHeight="36" prefWidth="280" promptText="Buscar paciente o tipo de examen..." />
             </HBox>
+            <Button onAction="#handleBuscar" prefHeight="36" style="-fx-background-color: white; -fx-text-fill: #2b87a0; -fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; -fx-background-insets: 0; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-outline" text="Buscar" />
+            <ComboBox fx:id="cbEstado" prefHeight="36" prefWidth="160" styleClass="filter-combo" />
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
 
-            <VBox spacing="10">
-                <Button fx:id="btnLogin" maxWidth="Infinity" onAction="#handleLogin" prefHeight="46" style="-fx-background-color: #2b87a0; -fx-text-fill: white; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 9 18 9 18; -fx-cursor: hand;" styleClass="btn-primary" text="Iniciar Sesión" />
-                <Label fx:id="lblError" managed="false" styleClass="label-error" text="" visible="false" />
-            </VBox>
+        <StackPane styleClass="module-table-wrap" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tablaExamenes">
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="80" minWidth="70" text="ID" />
+                    <TableColumn fx:id="colPacienteProp" prefWidth="160" text="PACIENTE / PROPIETARIO" />
+                    <TableColumn fx:id="colTipoExamen" prefWidth="140" text="TIPO EXAMEN" />
+                    <TableColumn fx:id="colPrioridad" prefWidth="115" text="PRIORIDAD" />
+                    <TableColumn fx:id="colFechaSolicitud" prefWidth="100" text="FECHA" />
+                    <TableColumn fx:id="colResultados" prefWidth="200" text="RESULTADO" />
+                    <TableColumn fx:id="colEstado" prefWidth="130" text="ESTADO" />
+                    <TableColumn fx:id="colCosto" prefWidth="90" text="COSTO" />
+                    <TableColumn fx:id="colAcciones"   prefWidth="95"  text="DETALLE" />
+                    <TableColumn fx:id="colRegistrar"  prefWidth="115" text="" />
+                </columns>
+            </TableView>
+        </StackPane>
 
-        </VBox>
-
-        <Region VBox.vgrow="ALWAYS" />
     </VBox>
 
-</HBox>
+</AnchorPane>

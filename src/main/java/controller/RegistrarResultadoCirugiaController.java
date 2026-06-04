@@ -24,15 +24,20 @@ public class RegistrarResultadoCirugiaController {
     private Runnable onGuardado;
 
     private static final String ESTILO_VERDE =
-            "-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; " +
-            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;";
-    private static final String ESTILO_ROJO =
-            "-fx-background-color: #e53e3e; -fx-text-fill: white; -fx-font-size: 14px; " +
-            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;";
+            "-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 13px; " +
+            "-fx-font-weight: bold; -fx-background-radius: 12; -fx-background-insets: 0; " +
+            "-fx-cursor: hand; -fx-border-color: transparent; -fx-border-width: 0; " +
+            "-fx-effect: dropshadow(gaussian, rgba(39,174,96,0.40), 10, 0, 0, 4);";
+    private static final String ESTILO_NARANJA =
+            "-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 13px; " +
+            "-fx-font-weight: bold; -fx-background-radius: 12; -fx-background-insets: 0; " +
+            "-fx-cursor: hand; -fx-border-color: transparent; -fx-border-width: 0; " +
+            "-fx-effect: dropshadow(gaussian, rgba(230,126,34,0.40), 10, 0, 0, 4);";
     private static final String ESTILO_NORMAL =
-            "-fx-background-color: white; -fx-text-fill: #6b7f8e; -fx-font-size: 13px; " +
-            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; " +
-            "-fx-border-color: #d0dde5; -fx-border-width: 1.5; -fx-border-radius: 10;";
+            "-fx-background-color: #f5f7fa; -fx-text-fill: #8a9fad; -fx-font-size: 13px; " +
+            "-fx-font-weight: bold; -fx-background-radius: 12; -fx-background-insets: 0; " +
+            "-fx-cursor: hand; -fx-border-color: #dde3e8; -fx-border-width: 1.5; " +
+            "-fx-border-radius: 12; -fx-effect: null;";
 
     @FXML
     private void initialize() {
@@ -40,7 +45,7 @@ public class RegistrarResultadoCirugiaController {
         btnComplicacion.setToggleGroup(resultadoGroup);
 
         btnExitosa.setText("✓   Exitosa");
-        btnComplicacion.setText("⚠   Con complicación");
+        btnComplicacion.setText("△   Con complicación");
 
         resultadoGroup.selectedToggleProperty().addListener((obs, old, now) -> actualizarEstilos());
 
@@ -54,7 +59,7 @@ public class RegistrarResultadoCirugiaController {
             btnComplicacion.setStyle(ESTILO_NORMAL);
         } else if (btnComplicacion.isSelected()) {
             btnExitosa.setStyle(ESTILO_NORMAL);
-            btnComplicacion.setStyle(ESTILO_ROJO);
+            btnComplicacion.setStyle(ESTILO_NARANJA);
         } else {
             btnExitosa.setStyle(ESTILO_NORMAL);
             btnComplicacion.setStyle(ESTILO_NORMAL);

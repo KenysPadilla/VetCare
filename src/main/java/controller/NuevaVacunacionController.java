@@ -2,7 +2,6 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -16,6 +15,8 @@ import service.PacienteService;
 import service.VacunaService;
 import service.VacunacionService;
 import service.VeterinarioService;
+
+import util.ComboBoxFilter;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,8 +36,10 @@ public class NuevaVacunacionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            cbPaciente.getItems().setAll(new PacienteService().listarTodos());
-            cbVeterinario.getItems().setAll(new VeterinarioService().listarActivos());
+            List<Paciente>    pacientes = new PacienteService().listarTodos();
+            List<Veterinario> vets      = new VeterinarioService().listarActivos();
+            ComboBoxFilter.apply(cbPaciente,    pacientes, Object::toString);
+            ComboBoxFilter.apply(cbVeterinario, vets,      Object::toString);
 
             // Solo cargar vacunas disponibles (no Vencido, no Sin stock)
             List<Vacuna> disponibles = new ArrayList<>();
@@ -46,7 +49,7 @@ public class NuevaVacunacionController implements Initializable {
                     disponibles.add(v);
                 }
             }
-            cbVacuna.getItems().setAll(disponibles);
+            ComboBoxFilter.apply(cbVacuna, disponibles, Object::toString);
             if (disponibles.isEmpty()) {
                 mostrarMensaje("No hay vacunas disponibles en inventario.", "#856404");
             }
@@ -54,6 +57,10 @@ public class NuevaVacunacionController implements Initializable {
         } catch (java.sql.SQLException e) {
             mostrarMensaje("Error al cargar datos: " + e.getMessage(), "#D32F2F");
         }
+
+        dpFechaAplicacion.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) dpFechaProxima.setValue(newVal.plusYears(1));
+        });
     }
 
     @FXML
@@ -74,13 +81,18 @@ public class NuevaVacunacionController implements Initializable {
         }
 
         try {
+            java.time.LocalDate fechaApp = dpFechaAplicacion.getValue();
+            String estadoInicial = fechaApp.isAfter(java.time.LocalDate.now())
+                    ? "PROGRAMADA" : "PENDIENTE";
+
             Vacunacion v = new Vacunacion();
             v.setPaciente(cbPaciente.getValue());
             v.setVacuna(vac);
             v.setVeterinario(cbVeterinario.getValue());
-            v.setFechaHoraAplicacion(dpFechaAplicacion.getValue().atStartOfDay());
+            v.setFechaHoraAplicacion(fechaApp.atStartOfDay());
             v.setFechaProxima(dpFechaProxima.getValue());
             v.setObservaciones(txtObservaciones.getText().trim());
+            v.setEstado(estadoInicial);
 
             new VacunacionService().guardar(v);
 

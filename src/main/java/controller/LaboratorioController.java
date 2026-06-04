@@ -30,6 +30,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.ExamenLab;
 import service.ExamenLabService;
+import ui.NumericFormatter;
 import ui.StyleManager;
 
 import java.net.URL;
@@ -54,6 +55,7 @@ public class LaboratorioController implements Initializable {
     @FXML private TableColumn<ExamenLab, String> colId;
     @FXML private TableColumn<ExamenLab, ExamenLab> colPacienteProp;
     @FXML private TableColumn<ExamenLab, String> colTipoExamen;
+    @FXML private TableColumn<ExamenLab, String> colPrioridad;
     @FXML private TableColumn<ExamenLab, String> colFechaSolicitud;
     @FXML private TableColumn<ExamenLab, String> colResultados;
     @FXML private TableColumn<ExamenLab, String> colEstado;
@@ -122,6 +124,28 @@ public class LaboratorioController implements Initializable {
             }
         });
 
+        colPrioridad.setCellValueFactory(data -> new SimpleStringProperty(
+                data.getValue().getPrioridad() != null ? data.getValue().getPrioridad() : "NORMAL"));
+        colPrioridad.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(String p, boolean empty) {
+                super.updateItem(p, empty);
+                if (empty || p == null) { setGraphic(null); return; }
+                boolean urgente = "URGENTE".equalsIgnoreCase(p);
+                Label badge = new Label(urgente ? "🔔  Urgente" : "Normal");
+                badge.setStyle(urgente
+                        ? "-fx-background-color: #fde8e8; -fx-text-fill: #e53e3e;" +
+                          "-fx-font-size: 11px; -fx-font-weight: bold;" +
+                          "-fx-background-radius: 12; -fx-padding: 4 10 4 10;"
+                        : "-fx-background-color: #edf9f2; -fx-text-fill: #27ae60;" +
+                          "-fx-font-size: 11px; -fx-font-weight: bold;" +
+                          "-fx-background-radius: 12; -fx-padding: 4 12 4 12;");
+                HBox cell = new HBox(badge);
+                cell.setAlignment(Pos.CENTER);
+                cell.setMaxWidth(Double.MAX_VALUE);
+                setGraphic(cell);
+            }
+        });
+
         colFechaSolicitud.setCellValueFactory(data -> new SimpleStringProperty(
                 data.getValue().getFechaHora() != null
                         ? data.getValue().getFechaHora().toLocalDate().format(FECHA_FMT) : "—"));
@@ -168,7 +192,7 @@ public class LaboratorioController implements Initializable {
         });
 
         colCosto.setCellValueFactory(data -> new SimpleStringProperty(
-                String.format("$%.2f", data.getValue().getCosto())));
+                NumericFormatter.formatCurrency(data.getValue().getCosto())));
         colCosto.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String c, boolean empty) {
@@ -226,6 +250,7 @@ public class LaboratorioController implements Initializable {
         String inlineStyle = ui.StyleManager.chipStyle(cssClass);
         if (inlineStyle != null) {
             btn.setStyle(inlineStyle);
+            ui.StyleManager.applyHover(btn, cssClass);
         } else {
             btn.getStyleClass().add(cssClass);
         }
@@ -392,11 +417,17 @@ public class LaboratorioController implements Initializable {
         Node btnOk = dialog.getDialogPane().lookupButton(btnGuardar);
         btnOk.setStyle("-fx-background-color: #2b87a0; -fx-text-fill: white; "
                 + "-fx-font-weight: bold; -fx-font-size: 13px; "
-                + "-fx-background-radius: 8; -fx-padding: 9 22 9 22; -fx-cursor: hand;");
+                + "-fx-background-radius: 8; -fx-padding: 3 22 3 22; -fx-cursor: hand;");
+        ((javafx.scene.layout.Region) btnOk).setPrefHeight(28);
+        ((javafx.scene.layout.Region) btnOk).setMinHeight(28);
+        ((javafx.scene.layout.Region) btnOk).setMaxHeight(28);
         Node btnCan = dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
         btnCan.setStyle("-fx-background-color: white; -fx-text-fill: #6b7f8e; "
                 + "-fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; "
-                + "-fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 9 22 9 22; -fx-cursor: hand;");
+                + "-fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 3 22 3 22; -fx-cursor: hand;");
+        ((javafx.scene.layout.Region) btnCan).setPrefHeight(28);
+        ((javafx.scene.layout.Region) btnCan).setMinHeight(28);
+        ((javafx.scene.layout.Region) btnCan).setMaxHeight(28);
 
         btnOk.setDisable(taResultado.getText().trim().isEmpty());
         taResultado.textProperty().addListener((obs, o, n) -> btnOk.setDisable(n.trim().isEmpty()));

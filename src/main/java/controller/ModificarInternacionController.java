@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -17,6 +16,7 @@ import model.InternacionMedicamento;
 import model.Medicamento;
 import service.InternacionService;
 import service.MedicamentoService;
+import ui.NumericFormatter;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -62,7 +62,7 @@ public class ModificarInternacionController implements Initializable {
                 String conc = (m.getConcentracion() != null && !m.getConcentracion().isBlank())
                         ? " [" + m.getConcentracion() + "]" : "";
                 setText(m.getNombre() + conc + " — " + m.getFabricante()
-                        + String.format("  ($%.2f)", m.getPrecio()));
+                        + "  (" + NumericFormatter.formatCurrency(m.getPrecio()) + ")");
             }
         });
 

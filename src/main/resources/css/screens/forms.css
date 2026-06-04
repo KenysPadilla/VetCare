@@ -1,0 +1,220 @@
+/* Formularios modales — nuevo / nueva */
+
+.form-dialog {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: rgba(0, 0, 0, 0.07);
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(26, 46, 59, 0.18), 28, 0, 0, 8);
+}
+
+.form-shell {
+    -fx-spacing: 0;
+}
+
+.form-scroll {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-fit-to-width: true;
+}
+
+.form-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.form-body-scroll {
+    -fx-spacing: 12;
+    -fx-padding: 16 28 8 28;
+}
+
+.form-body {
+    -fx-spacing: 14;
+    -fx-padding: 20 28 20 28;
+}
+
+.form-footer {
+    -fx-spacing: 4;
+    -fx-padding: 8 24 10 24;
+    -fx-border-color: rgba(0, 0, 0, 0.08) transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-background-color: white;
+}
+
+.form-header {
+    -fx-padding: 18 28 14 28;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color: transparent transparent rgba(0,0,0,0.07) transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-spacing: 12;
+}
+
+.logo-blue-inline {
+    -fx-fit-width: 28;
+    -fx-fit-height: 28;
+    -fx-preserve-ratio: true;
+}
+
+.form-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a2e3b;
+}
+
+.form-section-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2b87a0;
+}
+
+.form-dialog .combo-box,
+.form-dialog .date-picker {
+    -fx-pref-height: 40;
+}
+
+.form-row {
+    -fx-spacing: 14;
+}
+
+.form-message {
+    -fx-font-size: 12px;
+    -fx-text-fill: #EB5757;
+}
+
+.form-message-info {
+    -fx-font-size: 12px;
+    -fx-text-fill: #2b87a0;
+}
+
+.form-actions {
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_RIGHT;
+    -fx-padding: 0;
+}
+
+.form-section-header {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2b87a0;
+    -fx-padding: 6 12 6 12;
+    -fx-background-color: #eef6f9;
+    -fx-background-radius: 5;
+    -fx-border-color: transparent transparent transparent #2b87a0;
+    -fx-border-width: 0 0 0 3;
+}
+
+.field-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3d5a6a;
+}
+
+/* Compact button sizing inside form dialogs */
+.form-dialog .btn-primary {
+    -fx-padding: 9 18 9 18;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.form-dialog .btn-outline {
+    -fx-padding: 9 18 9 18;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* Edit mode indicator: thin colored bar at top of dialog */
+.form-edit-bar {
+    -fx-min-height: 5;
+    -fx-pref-height: 5;
+    -fx-max-height: 5;
+    -fx-background-color: linear-gradient(to right, #2b87a0, #27ae60);
+    -fx-background-radius: 14 14 0 0;
+}
+
+/* Mode chip shown near title */
+.form-mode-chip {
+    -fx-background-color: #e8f4f8;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8 2 8;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2b87a0;
+}
+
+.form-mode-chip-edit {
+    -fx-background-color: #f0f9f4;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8 2 8;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27ae60;
+}
+
+/* Subtitle under form title */
+.form-subtitle {
+    -fx-font-size: 11px;
+    -fx-text-fill: #8a9fad;
+}
+
+.form-info-chip {
+    -fx-background-color: #f0f4f7;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12 8 12;
+    -fx-spacing: 4;
+}
+
+.form-totals-box {
+    -fx-padding: 8 0 0 0;
+    -fx-spacing: 4;
+}
+
+.form-total-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #6b7f8e;
+}
+
+.form-total-value {
+    -fx-text-fill: #1a2e3b;
+}
+
+.form-total-highlight {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2b87a0;
+}
+
+.text-area-input {
+    -fx-control-inner-background: #f3f3f5;
+    -fx-background-color: #f3f3f5;
+    -fx-border-color: rgba(0, 0, 0, 0.07);
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 13px;
+    -fx-padding: 10 14 10 14;
+}
+
+.text-area-input:focused {
+    -fx-border-color: #2b87a0;
+    -fx-border-width: 1.5;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.list-view-form {
+    -fx-background-color: white;
+    -fx-border-color: #E8ECEF;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.list-view-form-prescribed {
+    -fx-background-color: #F4F7F9;
+    -fx-border-color: #E8ECEF;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.btn-small {
+    -fx-padding: 8 14 8 14;
+    -fx-font-size: 12px;
+}

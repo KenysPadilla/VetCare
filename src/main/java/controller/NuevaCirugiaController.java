@@ -12,10 +12,14 @@ import model.Cirugia;
 import model.Paciente;
 import model.Veterinario;
 import service.CirugiaService;
+import ui.NumericFormatter;
 import service.PacienteService;
 import service.VeterinarioService;
 
+import util.ComboBoxFilter;
+
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -40,10 +44,13 @@ public class NuevaCirugiaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cbAnestesia.getItems().addAll("General", "Local", "Sedación");
+        NumericFormatter.apply(txtCosto);
 
         try {
-            cbPaciente.getItems().setAll(new PacienteService().listarTodos());
-            cbVeterinario.getItems().setAll(new VeterinarioService().listarActivos());
+            List<Paciente>    pacientes = new PacienteService().listarTodos();
+            List<Veterinario> vets      = new VeterinarioService().listarActivos();
+            ComboBoxFilter.apply(cbPaciente,    pacientes, Object::toString);
+            ComboBoxFilter.apply(cbVeterinario, vets,      Object::toString);
         } catch (java.sql.SQLException e) {
             mostrarMensaje("Error al cargar datos: " + e.getMessage(), "#D32F2F");
         }
@@ -59,15 +66,7 @@ public class NuevaCirugiaController implements Initializable {
             return;
         }
 
-        double costo = 0;
-        if (!txtCosto.getText().trim().isEmpty()) {
-            try {
-                costo = Double.parseDouble(txtCosto.getText().trim());
-            } catch (NumberFormatException e) {
-                mostrarMensaje("El costo debe ser un valor numérico.", "#D32F2F");
-                return;
-            }
-        }
+        double costo = NumericFormatter.toDouble(txtCosto);
 
         try {
             Cirugia cir = new Cirugia();
@@ -77,7 +76,7 @@ public class NuevaCirugiaController implements Initializable {
             cir.setTipoCirugia(txtTipo.getText().trim());
             cir.setAnestesia(cbAnestesia.getValue());
             cir.setDescripcion(txtDescripcion.getText().trim());
-            cir.setResultado("");   // se completa en seguimiento post-operatorio
+            cir.setResultado("");
             cir.setCosto(costo);
 
             new CirugiaService().guardar(cir);
@@ -86,6 +85,8 @@ public class NuevaCirugiaController implements Initializable {
             cerrarVentana();
         } catch (java.sql.SQLException e) {
             mostrarMensaje("Error al guardar: " + e.getMessage(), "#D32F2F");
+        } catch (Exception e) {
+            mostrarMensaje("Error inesperado: " + e.getClass().getSimpleName() + " — " + e.getMessage(), "#D32F2F");
         }
     }
 

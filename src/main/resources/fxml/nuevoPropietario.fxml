@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
@@ -10,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ScrollPane?>
 
-<AnchorPane prefHeight="720" prefWidth="460" styleClass="form-dialog"
+<AnchorPane prefHeight="700" prefWidth="480" styleClass="form-dialog"
             xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
             fx:controller="controller.NuevoPropietarioController">
 
@@ -57,6 +59,53 @@
                     <Label text="Dirección" styleClass="field-label" />
                     <TextField fx:id="txtDireccion" prefHeight="40" promptText="Dirección de residencia" />
                 </VBox>
+
+                <!-- ══════════════ SECCIÓN MASCOTA ══════════════ -->
+                <VBox fx:id="panelMascota" spacing="10">
+                    <Separator style="-fx-opacity: 0.4;" />
+                    <Label text="DATOS DE LA MASCOTA" styleClass="form-section-header" />
+                    <Label text="Registra la mascota del propietario. El nombre es obligatorio." styleClass="form-subtitle" />
+
+                    <VBox spacing="6" styleClass="field-group">
+                        <Label text="Nombre de la mascota" styleClass="field-label" />
+                        <TextField fx:id="txtNombreMascota" prefHeight="40" promptText="Nombre de la mascota" />
+                    </VBox>
+
+                    <HBox spacing="14">
+                        <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                            <Label text="Especie" styleClass="field-label" />
+                            <ComboBox fx:id="cbEspecie" maxWidth="Infinity" prefHeight="40" promptText="Seleccionar..." />
+                            <TextField fx:id="txtEspecieOtro" prefHeight="40" promptText="Escribe la especie..." managed="false" visible="false" />
+                        </VBox>
+                        <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                            <Label text="Sexo" styleClass="field-label" />
+                            <ComboBox fx:id="cbSexo" maxWidth="Infinity" prefHeight="40" promptText="Seleccionar..." />
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="14">
+                        <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                            <Label text="Raza" styleClass="field-label" />
+                            <TextField fx:id="txtRaza" prefHeight="40" promptText="Raza (opcional)" />
+                        </VBox>
+                        <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                            <Label text="Peso (kg)" styleClass="field-label" />
+                            <TextField fx:id="txtPeso" prefHeight="40" promptText="ej: 4.5" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="14">
+                        <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                            <Label text="Fecha de nacimiento" styleClass="field-label" />
+                            <DatePicker fx:id="dpFechaNacimiento" maxWidth="Infinity" prefHeight="40" />
+                        </VBox>
+                        <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
+                            <Label text="Microchip" styleClass="field-label" />
+                            <TextField fx:id="txtMicrochip" prefHeight="40" promptText="Nro. de microchip" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
         </VBox>
         </ScrollPane>
 
