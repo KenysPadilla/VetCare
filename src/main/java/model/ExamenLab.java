@@ -10,6 +10,7 @@ public class ExamenLab {
     private Consulta consulta;
     private LocalDateTime fechaHora;
     private String tipoExamen;
+    private String prioridad = "NORMAL";
     private String resultado;
     private String observaciones;
     private double costo;
@@ -76,6 +77,14 @@ public class ExamenLab {
 
     public void setTipoExamen(String tipoExamen) {
         this.tipoExamen = tipoExamen;
+    }
+
+    public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad != null ? prioridad : "NORMAL";
     }
 
     public String getResultado() {

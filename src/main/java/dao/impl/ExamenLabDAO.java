@@ -22,8 +22,8 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
     @Override
     public void guardar(ExamenLab examenLab) throws SQLException {
         String sql = "INSERT INTO EXAMEN_LAB (id_paciente, cedula_veterinario, id_consulta, "
-                   + "fecha_hora, tipo_examen, resultado, observaciones, costo) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                   + "fecha_hora, tipo_examen, prioridad, resultado, observaciones, costo) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, examenLab.getPaciente().getId());
             ps.setString(2, examenLab.getVeterinario().getCedula());
@@ -34,9 +34,10 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
             }
             ps.setTimestamp(4, examenLab.getFechaHora() != null ? java.sql.Timestamp.valueOf(examenLab.getFechaHora()) : null);
             ps.setString(5, examenLab.getTipoExamen());
-            ps.setString(6, examenLab.getResultado());
-            ps.setString(7, examenLab.getObservaciones());
-            ps.setDouble(8, examenLab.getCosto());
+            ps.setString(6, examenLab.getPrioridad() != null ? examenLab.getPrioridad() : "NORMAL");
+            ps.setString(7, examenLab.getResultado());
+            ps.setString(8, examenLab.getObservaciones());
+            ps.setDouble(9, examenLab.getCosto());
             ps.executeUpdate();
         }
     }
@@ -44,7 +45,7 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
     @Override
     public void actualizar(ExamenLab examenLab) throws SQLException {
         String sql = "UPDATE EXAMEN_LAB SET id_paciente=?, cedula_veterinario=?, id_consulta=?, "
-                   + "fecha_hora=?, tipo_examen=?, resultado=?, observaciones=?, costo=? WHERE id=?";
+                   + "fecha_hora=?, tipo_examen=?, prioridad=?, resultado=?, observaciones=?, costo=? WHERE id=?";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, examenLab.getPaciente().getId());
             ps.setString(2, examenLab.getVeterinario().getCedula());
@@ -55,10 +56,11 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
             }
             ps.setTimestamp(4, examenLab.getFechaHora() != null ? java.sql.Timestamp.valueOf(examenLab.getFechaHora()) : null);
             ps.setString(5, examenLab.getTipoExamen());
-            ps.setString(6, examenLab.getResultado());
-            ps.setString(7, examenLab.getObservaciones());
-            ps.setDouble(8, examenLab.getCosto());
-            ps.setInt(9, examenLab.getId());
+            ps.setString(6, examenLab.getPrioridad() != null ? examenLab.getPrioridad() : "NORMAL");
+            ps.setString(7, examenLab.getResultado());
+            ps.setString(8, examenLab.getObservaciones());
+            ps.setDouble(9, examenLab.getCosto());
+            ps.setInt(10, examenLab.getId());
             ps.executeUpdate();
         }
     }
@@ -178,6 +180,8 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
         examenLab.setFechaHora(fechaHora != null ? fechaHora.toLocalDateTime() : null);
 
         examenLab.setTipoExamen(rs.getString("tipo_examen"));
+        try { examenLab.setPrioridad(rs.getString("prioridad")); }
+        catch (SQLException ignorada) { examenLab.setPrioridad("NORMAL"); }
         examenLab.setResultado(rs.getString("resultado"));
         examenLab.setObservaciones(rs.getString("observaciones"));
         examenLab.setCosto(rs.getDouble("costo"));

@@ -146,7 +146,54 @@ public class CirugiaDAO implements IDAO<Cirugia> {
         c.setAnestesia(rs.getString("anestesia"));
         c.setDescripcion(rs.getString("descripcion"));
         c.setResultado(rs.getString("resultado"));
+        c.setDuracion(rs.getInt("duracion"));
         c.setCosto(rs.getDouble("costo"));
+        try {
+            String estadoCirugia = rs.getString("estado");
+            c.setEstado(estadoCirugia != null ? estadoCirugia : "Programada");
+            java.sql.Timestamp horaInicio = rs.getTimestamp("hora_inicio");
+            c.setHoraInicio(horaInicio != null ? horaInicio.toLocalDateTime() : null);
+            java.sql.Timestamp horaFin = rs.getTimestamp("hora_fin");
+            c.setHoraFin(horaFin != null ? horaFin.toLocalDateTime() : null);
+        } catch (SQLException ignorada) {
+            c.setEstado("Programada");
+        }
         return c;
+    }
+
+    public void iniciarCirugia(int id) throws SQLException {
+        String sql = "UPDATE CIRUGIA SET estado=?, hora_inicio=? WHERE id=?";
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, "En Curso");
+            ps.setTimestamp(2, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+            ps.setInt(3, id);
+            ps.executeUpdate();
+        }
+    }
+
+    public void finalizarCirugia(int id) throws SQLException {
+        java.time.LocalDateTime horaInicio = null;
+        String sqlSeleccion = "SELECT hora_inicio FROM CIRUGIA WHERE id=?";
+        try (PreparedStatement ps = conexion.prepareStatement(sqlSeleccion)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    java.sql.Timestamp ts = rs.getTimestamp("hora_inicio");
+                    if (ts != null) horaInicio = ts.toLocalDateTime();
+                }
+            }
+        }
+        java.time.LocalDateTime horaFin = java.time.LocalDateTime.now();
+        int duracion = horaInicio != null
+                ? (int) java.time.Duration.between(horaInicio, horaFin).toMinutes()
+                : 0;
+        String sql = "UPDATE CIRUGIA SET estado=?, hora_fin=?, duracion=? WHERE id=?";
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, "Finalizada");
+            ps.setTimestamp(2, java.sql.Timestamp.valueOf(horaFin));
+            ps.setInt(3, duracion);
+            ps.setInt(4, id);
+            ps.executeUpdate();
+        }
     }
 }

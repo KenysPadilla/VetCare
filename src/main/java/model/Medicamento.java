@@ -12,6 +12,7 @@ public class Medicamento {
     private int stockDisponible;
     private LocalDate fechaVencimiento;
     private String concentracion;
+    private String categoria;
 
     public Medicamento() {
     }
@@ -111,5 +112,13 @@ public class Medicamento {
 
     public void setConcentracion(String concentracion) {
         this.concentracion = concentracion;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 }
