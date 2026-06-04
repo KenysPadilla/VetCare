@@ -37,6 +37,14 @@ public class CirugiaService {
         ((CirugiaDAO) dao).actualizarResultado(id, resultado);
     }
 
+    public void iniciar(int id) throws SQLException {
+        ((CirugiaDAO) dao).iniciarCirugia(id);
+    }
+
+    public void finalizar(int id) throws SQLException {
+        ((CirugiaDAO) dao).finalizarCirugia(id);
+    }
+
     public ArrayList<Cirugia> listarPorPaciente(int idPaciente) throws SQLException {
         return ((CirugiaDAO) dao).listarPorPaciente(idPaciente);
     }
