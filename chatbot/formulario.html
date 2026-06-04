@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
   ╔══════════════════════════════════════════════════════════════════════╗
-  ║  FORMULARIO WEB DE SOLICITUD DE CITAS — VetCare / Clinica Mr Vet    ║
+  ║  FORMULARIO WEB DE SOLICITUD DE CITAS — Clínica Veterinaria VetCare ║
   ╠══════════════════════════════════════════════════════════════════════╣
   ║  CONFIGURACION REQUERIDA ANTES DE PUBLICAR:                         ║
   ║                                                                      ║
@@ -48,7 +48,7 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0d3b1e 0%, #1B6B2F 60%, #0d3b1e 100%);
+      background: linear-gradient(135deg, #0d1f2b 0%, #1a3d52 60%, #0d1f2b 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -66,10 +66,10 @@
     }
 
     .card-header {
-      background: #1B6B2F;
+      background: linear-gradient(135deg, #2b87a0, #1e6677);
       color: #fff;
-      padding: 28px 32px 20px;
-      text-align: center;
+      padding: 20px 24px 18px;
+      text-align: left;
     }
 
     .card-header .logo {
@@ -78,7 +78,7 @@
       letter-spacing: 2px;
     }
 
-    .card-header .logo span { color: #a8e6b8; }
+    .card-header .logo span { color: #a8d8e8; }
 
     .card-header p {
       margin-top: 6px;
@@ -105,12 +105,12 @@
     label {
       font-size: 0.82rem;
       font-weight: 600;
-      color: #2d5a3d;
+      color: #1a2e3b;
       margin-bottom: 5px;
     }
 
     input, select, textarea {
-      border: 1.5px solid #c8ddd1;
+      border: 1.5px solid #c8dde8;
       border-radius: 8px;
       padding: 10px 12px;
       font-size: 0.92rem;
@@ -122,7 +122,7 @@
     }
 
     input:focus, select:focus, textarea:focus {
-      border-color: #1B6B2F;
+      border-color: #2b87a0;
     }
 
     textarea { resize: vertical; min-height: 80px; }
@@ -133,7 +133,7 @@
     .horas-section .label-horas {
       font-size: 0.82rem;
       font-weight: 600;
-      color: #2d5a3d;
+      color: #1a2e3b;
       margin-bottom: 8px;
     }
 
@@ -144,9 +144,9 @@
     }
 
     .hora-btn {
-      background: #f0f7f2;
-      border: 1.5px solid #1B6B2F;
-      color: #1B6B2F;
+      background: #eef7fa;
+      border: 1.5px solid #2b87a0;
+      color: #2b87a0;
       border-radius: 6px;
       padding: 6px 14px;
       font-size: 0.85rem;
@@ -155,10 +155,10 @@
       transition: background 0.15s, color 0.15s;
     }
 
-    .hora-btn:hover { background: #d4edda; }
+    .hora-btn:hover { background: #d0e8f0; }
 
     .hora-btn.selected {
-      background: #1B6B2F;
+      background: #2b87a0;
       color: #fff;
     }
 
@@ -171,7 +171,7 @@
     /* Boton enviar */
     .btn-submit {
       width: 100%;
-      background: #1B6B2F;
+      background: #2b87a0;
       color: #fff;
       border: none;
       border-radius: 10px;
@@ -184,8 +184,8 @@
       letter-spacing: 0.5px;
     }
 
-    .btn-submit:hover:not(:disabled) { background: #145222; }
-    .btn-submit:disabled { background: #9fc5aa; cursor: not-allowed; }
+    .btn-submit:hover:not(:disabled) { background: #1e6677; }
+    .btn-submit:disabled { background: #8ab8c7; cursor: not-allowed; }
 
     /* Mensajes de estado */
     .msg {
@@ -196,7 +196,7 @@
       display: none;
     }
 
-    .msg.success { background: #e8f5e9; color: #1B6B2F; border: 1px solid #a5d6a7; display: block; }
+    .msg.success { background: #e8f4f8; color: #2b87a0; border: 1px solid #bee3ef; display: block; }
     .msg.error   { background: #fdecea; color: #c62828; border: 1px solid #ef9a9a; display: block; }
     .msg.info    { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; display: block; }
 
@@ -206,6 +206,24 @@
       font-size: 0.78rem;
       color: #888;
       margin-top: 20px;
+    }
+
+    /* Autocomplete raza */
+    .autocomplete-wrap { position: relative; }
+    .autocomplete-list {
+      position: absolute; top: 100%; left: 0; right: 0; z-index: 100;
+      background: #fff; border: 1.5px solid #2b87a0; border-top: none;
+      border-radius: 0 0 8px 8px; max-height: 200px; overflow-y: auto;
+      display: none; box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+    .autocomplete-item {
+      padding: 9px 12px; cursor: pointer; font-size: 0.9rem; color: #222;
+      transition: background 0.15s;
+    }
+    .autocomplete-item:hover { background: #eef7fa; color: #2b87a0; }
+    .autocomplete-item.item-otra {
+      font-weight: 700; color: #2b87a0; border-top: 1px solid #e0ecf0;
+      font-style: italic;
     }
 
     @media (max-width: 480px) {
@@ -219,8 +237,13 @@
 
 <div class="card">
   <div class="card-header">
-    <div class="logo">Vet<span>Care</span></div>
-    <p>Clinica Veterinaria VetCare &mdash; Solicitud de Cita</p>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <img src="images/logo-white.png" alt="VetCare" style="width:52px;height:52px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.25));">
+      <div>
+        <div style="font-size:1.4rem;font-weight:800;letter-spacing:1px;color:#fff;line-height:1.1;">Solicitud de Cita</div>
+        <div style="font-size:0.82rem;color:#a8d8e8;margin-top:5px;letter-spacing:0.3px;font-weight:500;">Clínica Veterinaria VetCare &bull; En línea</div>
+      </div>
+    </div>
   </div>
 
   <div class="card-body">
@@ -248,15 +271,12 @@
           <input type="text" id="nombreMascota" placeholder="Ej. Luna" required />
         </div>
         <div class="form-group">
-          <label for="especie">Especie *</label>
-          <select id="especie" required>
-            <option value="">Selecciona...</option>
-            <option value="Perro">Perro</option>
-            <option value="Gato">Gato</option>
-            <option value="Ave">Ave</option>
-            <option value="Reptil">Reptil</option>
-            <option value="Otro">Otro</option>
-          </select>
+          <label for="especieInput">Especie *</label>
+          <div class="autocomplete-wrap" id="especieWrap">
+            <input type="text" id="especieInput" placeholder="Escribe para buscar especie..." autocomplete="off" />
+            <div class="autocomplete-list" id="especieList"></div>
+          </div>
+          <input type="hidden" id="especie" />
         </div>
       </div>
 
@@ -265,9 +285,27 @@
         <input type="text" id="especieOtro" placeholder="Ej. Hamster, Tortuga, Conejo..." />
       </div>
 
-      <div class="form-group">
-        <label for="raza">Raza de la mascota</label>
-        <input type="text" id="raza" placeholder="Ej. Labrador, Mestizo, Persa..." />
+      <div class="form-row">
+        <div class="form-group">
+          <label for="razaInput">Raza de la mascota</label>
+          <div class="autocomplete-wrap" id="razaWrap">
+            <input type="text" id="razaInput" placeholder="Escribe para buscar raza..." autocomplete="off" />
+            <div class="autocomplete-list" id="razaList"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sexo">Sexo *</label>
+          <select id="sexo" required>
+            <option value="">Selecciona...</option>
+            <option value="Macho">Macho</option>
+            <option value="Hembra">Hembra</option>
+            <option value="Desconocido">Desconocido</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="grupoRazaOtra" style="display:none;">
+        <label for="razaOtra">Especifica la raza *</label>
+        <input type="text" id="razaOtra" placeholder="Ej. Criollo, Mestizo especial..." />
       </div>
 
       <div class="form-group">
@@ -331,19 +369,70 @@
 
   let horaSeleccionada = null;
 
-  // Mostrar / ocultar campo especie libre cuando se elige "Otro"
-  document.getElementById("especie").addEventListener("change", function () {
-    const grupo = document.getElementById("grupoEspecieOtro");
-    const input = document.getElementById("especieOtro");
-    if (this.value === "Otro") {
-      grupo.style.display = "flex";
-      input.required = true;
-    } else {
-      grupo.style.display = "none";
-      input.required = false;
-      input.value = "";
+  // ── Lista de especies ───────────────────────────────────────────────
+  const TODAS_LAS_ESPECIES = [
+    "Perro","Gato","Conejo","Hámster Dorado","Hámster Ruso","Cobaya / Cuy",
+    "Chinchilla","Hurón","Rata Doméstica","Ratón Doméstico","Erizo Africano",
+    "Degú","Jerbo","Mini Pig",
+    "Ave","Loro / Papagayo","Periquito / Perico","Canario","Cacatúa",
+    "Guacamayo","Agapornis","Cotorra",
+    "Reptil","Iguana","Tortuga","Serpiente","Gecko","Camaleón",
+    "Pez","Otro"
+  ];
+
+  // ── Autocomplete de especie ─────────────────────────────────────────
+  (function initEspecieAutocomplete() {
+    const input = document.getElementById("especieInput");
+    const lista = document.getElementById("especieList");
+    const hidden = document.getElementById("especie");
+
+    function onEspecieSeleccionada(valor) {
+      input.value = valor;
+      hidden.value = valor;
+      lista.style.display = "none";
+      // Mostrar / ocultar campo especie libre
+      const grupo = document.getElementById("grupoEspecieOtro");
+      const otraInput = document.getElementById("especieOtro");
+      if (valor === "Otro") {
+        grupo.style.display = "flex";
+        otraInput.required = true;
+      } else {
+        grupo.style.display = "none";
+        otraInput.required = false;
+        otraInput.value = "";
+      }
+      // Resetear raza al cambiar especie
+      document.getElementById("razaInput").value = "";
+      document.getElementById("razaList").style.display = "none";
+      document.getElementById("grupoRazaOtra").style.display = "none";
+      document.getElementById("razaOtra").value = "";
     }
-  });
+
+    function renderEspecies(filtro) {
+      const lower = filtro.toLowerCase();
+      const matches = filtro
+        ? TODAS_LAS_ESPECIES.filter(e => e.toLowerCase().includes(lower))
+        : TODAS_LAS_ESPECIES;
+      lista.innerHTML = "";
+      if (!matches.length) { lista.style.display = "none"; return; }
+      matches.forEach(e => {
+        const div = document.createElement("div");
+        div.className = "autocomplete-item" + (e === "Otro" ? " item-otra" : "");
+        div.textContent = e;
+        div.addEventListener("mousedown", ev => { ev.preventDefault(); onEspecieSeleccionada(e); });
+        lista.appendChild(div);
+      });
+      lista.style.display = "block";
+    }
+
+    input.addEventListener("input",  () => { hidden.value = ""; renderEspecies(input.value); });
+    input.addEventListener("focus",  () => renderEspecies(input.value));
+    input.addEventListener("blur",   () => setTimeout(() => lista.style.display = "none", 150));
+    document.addEventListener("click", e => {
+      if (!document.getElementById("especieWrap").contains(e.target))
+        lista.style.display = "none";
+    });
+  })();
 
   // ═══════════════════════════════════════════════════════════════════
   //  Flatpickr — calendario visual
@@ -361,6 +450,133 @@
       cargarHorasDisponibles(dateStr);
     }
   });
+
+  // ═══════════════════════════════════════════════════════════════════
+  //  Autocomplete de raza (filtrado por especie)
+  // ═══════════════════════════════════════════════════════════════════
+  const RAZAS_POR_ESPECIE = {
+    Perro: [
+      "Labrador Retriever","Golden Retriever","Pastor Alemán","Bulldog Francés",
+      "Bulldog Inglés","French Poodle","Beagle","Rottweiler","Yorkshire Terrier",
+      "Chihuahua","Dachshund / Teckel","Boxer","Doberman Pinscher","Husky Siberiano",
+      "Border Collie","Cocker Spaniel Inglés","Cocker Spaniel Americano",
+      "Shih Tzu","Maltés","Pomerania / Spitz","Schnauzer Miniatura",
+      "Schnauzer Estándar","Schnauzer Gigante","Pit Bull Terrier","American Bully",
+      "Dálmata","Shar-Pei","Akita Inu","Shiba Inu","Bichón Frisé","Gran Danés",
+      "Samoyedo","Alaskan Malamute","Jack Russell Terrier","Pug / Carlino",
+      "Basset Hound","Chow Chow","Weimaraner","Australian Shepherd",
+      "Australian Cattle Dog","Bernese Mountain Dog","Cavalier King Charles Spaniel",
+      "Springer Spaniel Inglés","Setter Irlandés","Setter Inglés",
+      "Bull Terrier","Staffordshire Bull Terrier","American Staffordshire Terrier",
+      "Airedale Terrier","West Highland White Terrier","Cairn Terrier",
+      "Scottish Terrier","Fox Terrier Pelo Liso","Fox Terrier Pelo Duro",
+      "Border Terrier","Welsh Corgi Pembroke","Welsh Corgi Cardigan",
+      "Rough Collie","Shetland Sheepdog","Old English Sheepdog","Lhasa Apso",
+      "Pekingés","Cane Corso","Dogo Argentino","Fila Brasileño","Boerboel",
+      "Mastín Napolitano","Mastín Inglés","Mastín Tibetano",
+      "Pastor Belga Malinois","Pastor Belga Tervuren","Pastor Blanco Suizo",
+      "Rhodesian Ridgeback","Greyhound / Galgo","Whippet","Afghan Hound",
+      "Saluki","Irish Wolfhound","Borzoi","Vizsla Húngaro","Braco Alemán",
+      "Nova Scotia Duck Tolling Retriever","Flat-Coated Retriever",
+      "Chesapeake Bay Retriever","Irish Water Spaniel",
+      "Newfoundland / Terranova","San Bernardo","Leonberger",
+      "Miniature Pinscher","Maltipoo","Labradoodle","Goldendoodle","Cockapoo",
+      "Havanés","Coton de Tuléar","Bichón Habanero","Perro de Agua Español",
+      "Cimarrón Uruguayo","Galgo Español","Podenco Ibicenco",
+      "Perro Sin Pelo del Perú","Xoloitzcuintle","Spitz Japonés",
+      "Mestizo","Otra"
+    ],
+    Gato: [
+      "Persa","Siamés","Maine Coon","Ragdoll","Bengalí","British Shorthair",
+      "Abisinio","Sphynx","Scottish Fold","Birmano","Angora Turco",
+      "Azul Ruso","Devon Rex","Cornish Rex","Selkirk Rex",
+      "American Shorthair","American Curl","Noruego del Bosque",
+      "Siberiano","Bombay","Burmés","Tonkinés","Ocicat",
+      "Mau Egipcio","Balinés","Turkish Van","Somali",
+      "Chartreux","Manx","Singapura","Javanés",
+      "Mestizo","Otra"
+    ],
+    Ave: [
+      "Periquito Australiano","Periquito Americano","Canario",
+      "Loro Amazónico","Loro Gris Africano","Cacatúa",
+      "Cacatúa Ninfa / Cockatiel","Agapornis","Guacamayo Azul y Amarillo",
+      "Guacamayo Rojo","Guacamayo Verde","Cotorra","Perico",
+      "Tucán","Paloma","Jilguero","Pinzón","Mirlo","Otra"
+    ],
+    Reptil: [
+      "Iguana Verde","Iguana Rinoceronte","Gecko Leopardo","Gecko de Cresta",
+      "Camaleón Velado","Tortuga de Tierra","Tortuga Acuática",
+      "Tortuga Mediterránea","Boa Constrictor","Serpiente Maíz",
+      "Dragón Barbudo","Lagartija de Jardín","Monitor de Savana",
+      "Pitón Bola","Otra"
+    ],
+    Otro: [
+      "Hámster Dorado","Hámster Ruso","Hámster Chino",
+      "Conejo","Cobaya / Cuy","Ratón Doméstico","Rata Doméstica",
+      "Hurón","Chinchilla","Erizo Africano","Jerbo","Degú",
+      "Mestizo","Otra"
+    ]
+  };
+
+  function getRazasActuales() {
+    const esp = document.getElementById("especie").value;
+    if (!esp || esp === "Otro") return [...new Set(Object.values(RAZAS_POR_ESPECIE).flat())];
+    if (RAZAS_POR_ESPECIE[esp]) return RAZAS_POR_ESPECIE[esp];
+    const AVES     = ["Loro / Papagayo","Periquito / Perico","Canario","Cacatúa","Guacamayo","Agapornis","Cotorra"];
+    const REPTILES = ["Iguana","Tortuga","Serpiente","Gecko","Camaleón"];
+    const OTROS    = ["Conejo","Hámster Dorado","Hámster Ruso","Cobaya / Cuy","Chinchilla",
+                      "Hurón","Rata Doméstica","Ratón Doméstico","Erizo Africano","Degú","Jerbo","Mini Pig"];
+    if (AVES.includes(esp))    return RAZAS_POR_ESPECIE.Ave;
+    if (REPTILES.includes(esp)) return RAZAS_POR_ESPECIE.Reptil;
+    if (OTROS.includes(esp))   return RAZAS_POR_ESPECIE.Otro;
+    return [...new Set(Object.values(RAZAS_POR_ESPECIE).flat())];
+  }
+
+  (function initRazaAutocomplete() {
+    const input  = document.getElementById("razaInput");
+    const lista  = document.getElementById("razaList");
+
+    function renderLista(filtro) {
+      const razas    = getRazasActuales();
+      const lower    = filtro.toLowerCase();
+      const matches  = filtro
+        ? razas.filter(r => r.toLowerCase().includes(lower))
+        : razas;
+
+      lista.innerHTML = "";
+      if (!matches.length) { lista.style.display = "none"; return; }
+
+      matches.forEach(r => {
+        const div = document.createElement("div");
+        div.className = "autocomplete-item" + (r === "Otra" ? " item-otra" : "");
+        div.textContent = r;
+        div.addEventListener("mousedown", e => {
+          e.preventDefault();
+          input.value = r;
+          lista.style.display = "none";
+          const grupoOtra = document.getElementById("grupoRazaOtra");
+          if (r === "Otra") {
+            grupoOtra.style.display = "flex";
+            document.getElementById("razaOtra").required = true;
+          } else {
+            grupoOtra.style.display = "none";
+            document.getElementById("razaOtra").required = false;
+            document.getElementById("razaOtra").value = "";
+          }
+        });
+        lista.appendChild(div);
+      });
+      lista.style.display = "block";
+    }
+
+    input.addEventListener("input",  () => renderLista(input.value));
+    input.addEventListener("focus",  () => renderLista(input.value));
+    input.addEventListener("blur",   () => setTimeout(() => lista.style.display = "none", 150));
+    document.addEventListener("click", e => {
+      if (!document.getElementById("razaWrap").contains(e.target))
+        lista.style.display = "none";
+    });
+  })();
 
   // ═══════════════════════════════════════════════════════════════════
   //  Cargar horas disponibles desde Firebase
@@ -423,17 +639,24 @@
     const especieSelect = document.getElementById("especie").value;
     const especieOtro   = document.getElementById("especieOtro").value.trim();
     const especie       = especieSelect === "Otro" ? especieOtro : especieSelect;
-    const raza          = document.getElementById("raza").value.trim() || "Mestizo";
+    const razaInputVal  = document.getElementById("razaInput").value.trim();
+    const razaOtraVal   = document.getElementById("razaOtra").value.trim();
+    const raza          = razaInputVal === "Otra" ? razaOtraVal : (razaInputVal || "Mestizo");
+    const sexo        = document.getElementById("sexo").value;
     const fecha         = document.getElementById("fecha").value;
     const motivo        = document.getElementById("motivo").value.trim();
 
     // Validacion basica
-    if (!nombre || !telefono || !correo || !nombreMascota || !especie || !fecha || !motivo) {
+    if (!nombre || !telefono || !correo || !nombreMascota || !especie || !sexo || !fecha || !motivo) {
       mostrarMsg("Por favor completa todos los campos antes de enviar.", "error");
       return;
     }
     if (especieSelect === "Otro" && !especieOtro) {
       mostrarMsg("Por favor especifica la especie de tu mascota.", "error");
+      return;
+    }
+    if (razaInputVal === "Otra" && !razaOtraVal) {
+      mostrarMsg("Por favor especifica la raza de tu mascota.", "error");
       return;
     }
     if (!horaSeleccionada) {
@@ -465,6 +688,7 @@
       nombreMascota,
       especie,
       raza,
+      sexo,
       fecha,
       hora:           horaSeleccionada,
       motivo,
@@ -481,7 +705,7 @@
         "✅ ¡Tu solicitud fue enviada exitosamente! " +
         "La clínica te confirmará por correo pronto.<br/>" +
         "Volviendo al chat en <strong id='segundosRestantes'>15</strong> segundos...<br/>" +
-        "<a href='index.html' style='display:inline-block;margin-top:10px;color:#1B6B2F;" +
+        "<a href='index.html' style='display:inline-block;margin-top:10px;color:#2b87a0;" +
         "font-weight:700;text-decoration:none;font-size:14px;'>← Volver al chat ahora</a>",
         "success"
       );
