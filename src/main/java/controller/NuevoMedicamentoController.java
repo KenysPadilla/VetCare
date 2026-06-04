@@ -49,7 +49,6 @@ public class NuevoMedicamentoController implements Initializable {
         NumericFormatter.apply(txtPrecio);
     }
 
-   
     public void setModoEdicion(Medicamento m) {
         this.medicamentoEnEdicion = m;
         txtNombre.setText(m.getNombre());

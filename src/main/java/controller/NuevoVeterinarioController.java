@@ -25,14 +25,12 @@ public class NuevoVeterinarioController implements Initializable {
     @FXML private Button    btnGuardar;
     @FXML private Label     lblMensaje;
 
-    
     private Veterinario veterinarioEnEdicion = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    
     public void setModoEdicion(Veterinario v) {
         this.veterinarioEnEdicion = v;
         txtCedula.setText(v.getCedula());

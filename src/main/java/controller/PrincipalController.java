@@ -148,8 +148,6 @@ public class PrincipalController implements Initializable {
         iniciarPollingNotificaciones();
     }
 
-    
-
     private void iniciarPollingNotificaciones() {
         verificarSolicitudesPendientes();
         pollingTimeline = new Timeline(new KeyFrame(Duration.seconds(30), e -> verificarSolicitudesPendientes()));
@@ -217,12 +215,9 @@ public class PrincipalController implements Initializable {
         panelNotificacion.setManaged(false);
     }
 
-    
-
     private void cargarDashboard() {
         LocalDate hoy = LocalDate.now();
 
-        // --- Citas ---
         List<Cita> todasCitas = new ArrayList<>();
         try {
             todasCitas = new CitaService().listarTodos();
@@ -261,7 +256,6 @@ public class PrincipalController implements Initializable {
         poblarCitasHoy(citasHoy);
         poblarActividad(todasCitas);
 
-        
         try {
             int total = new PacienteService().listarTodos().size();
             lblPacientesActivos.setText(String.valueOf(total));
@@ -441,8 +435,6 @@ public class PrincipalController implements Initializable {
         };
     }
 
-    
-
     private void configureSidebarIcons() {
         IconHelper.attachNavIcon(btnPropietarios, FontAwesomeSolid.USER);
         IconHelper.attachNavIcon(btnPacientes, FontAwesomeSolid.PAW);
@@ -529,13 +521,9 @@ public class PrincipalController implements Initializable {
     @FXML private void handleVacunas()       { cargarVista("vacunas.fxml",             "Vacunas",         btnVacunas);       }
     @FXML private void handleSolicitudes()   { cargarVista("solicitudes.fxml",         "Solicitudes",     btnSolicitudes);   }
 
-    
-
-    /** Agrupación de las tres referencias que definen un grupo del accordion. */
     private record NavGrupo(Button header, VBox items, FontIcon arrow) {}
     private List<NavGrupo> navGrupos;
 
-    /** Construye la lista de grupos. Llamar desde initialize() tras la inyección FXML. */
     private void inicializarGrupos() {
         navGrupos = List.of(
             new NavGrupo(btnGrupoRegistro,       grupoRegistroItems,        arrowRegistro),
@@ -548,7 +536,6 @@ public class PrincipalController implements Initializable {
         );
     }
 
-    /** Cierra un grupo: oculta ítems, quita clase activa y gira la flecha a 0°. */
     private void cerrarGrupo(NavGrupo g) {
         g.items().setVisible(false);
         g.items().setManaged(false);
@@ -558,7 +545,6 @@ public class PrincipalController implements Initializable {
         rt.play();
     }
 
-    /** Abre un grupo: cierra todos los demás, muestra ítems, añade clase activa y gira la flecha a 90°. */
     private void abrirGrupo(NavGrupo target) {
         navGrupos.stream()
                  .filter(g -> g.items().isVisible() && g != target)
@@ -586,7 +572,6 @@ public class PrincipalController implements Initializable {
     @FXML private void toggleGrupoEstetica()        { toggleGrupo(navGrupos.get(5)); }
     @FXML private void toggleGrupoAdministracion()  { toggleGrupo(navGrupos.get(6)); }
 
-    
     private void abrirGrupoDeBoton(Button btn) {
         navGrupos.stream()
                  .filter(g -> g.items().getChildren().stream().anyMatch(n -> n == btn))

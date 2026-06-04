@@ -22,7 +22,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 public class NuevaCirugiaController implements Initializable {
 
     @FXML private ComboBox<Paciente>    cbPaciente;

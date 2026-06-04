@@ -56,7 +56,6 @@ public class NuevoPropietarioController implements Initializable {
         });
     }
 
-    
     public void setModoEdicion(Propietario p) {
         this.propietarioEnEdicion = p;
         txtCedula.setText(p.getCedula());

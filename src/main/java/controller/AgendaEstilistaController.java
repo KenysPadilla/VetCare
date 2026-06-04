@@ -79,4 +79,3 @@ public class AgendaEstilistaController {
         ((Stage) lblNombreEstilista.getScene().getWindow()).close();
     }
 }
-

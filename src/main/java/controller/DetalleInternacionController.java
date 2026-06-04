@@ -72,7 +72,6 @@ public class DetalleInternacionController {
 
         lblCostoDia.setText(NumericFormatter.formatCurrency(i.getCostoDia()));
 
-        // Cargar medicamentos desde la base de datos
         try {
             List<InternacionMedicamento> meds = service.listarMedicamentosPorInternacion(i.getId());
             i.setMedicamentos(meds);

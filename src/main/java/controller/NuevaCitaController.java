@@ -91,7 +91,6 @@ public class NuevaCitaController implements Initializable {
         dpFecha.setValue(null);
     }
 
-    
     public void setModoEdicion(Cita c) {
         this.citaEnEdicion = c;
 

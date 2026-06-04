@@ -53,8 +53,6 @@ public class NuevoUsuarioController implements Initializable {
         cbRol.setOnAction(e -> actualizarPorRol());
     }
 
-    
-
     public void setModoEdicion(Usuario u) {
         this.usuarioEnEdicion = u;
 
@@ -75,8 +73,6 @@ public class NuevoUsuarioController implements Initializable {
 
         btnGuardar.setText("Actualizar");
     }
-
-    
 
     private void actualizarPorRol() {
         String rol = cbRol.getValue();
@@ -115,7 +111,7 @@ public class NuevoUsuarioController implements Initializable {
             }
             pnlEmpleado.setVisible(true);
             pnlEmpleado.setManaged(true);
-            habilitarDatosPersonales(true); 
+            habilitarDatosPersonales(true);
             limpiarDatosPersonales();
         } catch (SQLException ex) {
             mostrarMensaje("Error al cargar empleados: " + ex.getMessage(), "#D32F2F");
@@ -162,7 +158,7 @@ public class NuevoUsuarioController implements Initializable {
                     ? veterinariosList.get(i).getCedula()
                     : estilistasList.get(i).getCedula();
             if (cedula.equals(c)) {
-                cbEmpleado.getSelectionModel().select(i); // dispara autoRellenarDesdeEmpleado()
+                cbEmpleado.getSelectionModel().select(i);
                 return;
             }
         }
@@ -183,8 +179,6 @@ public class NuevoUsuarioController implements Initializable {
         txtTelefono.clear();
         txtEmail.clear();
     }
-
-    
 
     @FXML
     private void handleGuardar() {
@@ -286,8 +280,6 @@ public class NuevoUsuarioController implements Initializable {
             mostrarMensaje("Error: " + e.getMessage(), "#D32F2F");
         }
     }
-
-    
 
     private boolean requiereEmpleado(String rol) {
         return "VETERINARIO".equals(rol) || "ESTILISTA".equals(rol);

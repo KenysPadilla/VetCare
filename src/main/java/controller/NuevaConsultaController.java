@@ -61,7 +61,6 @@ public class NuevaConsultaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        
         cbCita.setConverter(new StringConverter<Cita>() {
             @Override
             public String toString(Cita c) {
@@ -74,7 +73,6 @@ public class NuevaConsultaController implements Initializable {
             @Override public Cita fromString(String s) { return null; }
         });
 
-        
         cbPaciente.setConverter(new StringConverter<Paciente>() {
             @Override
             public String toString(Paciente p) {
@@ -86,7 +84,6 @@ public class NuevaConsultaController implements Initializable {
             @Override public Paciente fromString(String s) { return null; }
         });
 
-        
         cbVeterinario.setConverter(new StringConverter<Veterinario>() {
             @Override
             public String toString(Veterinario v) {
@@ -97,7 +94,6 @@ public class NuevaConsultaController implements Initializable {
             @Override public Veterinario fromString(String s) { return null; }
         });
 
-        
         lvMedicamentos.setCellFactory(lv -> new javafx.scene.control.ListCell<Medicamento>() {
             @Override
             protected void updateItem(Medicamento m, boolean empty) {
@@ -112,7 +108,6 @@ public class NuevaConsultaController implements Initializable {
             }
         });
 
-        
         try {
             List<Cita> citasDisponibles = new CitaService().listarDisponiblesParaConsulta();
             ComboBoxFilter.apply(cbCita, citasDisponibles,
@@ -126,7 +121,6 @@ public class NuevaConsultaController implements Initializable {
             mostrarMensaje("Error al cargar citas: " + e.getMessage(), "#D32F2F");
         }
 
-        
         try {
             List<Paciente> pacientes = new PacienteService().listarTodos();
             ComboBoxFilter.apply(cbPaciente, pacientes, Object::toString);
@@ -140,7 +134,6 @@ public class NuevaConsultaController implements Initializable {
             mostrarMensaje("Error al cargar veterinarios: " + e.getMessage(), "#D32F2F");
         }
 
-        
         try {
             todosMedicamentos = new MedicamentoService().listarTodos();
             lvMedicamentos.getItems().setAll(todosMedicamentos);

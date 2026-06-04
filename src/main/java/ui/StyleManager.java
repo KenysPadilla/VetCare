@@ -39,9 +39,8 @@ public final class StyleManager {
         };
     }
 
-    
     public static void applyHover(Button btn, String cssClass) {
-        if (chipStyle(cssClass) == null) return; // solo chips con estilo inline conocido
+        if (chipStyle(cssClass) == null) return;
         btn.setOnMouseEntered(e -> btn.setOpacity(0.82));
         btn.setOnMouseExited(e -> btn.setOpacity(1.0));
     }

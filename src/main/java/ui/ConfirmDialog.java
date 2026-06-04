@@ -13,9 +13,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
-
 public class ConfirmDialog {
-
 
     public static boolean mostrar(String titulo, String icono, String mensaje,
                                    String textoPrimario, String colorPrimario) {

@@ -14,7 +14,6 @@ public class NumericFormatter {
         CURRENCY_FMT = new DecimalFormat("#,##0.00", sym);
     }
 
-    /** Formatea un valor como precio colombiano: $48.000,00 */
     public static String formatCurrency(double value) {
         return "$" + CURRENCY_FMT.format(value);
     }

@@ -24,23 +24,19 @@ import ui.StyleManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 public class RecuperarPasswordController implements Initializable {
 
-    
     @FXML private TextField txtUsuario;
     @FXML private TextField txtCorreo;
     @FXML private Button    btnEnviar;
     @FXML private Button    btnVolver;
     @FXML private Label     lblMensaje;
 
-    
     @FXML private TextField  txtD1, txtD2, txtD3, txtD4, txtD5, txtD6;
     @FXML private Button     btnVerificar;
     @FXML private Hyperlink  lnkReenviar;
     @FXML private Label      lblMensajeCodigo;
 
-    
     @FXML private PasswordField txtNuevaPassword;
     @FXML private TextField     txtNuevaVisible;
     @FXML private PasswordField txtConfirmarPassword;
@@ -53,19 +49,15 @@ public class RecuperarPasswordController implements Initializable {
     private boolean nuevaVisible     = false;
     private boolean confirmarVisible = false;
 
-    
     @FXML private VBox  panelSolicitud;
     @FXML private VBox  panelCodigo;
     @FXML private VBox  panelNuevaPassword;
     @FXML private Label lblDescripcionIzquierda;
 
-   
     private String usuarioActual;
 
-   
     private final RecuperarPasswordService servicio = new RecuperarPasswordService();
 
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         panelCodigo.setVisible(false);
@@ -106,7 +98,6 @@ public class RecuperarPasswordController implements Initializable {
         }
     }
 
-    
     @FXML
     private void handleEnviar() {
         String usuario = txtUsuario.getText().trim();
@@ -139,7 +130,6 @@ public class RecuperarPasswordController implements Initializable {
         ejecutarEnHilo(task);
     }
 
-    
     @FXML
     private void handleVerificar() {
         String codigo = txtD1.getText() + txtD2.getText() + txtD3.getText()
@@ -172,10 +162,9 @@ public class RecuperarPasswordController implements Initializable {
         ejecutarEnHilo(task);
     }
 
-   
     @FXML
     private void handleReenviar() {
-        
+        String correo = txtCorreo.getText().trim();
 
         lnkReenviar.setDisable(true);
         mostrarMensaje(lblMensajeCodigo, "Reenviando codigo...", "#333333");
@@ -238,11 +227,6 @@ public class RecuperarPasswordController implements Initializable {
         btn.setText(null);
     }
 
-    /**
-     * Paso 3: valida que las contrasenas coincidan, llama a
-     * {@link RecuperarPasswordService#cambiarPassword} y redirige al login
-     * tras 2 segundos de confirmacion visual.
-     */
     @FXML
     private void handleCambiar() {
         String nueva     = nuevaVisible     ? txtNuevaVisible.getText()     : txtNuevaPassword.getText();
@@ -283,15 +267,11 @@ public class RecuperarPasswordController implements Initializable {
         ejecutarEnHilo(task);
     }
 
-    /**
-     * Navega de vuelta a la pantalla de login desde cualquier paso.
-     */
     @FXML
     private void handleVolver() {
         navegarALogin();
     }
 
-   
     private void mostrarPanel(VBox actual, VBox siguiente) {
         actual.setVisible(false);
         actual.setManaged(false);
@@ -299,7 +279,6 @@ public class RecuperarPasswordController implements Initializable {
         siguiente.setManaged(true);
     }
 
-    
     private void navegarALogin() {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -315,14 +294,12 @@ public class RecuperarPasswordController implements Initializable {
         }
     }
 
-   
     private void mostrarMensaje(Label lbl, String texto, String color) {
         lbl.setText(texto);
         lbl.setStyle("-fx-text-fill: " + color + "; -fx-font-size: 12px;");
         lbl.setVisible(true);
     }
 
-    
     private void ejecutarEnHilo(Task<Void> task) {
         Thread hilo = new Thread(task);
         hilo.setDaemon(true);

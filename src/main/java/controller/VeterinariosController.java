@@ -46,7 +46,7 @@ public class VeterinariosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // 3 columnas de igual ancho que cubren todo el espacio disponible
+
         ColumnConstraints col = new ColumnConstraints();
         col.setPercentWidth(33.33);
         col.setHgrow(Priority.ALWAYS);

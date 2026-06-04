@@ -26,7 +26,6 @@ public final class IconHelper {
         return fi;
     }
 
-    
     public static void attachNavIcon(Button button, Ikon ikon) {
         FontIcon fi = icon(ikon, 16, NAV_MUTED);
         StackPane box = new StackPane(fi);
@@ -41,7 +40,6 @@ public final class IconHelper {
         button.setGraphicTextGap(8);
     }
 
-    
     public static void setNavIconActive(Button button, boolean active) {
         Color color;
         if (active) {

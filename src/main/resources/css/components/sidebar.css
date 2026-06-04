@@ -1,3 +1,4 @@
+/* Sidebar — Figma Make Sidebar.tsx */
 
 .sidebar {
     -fx-background-color: white;
@@ -106,6 +107,7 @@
     -fx-cursor: hand;
 }
 
+/* Logout button: rojo sólido, igual que Figma */
 .sidebar-footer .btn-danger-filled {
     -fx-background-color: #e53e3e;
     -fx-text-fill: white;
@@ -136,12 +138,15 @@
     -fx-icon-color: white;
 }
 
-
+/* =========================================================
+   Accordion groups
+   ========================================================= */
 
 .nav-group {
     -fx-spacing: 0;
 }
 
+/* Cabecera del grupo */
 .nav-group-header {
     -fx-background-color: transparent;
     -fx-alignment: CENTER_LEFT;
@@ -171,6 +176,7 @@
     -fx-text-fill: #2b87a0;
 }
 
+/* Ícono principal del grupo (izquierda) */
 .nav-group-header .nav-icon {
     -fx-icon-color: #6a8494;
 }
@@ -188,11 +194,13 @@
     -fx-icon-color: #2b87a0;
 }
 
+/* Contenedor de ítems hijos: sangría izquierda */
 .nav-group-items {
     -fx-spacing: 1;
     -fx-padding: 2 0 2 8;
 }
 
+/* Ítems hijos: misma altura fija que los headers */
 .nav-group-items .nav-item {
     -fx-font-size: 12.5px;
     -fx-padding: 0 14 0 16;
@@ -219,6 +227,7 @@
     -fx-background-color: #eef6f9;
 }
 
+/* Header activo (grupo expandido) */
 .nav-group-header-active {
     -fx-background-color: #d6edf5;
     -fx-background-radius: 8;

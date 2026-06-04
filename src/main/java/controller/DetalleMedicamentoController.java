@@ -9,7 +9,6 @@ import ui.NumericFormatter;
 
 import java.time.LocalDate;
 
-
 public class DetalleMedicamentoController {
 
     @FXML private Label lblHeaderNombre;
@@ -22,7 +21,6 @@ public class DetalleMedicamentoController {
     @FXML private Label lblEstado;
     @FXML private TextArea taDescripcion;
 
-    
     public void setMedicamento(Medicamento m) {
         lblHeaderNombre.setText(m.getNombre() != null ? m.getNombre() : "—");
 
@@ -34,11 +32,9 @@ public class DetalleMedicamentoController {
 
         lblStock.setText(m.getStockDisponible() + " unidades");
 
-        
         LocalDate venc = m.getFechaVencimiento();
         lblVencimiento.setText(venc != null ? venc.toString() : "—");
 
-        
         String estado;
         String color;
         if (venc != null && venc.isBefore(LocalDate.now())) {

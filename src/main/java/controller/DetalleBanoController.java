@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import model.ServicioEstetico;
 import ui.NumericFormatter;
 
-
 public class DetalleBanoController {
 
     @FXML private Label   lblHeaderPaciente;
@@ -23,18 +22,15 @@ public class DetalleBanoController {
     @FXML private Label   lblPerfume;
     @FXML private TextArea taObservaciones;
 
-    
     public void setServicio(ServicioEstetico s) {
-        
+
         String nomPac = (s.getPaciente() != null && s.getPaciente().getNombre() != null)
                 ? s.getPaciente().getNombre() : "—";
         lblHeaderPaciente.setText("Paciente: " + nomPac);
 
-        
         lblNombrePac.setText(orDash(s.getPaciente() != null ? s.getPaciente().getNombre() : null));
         lblEspecie.setText(orDash(s.getPaciente() != null ? s.getPaciente().getEspecie() : null));
 
-        
         lblFecha.setText(s.getFechaHora() != null
                 ? s.getFechaHora().toLocalDate().toString() : "—");
         lblHora.setText(s.getFechaHora() != null
@@ -42,7 +38,6 @@ public class DetalleBanoController {
         lblEstilista.setText(s.getEstilista() != null
                 ? s.getEstilista().getNombreCompleto() : "—");
 
-        
         String estado = orDash(s.getEstadoServicio());
         lblEstado.setText(estado);
         String colorEstado;
@@ -57,12 +52,10 @@ public class DetalleBanoController {
         lblPrecio.setText(s.getPrecio() > 0
                 ? NumericFormatter.formatCurrency(s.getPrecio()) : "—");
 
-       
         lblTipoBano.setText(orDash(s.getTipoBano()));
         lblSecado.setText(s.isIncluyeSecado() ? "Sí" : "No");
         lblPerfume.setText(s.isIncluyePerfume() ? "Sí" : "No");
 
-        
         taObservaciones.setText(orDash(s.getObservaciones()));
     }
 

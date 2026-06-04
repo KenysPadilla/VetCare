@@ -1,3 +1,4 @@
+/* Botones — especificidad .button.btn-* supera a Modena (.button) */
 
 .button.btn-primary {
     -fx-background-color: #2b87a0;
@@ -22,6 +23,7 @@
     -fx-effect: null;
 }
 
+/* Botón Cerrar para ventanas secundarias — sin padding, prefHeight controla el alto */
 .button.btn-cerrar {
     -fx-background-color: #2b87a0;
     -fx-background-insets: 0;
@@ -183,6 +185,7 @@
 
 }
 
+/* Botón cancelar en formularios — prefHeight="36" controla el alto */
 .button.btn-cancelar {
     -fx-background-color: white;
     -fx-background-insets: 0;
@@ -206,10 +209,12 @@
     -fx-effect: null;
 }
 
+/* Modificador compacto — padding vertical reducido para ~28 px de alto */
 .btn-small {
     -fx-padding: 3 18 3 18;
 }
 
+/* ── Botones de barra de acción (citas y otros módulos) ── */
 
 .button.btn-action-teal {
     -fx-background-color: #e8f4f8;

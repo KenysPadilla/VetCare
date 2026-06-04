@@ -32,7 +32,6 @@ public class NuevoEstilistaController implements Initializable {
         cbEspecialidad.getItems().addAll("Baño", "Motilada", "Ambos");
     }
 
-    
     public void setModoEdicion(Estilista e) {
         this.estilistaEnEdicion = e;
         txtCedula.setText(e.getCedula());

@@ -92,7 +92,7 @@ public class NuevaFacturaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            
+
             colConcepto.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
             colConcepto.setCellFactory(col -> {
                 Text text = new Text();
@@ -110,7 +110,6 @@ public class NuevaFacturaController implements Initializable {
             });
             colTipo.setCellValueFactory(new PropertyValueFactory<>("tipoConcepto"));
 
-            
             colCantidad.setCellValueFactory(data ->
                     new javafx.beans.property.SimpleObjectProperty<>(data.getValue().getCantidad()));
             colPrecio.setCellValueFactory(data ->
@@ -130,7 +129,6 @@ public class NuevaFacturaController implements Initializable {
                 }
             });
 
-            
             tablaServicios.setEditable(true);
             colSeleccionar.setCellValueFactory(data -> data.getValue().seleccionadoProperty());
             colSeleccionar.setCellFactory(CheckBoxTableCell.forTableColumn(colSeleccionar));
@@ -157,7 +155,6 @@ public class NuevaFacturaController implements Initializable {
             colSubtotalServicio.setCellValueFactory(data ->
                     new SimpleStringProperty(ui.NumericFormatter.formatCurrency(data.getValue().getCosto())));
 
-            
             cbPropietario.setConverter(new StringConverter<Propietario>() {
                 @Override public String toString(Propietario p) {
                     return p == null ? "" : p.getNombreCompleto() + " — CC: " + p.getCedula();
@@ -173,7 +170,6 @@ public class NuevaFacturaController implements Initializable {
 
             cbMetodoPago.getItems().addAll("Efectivo", "Tarjeta", "Transferencia");
 
-            
             try {
                 List<Propietario> propietarios = new PropietarioService().listarTodos();
                 ComboBoxFilter.apply(cbPropietario, propietarios, Object::toString);
@@ -181,7 +177,6 @@ public class NuevaFacturaController implements Initializable {
                 mostrarMensaje("Error al cargar propietarios: " + e.getMessage(), "#D32F2F");
             }
 
-            
             cbPropietario.setOnAction(e -> {
                 cbPaciente.getItems().clear();
                 cbPaciente.setValue(null);
@@ -217,17 +212,15 @@ public class NuevaFacturaController implements Initializable {
         }
     }
 
-    
     private void cargarServiciosPaciente(Paciente paciente) {
         int id = paciente.getId();
 
-        
         try {
             for (Consulta c : new ConsultaService().listarPorPaciente(id)) {
                 String desc  = "Consulta: " + nvl(c.getDiagnostico(), "sin diagnóstico");
                 String fecha = c.getFechaHora() != null ? c.getFechaHora().format(FMT) : "—";
                 tablaServicios.getItems().add(new ServicioFacturable("Consulta", desc, fecha, c.getCosto()));
-                // Medicamentos recetados en esta consulta
+
                 String tratamiento = c.getTratamiento();
                 if (tratamiento != null && tratamiento.contains("MEDICAMENTOS PRESCRITOS:")) {
                     java.util.Map<String, Double> preciosMed = obtenerPreciosMedicamentos();
@@ -247,7 +240,6 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        
         try {
             for (Cirugia c : new CirugiaService().listarPorPaciente(id)) {
                 String desc  = "Cirugía: " + nvl(c.getTipoCirugia(), "sin tipo");
@@ -256,7 +248,6 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        
         try {
             for (ExamenLab e : new ExamenLabService().listarPorPaciente(id)) {
                 String desc  = "Lab: " + nvl(e.getTipoExamen(), "sin tipo");
@@ -265,7 +256,6 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        
         try {
             InternacionService intSvc = new InternacionService();
             for (Internacion i : intSvc.listarPorPaciente(id)) {
@@ -289,7 +279,6 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        
         try {
             for (Vacunacion v : new VacunacionService().listarPorPaciente(id)) {
                 String nombre = v.getVacuna() != null ? v.getVacuna().getNombre() : "Vacuna";
@@ -301,7 +290,6 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        
         try {
             for (ServicioEstetico s : new ServicioEsteticoService().listarPorPaciente(id)) {
                 String tipoDesc;
@@ -340,14 +328,12 @@ public class NuevaFacturaController implements Initializable {
         return mapa;
     }
 
-    
     private void autoAgregarTodosServicios() {
         for (ServicioFacturable sf : tablaServicios.getItems()) {
             sf.setSeleccionado(true);
         }
     }
 
-    
     @FXML
     private void handleAgregarSeleccionados() {
         List<ServicioFacturable> seleccionados = tablaServicios.getItems().stream()
@@ -386,7 +372,6 @@ public class NuevaFacturaController implements Initializable {
                 + "-fx-font-size: 13px; -fx-padding: 8 12 8 12; -fx-background-color: white;";
         final String labelStyle = "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #2d5a3d;";
 
-        
         ComboBox<String> cbTipo = new ComboBox<>();
         cbTipo.getItems().addAll(
                 "CONSULTA", "INTERNACIÓN", "CIRUGÍA", "LABORATORIO",
@@ -417,7 +402,6 @@ public class NuevaFacturaController implements Initializable {
         Label lblSubtotal = new Label("$0.00");
         lblSubtotal.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #27ae60;");
 
-        
         Runnable recalcular = () -> {
             try {
                 int    c = Integer.parseInt(txtCantidad.getText().trim());

@@ -142,7 +142,7 @@ public class SolicitudesController implements Initializable {
             try {
                 firebaseService.importarSolicitudesNuevas();
             } catch (Exception ignored) {
-                // Firebase opcional
+
             }
             Platform.runLater(this::cargarDatos);
         });

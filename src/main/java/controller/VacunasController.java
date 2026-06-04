@@ -73,8 +73,6 @@ public class VacunasController implements Initializable {
         cargarDatos();
     }
 
-   
-
     private void construirTarjetas(List<Vacuna> lista) {
         gridTarjetas.getChildren().clear();
         for (int i = 0; i < lista.size(); i++) {
@@ -101,7 +99,6 @@ public class VacunasController implements Initializable {
         iconWrap.setMaxSize(40, 40);
         iconWrap.setStyle("-fx-background-color: #e8f4f8; -fx-background-radius: 20;");
 
-        
         Label lblNombre = new Label(v.getNombre());
         lblNombre.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a2e3b;");
         lblNombre.setWrapText(true);
@@ -115,7 +112,6 @@ public class VacunasController implements Initializable {
         nameBox.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(nameBox, Priority.ALWAYS);
 
-        
         Label badge = new Label(estadoBadgeLabel(estado));
         badge.getStyleClass().add(estadoBadgeClass(estado));
 
@@ -215,13 +211,11 @@ public class VacunasController implements Initializable {
         return cell;
     }
 
-    
-
     private String stockColor(String estado) {
         return switch (estado) {
             case "Disponible" -> "#27ae60";
             case "Stock bajo" -> "#e67e22";
-            default           -> "#e53e3e";   // Sin stock, Vencido
+            default           -> "#e53e3e";
         };
     }
 
@@ -239,20 +233,17 @@ public class VacunasController implements Initializable {
             case "Disponible" -> "badge-confirmado";
             case "Stock bajo" -> "badge-pendiente";
             case "Sin stock"  -> "badge-critico";
-            default           -> "badge-inactivo";   // Vencido
+            default           -> "badge-inactivo";
         };
     }
 
-    /** Sufijo CSS para la clase de color de la barra de progreso. */
     private String estadoKey(String estado) {
         return switch (estado) {
             case "Disponible" -> "green";
             case "Stock bajo" -> "orange";
-            default           -> "red";   // Sin stock, Vencido
+            default           -> "red";
         };
     }
-
-    
 
     private void cargarDatos() {
         try {
@@ -283,8 +274,6 @@ public class VacunasController implements Initializable {
         actualizarEstadisticas();
     }
 
-
-
     private void actualizarEstadisticas() {
         int disponibles = 0, sinStock = 0, vencidas = 0, stockBajo = 0;
         for (Vacuna v : todasLasVacunas) {
@@ -300,7 +289,6 @@ public class VacunasController implements Initializable {
         lblStatAgotadas.setText(String.valueOf(sinStock));
         lblStatVencidas.setText(String.valueOf(vencidas));
 
-        
         boolean hayProblema = stockBajo > 0;
         bannerStockCritico.setVisible(hayProblema);
         bannerStockCritico.setManaged(hayProblema);
@@ -309,13 +297,10 @@ public class VacunasController implements Initializable {
         }
     }
 
-    
-
     @FXML private void handleBuscar() { aplicarFiltros(); }
 
     @FXML private void handleNuevo() { abrirFormulario(null); }
 
-    
     private void abrirFormulario(Vacuna sel) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/nuevaVacuna.fxml"));
@@ -448,8 +433,6 @@ public class VacunasController implements Initializable {
         dialog.setScene(scene);
         dialog.showAndWait();
     }
-
-    
 
     private void mostrarAlerta(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.WARNING);

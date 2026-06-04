@@ -76,7 +76,7 @@ public class DetalleFacturaController {
                 }
             };
             cell.setPadding(new Insets(8, 8, 8, 8));
-            cell.setWrapText(false); // el wrapping lo gestiona el nodo Text
+            cell.setWrapText(false);
             return cell;
         });
 
@@ -102,7 +102,7 @@ public class DetalleFacturaController {
             ArrayList<DetalleFactura> detalles = new DetalleFacturaDAO().listarPorFactura(idFactura);
             tablaDetalles.setItems(FXCollections.observableArrayList(detalles));
             tablaDetalles.getSelectionModel().clearSelection();
-           
+
             tablaDetalles.setPrefHeight(52 + detalles.size() * 80);
         } catch (SQLException e) {
             tablaDetalles.setPlaceholder(new Label("Error al cargar detalles: " + e.getMessage()));

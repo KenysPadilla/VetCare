@@ -42,7 +42,6 @@ public class NuevoExamenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        
         cbPaciente.setConverter(new StringConverter<Paciente>() {
             @Override public String toString(Paciente p) { return p == null ? "" : p.getNombre() + " (" + p.getEspecie() + ")"; }
             @Override public Paciente fromString(String s) { return null; }
@@ -116,7 +115,7 @@ public class NuevoExamenController implements Initializable {
     private void handleConsultaSeleccionada() {
         Consulta sel = cbConsulta.getValue();
         if (sel == null) return;
-        // Auto-fill veterinario from selected consultation
+
         if (sel.getVeterinario() != null) {
             for (Veterinario v : cbVeterinario.getItems()) {
                 if (v.getCedula().equals(sel.getVeterinario().getCedula())) {

@@ -90,4 +90,12 @@ public class Vacunacion {
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }

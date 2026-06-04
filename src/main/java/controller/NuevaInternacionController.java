@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 public class NuevaInternacionController implements Initializable {
 
     @FXML private ComboBox<Paciente>    cbPaciente;
@@ -39,7 +38,7 @@ public class NuevaInternacionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         cbConsulta.setConverter(new StringConverter<Consulta>() {
             @Override
             public String toString(Consulta c) {
@@ -103,7 +102,6 @@ public class NuevaInternacionController implements Initializable {
         });
     }
 
-    
     private void cargarConsultasDePaciente(int idPaciente) {
         try {
             ArrayList<Consulta> consultas =

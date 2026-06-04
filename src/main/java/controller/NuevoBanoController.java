@@ -22,7 +22,6 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 public class NuevoBanoController implements Initializable {
 
     @FXML private ComboBox<Paciente>  cbPaciente;
@@ -89,7 +88,6 @@ public class NuevoBanoController implements Initializable {
         cerrarVentana();
     }
 
-    
     private String mapearTipoBano(String display) {
         switch (display) {
             case "Básico":     return "BASICO";

@@ -83,7 +83,6 @@ public class UsuariosController implements Initializable {
             }
         });
 
-
         colRol.setCellValueFactory(data -> new SimpleStringProperty(
                 data.getValue().getRol() != null ? data.getValue().getRol() : "—"));
         colRol.setCellFactory(col -> new TableCell<>() {

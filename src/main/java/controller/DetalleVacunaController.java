@@ -8,7 +8,6 @@ import ui.NumericFormatter;
 
 import java.time.LocalDate;
 
-
 public class DetalleVacunaController {
 
     @FXML private Label lblHeaderNombre;
@@ -20,7 +19,6 @@ public class DetalleVacunaController {
     @FXML private Label lblVencimiento;
     @FXML private Label lblEstado;
 
-   
     public void setVacuna(Vacuna v) {
         lblHeaderNombre.setText(orDash(v.getNombre()));
 
@@ -34,7 +32,6 @@ public class DetalleVacunaController {
         LocalDate venc = v.getFechaVencimiento();
         lblVencimiento.setText(venc != null ? venc.toString() : "—");
 
-        
         String estado;
         String color;
         if (venc != null && venc.isBefore(LocalDate.now())) {

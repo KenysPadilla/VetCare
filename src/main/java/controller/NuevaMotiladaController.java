@@ -22,7 +22,6 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 public class NuevaMotiladaController implements Initializable {
 
     @FXML private ComboBox<Paciente>  cbPaciente;
@@ -104,7 +103,6 @@ public class NuevaMotiladaController implements Initializable {
         cerrarVentana();
     }
 
-    
     private String mapearEstiloCorte(String display) {
         switch (display) {
             case "Higiénico":    return "HIGIENICO";
@@ -115,7 +113,6 @@ public class NuevaMotiladaController implements Initializable {
         }
     }
 
-    
     private String mapearLargoCorte(String display) {
         switch (display) {
             case "Corto":   return "CORTO";

@@ -427,7 +427,7 @@ public class ServiciosEsteticosController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/detalleMotilada.fxml"));
             Parent root = loader.load();
-            DetalleMotiladadController ctrl = loader.getController();
+            DetalleMotiladaController ctrl = loader.getController();
             ctrl.setServicio(sel);
             Stage stage = new Stage();
             stage.setTitle("Detalle de Motilada #" + sel.getId());
