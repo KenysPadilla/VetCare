@@ -12,6 +12,7 @@ public class Vacunacion {
     private LocalDateTime fechaHoraAplicacion;
     private LocalDate fechaProxima;
     private String observaciones;
+    private String estado;
 
     public Vacunacion() {
     }

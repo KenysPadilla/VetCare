@@ -171,6 +171,20 @@ public class VacunacionDAO implements IDAO<Vacunacion> {
         vacunacion.setFechaProxima(proxima != null ? proxima.toLocalDate() : null);
 
         vacunacion.setObservaciones(rs.getString("observaciones"));
+        try {
+            vacunacion.setEstado(rs.getString("estado"));
+        } catch (SQLException ignored) {
+            vacunacion.setEstado("PROGRAMADA");
+        }
         return vacunacion;
+    }
+
+    public void marcarAplicada(int id) throws SQLException {
+        refrescarConexion();
+        String sql = "UPDATE VACUNACION SET estado='APLICADA' WHERE id=?";
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
     }
 }

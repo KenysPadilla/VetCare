@@ -47,4 +47,8 @@ public class VacunacionService {
     public boolean eliminar(int id) throws SQLException {
         return dao.eliminar(id);
     }
+
+    public void marcarAplicada(int id) throws SQLException {
+        ((VacunacionDAO) dao).marcarAplicada(id);
+    }
 }

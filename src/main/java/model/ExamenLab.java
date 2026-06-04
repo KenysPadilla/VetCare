@@ -15,7 +15,8 @@ public class ExamenLab {
     private String observaciones;
     private double costo;
 
-    public ExamenLab() {}
+    public ExamenLab() {
+    }
 
     public ExamenLab(int id, Paciente paciente, Veterinario veterinario,
             Consulta consulta, LocalDateTime fechaHora, String tipoExamen,
