@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Cirugia;
 import service.CirugiaService;
+import ui.NumericFormatter;
 import ui.StyleManager;
 
 import java.net.URL;
@@ -52,6 +53,7 @@ public class CirugiasController implements Initializable {
     @FXML private TableColumn<Cirugia, String> colVeterinario;
     @FXML private TableColumn<Cirugia, String> colFechaHora;
     @FXML private TableColumn<Cirugia, String> colAnestesia;
+    @FXML private TableColumn<Cirugia, String> colDuracion;
     @FXML private TableColumn<Cirugia, String> colEstado;
     @FXML private TableColumn<Cirugia, Cirugia> colResultado;
     @FXML private TableColumn<Cirugia, Cirugia> colOperaciones;
@@ -62,7 +64,7 @@ public class CirugiasController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbResultado.getItems().addAll("Todos los resultados", "Exitoso", "Complicación", "Sin registrar");
+        cbResultado.getItems().addAll("Todos", "Programada", "En Curso", "Finalizada");
         cbResultado.getSelectionModel().selectFirst();
         cbResultado.setOnAction(e -> aplicarFiltros());
         configurarColumnas();
@@ -145,14 +147,36 @@ public class CirugiasController implements Initializable {
             }
         });
 
-        colEstado.setCellValueFactory(data -> new SimpleStringProperty(categoriaResultado(data.getValue())));
+        colDuracion.setCellValueFactory(data -> {
+            Cirugia c = data.getValue();
+            if ("En Curso".equals(c.getEstado())) return new SimpleStringProperty("En progreso");
+            return new SimpleStringProperty(formatDuracion(c.getDuracion()));
+        });
+        colDuracion.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String dur, boolean empty) {
+                super.updateItem(dur, empty);
+                if (empty || dur == null) { setText(null); setStyle(""); return; }
+                setText(dur);
+                if ("En progreso".equals(dur)) {
+                    setStyle("-fx-text-fill: #e67e22; -fx-font-style: italic;");
+                } else {
+                    setStyle("—".equals(dur) ? "" : "-fx-text-fill: #6b7f8e;");
+                }
+            }
+        });
+
+        colEstado.setCellValueFactory(data -> {
+            String est = data.getValue().getEstado();
+            return new SimpleStringProperty(est != null ? est : "Programada");
+        });
         colEstado.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String estado, boolean empty) {
                 super.updateItem(estado, empty);
                 if (empty || estado == null) { setGraphic(null); return; }
                 Label badge = new Label(estado);
-                badge.getStyleClass().add(claseBadgeResultado(estado));
+                badge.getStyleClass().add(claseBadgeEstado(estado));
                 HBox cell = new HBox(badge);
                 cell.setAlignment(Pos.CENTER);
                 cell.setMaxWidth(Double.MAX_VALUE);
@@ -178,24 +202,51 @@ public class CirugiasController implements Initializable {
 
         colOperaciones.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
         colOperaciones.setCellFactory(col -> new TableCell<>() {
-            private final Button btnRegistrar = crearChip("Registrar", "action-chip action-chip-editar");
+            private final Button btn = new Button();
             {
-                btnRegistrar.setOnAction(e -> {
+                btn.setOnAction(e -> {
                     Cirugia c = getTableRow().getItem();
-                    if (c != null) registrarResultado(c);
+                    if (c == null) return;
+                    String est = c.getEstado() != null ? c.getEstado() : "Programada";
+                    switch (est) {
+                        case "Programada" -> iniciarCirugia(c);
+                        case "En Curso"   -> finalizarCirugia(c);
+                        default           -> registrarResultado(c);
+                    }
                 });
             }
             @Override
             protected void updateItem(Cirugia item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) { setGraphic(null); return; }
-                boolean sinResultado = item.getResultado() == null || item.getResultado().isBlank();
-                setGraphic(sinResultado ? btnRegistrar : null);
+                String est = item.getEstado() != null ? item.getEstado() : "Programada";
+                switch (est) {
+                    case "Programada" -> {
+                        btn.setText("Iniciar");
+                        btn.getStyleClass().setAll("action-chip", "action-chip-iniciar");
+                        setGraphic(btn);
+                    }
+                    case "En Curso" -> {
+                        btn.setText("Finalizar");
+                        btn.getStyleClass().setAll("action-chip", "action-chip-finalizar");
+                        setGraphic(btn);
+                    }
+                    default -> {
+                        boolean sinResultado = item.getResultado() == null || item.getResultado().isBlank();
+                        if (sinResultado) {
+                            btn.setText("Registrar");
+                            btn.getStyleClass().setAll("action-chip", "action-chip-editar");
+                            setGraphic(btn);
+                        } else {
+                            setGraphic(null);
+                        }
+                    }
+                }
             }
         });
 
         colCosto.setCellValueFactory(data -> new SimpleStringProperty(
-                String.format("$%.2f", data.getValue().getCosto())));
+                NumericFormatter.formatCurrency(data.getValue().getCosto())));
         colCosto.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String costo, boolean empty) {
@@ -204,6 +255,14 @@ public class CirugiasController implements Initializable {
                 setStyle(empty || costo == null ? "" : "-fx-font-weight: bold; -fx-text-fill: #27ae60;");
             }
         });
+    }
+
+    private static String formatDuracion(int minutos) {
+        if (minutos <= 0) return "—";
+        if (minutos < 60) return minutos + "min";
+        int h = minutos / 60;
+        int m = minutos % 60;
+        return h + "h " + String.format("%02d", m) + "min";
     }
 
     private Button crearChip(String texto, String cssClass) {
@@ -220,49 +279,19 @@ public class CirugiasController implements Initializable {
 
     private String categoriaResultado(Cirugia c) {
         String r = c.getResultado();
-        if (r == null || r.isBlank()) {
-            return "Sin registrar";
-        }
+        if (r == null || r.isBlank()) return "Sin registrar";
         String lower = r.toLowerCase(Locale.ROOT);
-        if (lower.contains("complic") || lower.contains("fall")) {
-            return "Complicación";
-        }
-        if (lower.contains("exit") || lower.contains("éxit") || lower.contains("satisf")) {
-            return "Exitoso";
-        }
+        if (lower.contains("complic") || lower.contains("fall")) return "Complicación";
         return "Exitoso";
     }
 
-    private String etiquetaResultado(Cirugia c) {
-        String cat = categoriaResultado(c);
-        if ("Sin registrar".equals(cat)) {
-            return cat;
-        }
-        String r = c.getResultado();
-        return r != null && r.length() > 24 ? r.substring(0, 22) + "…" : r;
-    }
-
-    private String claseBadgeResultado(String etiqueta) {
-        if (etiqueta == null) {
-            return "badge-pendiente";
-        }
-        String cat = categoriaResultadoPorEtiqueta(etiqueta);
-        return switch (cat) {
-            case "Complicación" -> "badge-critico";
-            case "Exitoso" -> "badge-confirmado";
-            default -> "badge-pendiente";
+    private String claseBadgeEstado(String estado) {
+        if (estado == null) return "badge-programada";
+        return switch (estado) {
+            case "En Curso"   -> "badge-pendiente-naranja";
+            case "Finalizada" -> "badge-confirmado";
+            default           -> "badge-programada";
         };
-    }
-
-    private String categoriaResultadoPorEtiqueta(String etiqueta) {
-        if ("Sin registrar".equals(etiqueta)) {
-            return "Sin registrar";
-        }
-        String lower = etiqueta.toLowerCase(Locale.ROOT);
-        if (lower.contains("complic") || lower.contains("fall")) {
-            return "Complicación";
-        }
-        return "Exitoso";
     }
 
     private void cargarDatos() {
@@ -277,13 +306,13 @@ public class CirugiasController implements Initializable {
 
     private void aplicarFiltros() {
         String texto = txtBuscar.getText() != null ? txtBuscar.getText().trim().toLowerCase() : "";
-        String resultadoFiltro = cbResultado.getValue();
+        String estadoFiltro = cbResultado.getValue();
 
         List<Cirugia> filtradas = new ArrayList<>();
         for (Cirugia c : todasLasCirugias) {
-            String cat = categoriaResultado(c);
-            if (resultadoFiltro != null && !"Todos los resultados".equals(resultadoFiltro)
-                    && !resultadoFiltro.equals(cat)) {
+            String est = c.getEstado() != null ? c.getEstado() : "Programada";
+            if (estadoFiltro != null && !"Todos".equals(estadoFiltro)
+                    && !estadoFiltro.equals(est)) {
                 continue;
             }
             if (!texto.isEmpty()) {
@@ -348,6 +377,24 @@ public class CirugiasController implements Initializable {
             cargarDatos();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void iniciarCirugia(Cirugia sel) {
+        try {
+            service.iniciar(sel.getId());
+            cargarDatos();
+        } catch (java.sql.SQLException e) {
+            mostrarAlerta("Error al iniciar cirugía: " + e.getMessage());
+        }
+    }
+
+    private void finalizarCirugia(Cirugia sel) {
+        try {
+            service.finalizar(sel.getId());
+            cargarDatos();
+        } catch (java.sql.SQLException e) {
+            mostrarAlerta("Error al finalizar cirugía: " + e.getMessage());
         }
     }
 

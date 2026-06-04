@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import model.ServicioEstetico;
+import ui.NumericFormatter;
 
 /**
  * Controlador de la ventana de detalle de un servicio de motilada.
@@ -65,7 +66,7 @@ public class DetalleMotiladadController {
         lblEstado.setStyle("-fx-font-weight: bold; -fx-text-fill: " + colorEstado + ";");
 
         lblPrecio.setText(s.getPrecio() > 0
-                ? String.format("$ %.0f", s.getPrecio()) : "—");
+                ? NumericFormatter.formatCurrency(s.getPrecio()) : "—");
 
         // Detalles de la motilada
         lblEstiloCorte.setText(orDash(s.getEstiloCorte()));

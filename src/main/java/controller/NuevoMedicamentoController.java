@@ -10,9 +10,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Medicamento;
 import service.MedicamentoService;
+import ui.NumericFormatter;
+
+import util.ComboBoxFilter;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevoMedicamentoController implements Initializable {
@@ -21,6 +26,7 @@ public class NuevoMedicamentoController implements Initializable {
     @FXML private TextField        txtPrincipio;
     @FXML private TextField        txtConcentracion;
     @FXML private ComboBox<String> cbPresentacion;
+    @FXML private ComboBox<String> cbCategoria;
     @FXML private TextField        txtDosis;
     @FXML private TextField        txtStock;
     @FXML private TextField        txtPrecio;
@@ -33,7 +39,15 @@ public class NuevoMedicamentoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbPresentacion.getItems().addAll("Tableta", "Jarabe", "Inyectable", "Crema", "Gotas", "Polvo");
+        ComboBoxFilter.apply(cbPresentacion, Arrays.asList(
+                "Tableta", "Jarabe", "Inyectable", "Crema", "Gotas", "Polvo"));
+        ComboBoxFilter.apply(cbCategoria, Arrays.asList(
+                "Antibiótico", "Analgésico", "Antiinflamatorio", "Corticoide",
+                "Antiparasitario", "Gastroprotector", "Diurético", "Anestésico",
+                "Tranquilizante", "Antifúngico", "Antiviral", "Vitamina/Suplemento",
+                "Antihistamínico", "Cardiotónico", "Otro"));
+        NumericFormatter.apply(txtStock);
+        NumericFormatter.apply(txtPrecio);
     }
 
     /**
@@ -47,8 +61,9 @@ public class NuevoMedicamentoController implements Initializable {
         txtPrincipio.setText(m.getDescripcion() != null ? m.getDescripcion() : "");
         txtConcentracion.setText(m.getConcentracion() != null ? m.getConcentracion() : "");
         cbPresentacion.setValue(m.getFabricante());
+        cbCategoria.setValue(m.getCategoria());
         txtStock.setText(String.valueOf(m.getStockDisponible()));
-        txtPrecio.setText(String.valueOf(m.getPrecio()));
+        txtPrecio.setText(String.valueOf((long) m.getPrecio()));
         dpVencimiento.setValue(m.getFechaVencimiento());
         btnGuardar.setText("Actualizar");
     }
@@ -69,8 +84,9 @@ public class NuevoMedicamentoController implements Initializable {
             String conc = txtConcentracion.getText().trim();
             m.setConcentracion(conc.isEmpty() ? null : conc);
             m.setFabricante(cbPresentacion.getValue());
-            m.setStockDisponible(Integer.parseInt(txtStock.getText().trim()));
-            m.setPrecio(Double.parseDouble(txtPrecio.getText().trim()));
+            m.setCategoria(cbCategoria.getValue());
+            m.setStockDisponible((int) NumericFormatter.toLong(txtStock));
+            m.setPrecio(NumericFormatter.toDouble(txtPrecio));
             m.setFechaVencimiento(dpVencimiento.getValue());
 
             if (medicamentoEnEdicion == null) {

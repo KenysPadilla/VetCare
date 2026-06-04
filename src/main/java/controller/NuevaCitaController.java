@@ -16,12 +16,15 @@ import service.CitaService;
 import service.PacienteService;
 import service.VeterinarioService;
 
+import util.ComboBoxFilter;
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevaCitaController implements Initializable {
@@ -44,7 +47,8 @@ public class NuevaCitaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            cbPaciente.getItems().addAll(new PacienteService().listarTodos());
+            List<Paciente> pacientes = new PacienteService().listarTodos();
+            ComboBoxFilter.apply(cbPaciente, pacientes, Object::toString);
         } catch (SQLException e) {
             System.err.println("Error cargando pacientes: " + e.getMessage());
         }
@@ -62,7 +66,8 @@ public class NuevaCitaController implements Initializable {
         });
 
         try {
-            cbVeterinario.getItems().addAll(new VeterinarioService().listarActivos());
+            List<Veterinario> vets = new VeterinarioService().listarActivos();
+            ComboBoxFilter.apply(cbVeterinario, vets, Object::toString);
         } catch (SQLException e) {
             System.err.println("Error cargando veterinarios: " + e.getMessage());
         }

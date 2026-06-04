@@ -8,11 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -22,13 +20,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Veterinario;
 import service.VeterinarioService;
+import ui.ConfirmDialog;
 import ui.StyleManager;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class VeterinariosController implements Initializable {
@@ -42,12 +40,17 @@ public class VeterinariosController implements Initializable {
     @FXML private Label lblStatDisponibles;
     @FXML private Label lblStatNoDisponibles;
     @FXML private Label lblStatLicencia;
-    @FXML private FlowPane cardsContainer;
+    @FXML private GridPane cardsContainer;
 
     private final List<Veterinario> todosLosVeterinarios = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // 3 columnas de igual ancho que cubren todo el espacio disponible
+        ColumnConstraints col = new ColumnConstraints();
+        col.setPercentWidth(33.33);
+        col.setHgrow(Priority.ALWAYS);
+        cardsContainer.getColumnConstraints().addAll(col, col, col);
         cargarDatos();
     }
 
@@ -92,7 +95,9 @@ public class VeterinariosController implements Initializable {
     private void renderCards(List<Veterinario> vets) {
         cardsContainer.getChildren().clear();
         for (int i = 0; i < vets.size(); i++) {
-            cardsContainer.getChildren().add(crearCard(vets.get(i), CARD_COLORS[i % CARD_COLORS.length]));
+            VBox card = crearCard(vets.get(i), CARD_COLORS[i % CARD_COLORS.length]);
+            GridPane.setHgrow(card, Priority.ALWAYS);
+            cardsContainer.add(card, i % 3, i / 3);
         }
     }
 
@@ -155,7 +160,7 @@ public class VeterinariosController implements Initializable {
                 "-fx-font-weight: bold;" +
                 "-fx-background-radius: 8;" +
                 "-fx-border-color: transparent;" +
-                "-fx-padding: 8 16 8 16;" +
+                "-fx-padding: 3 16 3 16;" +
                 "-fx-cursor: hand;");
         btnVer.setOnMouseEntered(e -> btnVer.setOpacity(0.88));
         btnVer.setOnMouseExited(e -> btnVer.setOpacity(1.0));
@@ -173,7 +178,7 @@ public class VeterinariosController implements Initializable {
                 "-fx-text-fill: " + color + ";" +
                 "-fx-font-size: 13px;" +
                 "-fx-font-weight: bold;" +
-                "-fx-padding: 8 16 8 16;" +
+                "-fx-padding: 3 16 3 16;" +
                 "-fx-cursor: hand;" +
                 "-fx-background-insets: 0;");
         btnEditar.setOnMouseEntered(e -> { if (!inactivo) btnEditar.setOpacity(0.80); });
@@ -192,7 +197,7 @@ public class VeterinariosController implements Initializable {
                     "-fx-text-fill: #27ae60;" +
                     "-fx-font-size: 13px;" +
                     "-fx-font-weight: bold;" +
-                    "-fx-padding: 8 16 8 16;" +
+                    "-fx-padding: 3 16 3 16;" +
                     "-fx-cursor: hand;" +
                     "-fx-background-insets: 0;");
             btnAccion.setOnAction(e -> reactivarVeterinario(v));
@@ -207,7 +212,7 @@ public class VeterinariosController implements Initializable {
                     "-fx-text-fill: #c0392b;" +
                     "-fx-font-size: 13px;" +
                     "-fx-font-weight: bold;" +
-                    "-fx-padding: 8 16 8 16;" +
+                    "-fx-padding: 3 16 3 16;" +
                     "-fx-cursor: hand;" +
                     "-fx-background-insets: 0;");
             btnAccion.setOnAction(e -> desactivarVeterinario(v));
@@ -216,9 +221,14 @@ public class VeterinariosController implements Initializable {
         btnAccion.setOnMouseEntered(e -> btnAccion.setOpacity(0.80));
         btnAccion.setOnMouseExited(e -> btnAccion.setOpacity(1.0));
 
+        for (Button b : new Button[]{btnVer, btnEditar, btnAccion}) {
+            b.setPrefHeight(28);
+            b.setMinHeight(28);
+        }
         HBox actions = new HBox(8, btnVer, btnEditar, btnAccion);
         HBox.setHgrow(btnVer, Priority.ALWAYS);
         HBox.setHgrow(btnEditar, Priority.ALWAYS);
+        HBox.setHgrow(btnAccion, Priority.ALWAYS);
 
         VBox body = new VBox(12, header, tel, mail, stats, horario, actions);
         body.getStyleClass().add("vet-card-body");
@@ -226,6 +236,7 @@ public class VeterinariosController implements Initializable {
 
         VBox card = new VBox(accent, body);
         card.getStyleClass().add("vet-card");
+        card.setMaxWidth(Double.MAX_VALUE);
         return card;
     }
 
@@ -323,13 +334,11 @@ public class VeterinariosController implements Initializable {
     }
 
     private void desactivarVeterinario(Veterinario v) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Desactivar Veterinario");
-        confirm.setHeaderText(null);
-        confirm.setContentText("¿Desactivar a " + v.getNombreCompleto() + "?\n"
-                + "Su historial de atenciones se conservará, pero no podrá acceder al sistema.");
-        Optional<ButtonType> result = confirm.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (ConfirmDialog.mostrar(
+                "Desactivar Veterinario", "⚠",
+                "¿Desactivar a " + v.getNombreCompleto() + "?\n"
+                        + "Su historial de atenciones se conservará, pero no podrá acceder al sistema.",
+                "Desactivar", "#e67e22")) {
             try {
                 new VeterinarioService().desactivar(v.getCedula());
                 cargarDatos();
@@ -340,13 +349,11 @@ public class VeterinariosController implements Initializable {
     }
 
     private void reactivarVeterinario(Veterinario v) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Reactivar Veterinario");
-        confirm.setHeaderText(null);
-        confirm.setContentText("¿Reactivar a " + v.getNombreCompleto() + "?\n"
-                + "Volverá a tener acceso al sistema.");
-        Optional<ButtonType> result = confirm.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (ConfirmDialog.mostrar(
+                "Reactivar Veterinario", "✅",
+                "¿Reactivar a " + v.getNombreCompleto() + "?\n"
+                        + "Volverá a tener acceso al sistema.",
+                "Reactivar", "#27ae60")) {
             try {
                 new VeterinarioService().reactivar(v.getCedula());
                 cargarDatos();

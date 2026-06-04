@@ -22,6 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Vacunacion;
 import service.VacunacionService;
+import ui.NumericFormatter;
 import ui.StyleManager;
 
 import java.net.URL;
@@ -47,6 +48,8 @@ public class VacunacionesController implements Initializable {
     @FXML private TableColumn<Vacunacion, String> colFechaAplicacion;
     @FXML private TableColumn<Vacunacion, String> colFechaProxima;
     @FXML private TableColumn<Vacunacion, String> colCosto;
+    @FXML private TableColumn<Vacunacion, String> colEstado;
+    @FXML private TableColumn<Vacunacion, Vacunacion> colAplicar;
     @FXML private TableColumn<Vacunacion, Vacunacion> colAcciones;
 
     private final VacunacionService service = new VacunacionService();
@@ -132,7 +135,7 @@ public class VacunacionesController implements Initializable {
         colCosto.setCellValueFactory(data -> {
             double precio = data.getValue().getVacuna() != null
                     ? data.getValue().getVacuna().getPrecio() : 0.0;
-            return new SimpleStringProperty(String.format("$%.2f", precio));
+            return new SimpleStringProperty(NumericFormatter.formatCurrency(precio));
         });
         colCosto.setCellFactory(col -> new TableCell<>() {
             @Override
@@ -140,6 +143,40 @@ public class VacunacionesController implements Initializable {
                 super.updateItem(c, empty);
                 setText(empty || c == null ? null : c);
                 setStyle(empty || c == null ? "" : "-fx-font-weight: bold; -fx-text-fill: #27ae60;");
+            }
+        });
+
+        colEstado.setCellValueFactory(data ->
+                new SimpleStringProperty(calcularEstadoDisplay(data.getValue())));
+        colEstado.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String estado, boolean empty) {
+                super.updateItem(estado, empty);
+                if (empty || estado == null) { setGraphic(null); return; }
+                Label badge = new Label(estado);
+                badge.getStyleClass().add(claseBadgeEstado(estado));
+                HBox cell = new HBox(badge);
+                cell.setAlignment(Pos.CENTER);
+                cell.setMaxWidth(Double.MAX_VALUE);
+                setGraphic(cell);
+            }
+        });
+
+        colAplicar.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
+        colAplicar.setCellFactory(col -> new TableCell<>() {
+            private final Button btnAplicar = crearChip("Aplicada", "action-chip action-chip-editar");
+            {
+                btnAplicar.setOnAction(e -> {
+                    Vacunacion v = getTableRow().getItem();
+                    if (v != null) marcarAplicada(v);
+                });
+            }
+            @Override
+            protected void updateItem(Vacunacion item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setGraphic(null); return; }
+                boolean yaAplicada = "APLICADA".equals(item.getEstado());
+                setGraphic(yaAplicada ? null : btnAplicar);
             }
         });
 
@@ -165,6 +202,34 @@ public class VacunacionesController implements Initializable {
                 setGraphic(empty || item == null ? null : box);
             }
         });
+    }
+
+    /** Calcula el estado a mostrar derivandolo de la fecha cuando no esta marcado como APLICADA. */
+    static String calcularEstadoDisplay(Vacunacion v) {
+        if ("APLICADA".equals(v.getEstado())) return "Aplicada";
+        LocalDate hoy = LocalDate.now();
+        LocalDate fechaApp = v.getFechaHoraAplicacion() != null
+                ? v.getFechaHoraAplicacion().toLocalDate() : null;
+        if (fechaApp == null || !fechaApp.isAfter(hoy)) return "Pendiente";
+        return "Programada";
+    }
+
+    private static String claseBadgeEstado(String estado) {
+        return switch (estado) {
+            case "Aplicada"   -> "badge-confirmado";
+            case "Pendiente"  -> "badge-pendiente-naranja";
+            case "Programada" -> "badge-programada-purpura";
+            default           -> "badge-pendiente-naranja";
+        };
+    }
+
+    private void marcarAplicada(Vacunacion v) {
+        try {
+            service.marcarAplicada(v.getId());
+            cargarDatos();
+        } catch (SQLException e) {
+            mostrarAlerta("Error al marcar como aplicada: " + e.getMessage());
+        }
     }
 
     private Button crearChip(String texto, String cssClass) {

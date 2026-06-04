@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -28,6 +27,7 @@ import model.Veterinario;
 import service.CitaService;
 import service.ConsultaService;
 import service.VeterinarioService;
+import ui.ConfirmDialog;
 import ui.StyleManager;
 
 import java.net.URL;
@@ -38,7 +38,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CitasController implements Initializable {
@@ -372,12 +371,10 @@ public class CitasController implements Initializable {
             return;
         }
 
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Confirmar cambio de estado");
-        confirmacion.setHeaderText(null);
-        confirmacion.setContentText("¿Marcar la cita #" + sel.getId() + " como EN CURSO?");
-        Optional<ButtonType> resultado = confirmacion.showAndWait();
-        if (resultado.isEmpty() || resultado.get() != ButtonType.OK) {
+        if (!ConfirmDialog.mostrar(
+                "Marcar En Curso", "▶",
+                "¿Marcar la Cita #" + sel.getId() + " como EN CURSO?",
+                "Confirmar", "#e67e22")) {
             return;
         }
 
@@ -409,13 +406,10 @@ public class CitasController implements Initializable {
                     + consultaAsoc.getId() + "). Al cancelar, la consulta y sus prescripciones también serán eliminadas.";
         }
 
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Confirmar cancelación");
-        confirmacion.setHeaderText(null);
-        confirmacion.setContentText(mensaje);
-        Optional<ButtonType> resultado = confirmacion.showAndWait();
-
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+        if (ConfirmDialog.mostrar(
+                "Cancelar Cita", "✖",
+                mensaje,
+                "Cancelar Cita", "#e53e3e")) {
             try {
                 if (consultaAsoc != null) {
                     new ConsultaService().eliminar(consultaAsoc.getId());

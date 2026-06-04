@@ -8,10 +8,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -20,13 +20,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Estilista;
 import service.EstilistaService;
+import ui.ConfirmDialog;
 import ui.StyleManager;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EstilistasController implements Initializable {
@@ -40,12 +40,18 @@ public class EstilistasController implements Initializable {
     @FXML private Label lblStatDisponibles;
     @FXML private Label lblStatEspecialidad;
     @FXML private Label lblStatRating;
-    @FXML private FlowPane cardsContainer;
+    @FXML private GridPane cardsContainer;
 
     private final List<Estilista> todosLosEstilistas = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ColumnConstraints col = new ColumnConstraints();
+        col.setPercentWidth(50);
+        col.setHgrow(Priority.ALWAYS);
+        cardsContainer.getColumnConstraints().addAll(col, col);
+        cardsContainer.setHgap(16);
+        cardsContainer.setVgap(16);
         cargarDatos();
     }
 
@@ -90,7 +96,9 @@ public class EstilistasController implements Initializable {
     private void renderCards(List<Estilista> lista) {
         cardsContainer.getChildren().clear();
         for (int i = 0; i < lista.size(); i++) {
-            cardsContainer.getChildren().add(crearCard(lista.get(i), CARD_COLORS[i % CARD_COLORS.length]));
+            VBox card = crearCard(lista.get(i), CARD_COLORS[i % CARD_COLORS.length]);
+            GridPane.setHgrow(card, Priority.ALWAYS);
+            cardsContainer.add(card, i % 2, i / 2);
         }
     }
 
@@ -126,10 +134,10 @@ public class EstilistasController implements Initializable {
         Label tel = new Label("📞  " + nullSafe(e.getTelefono()));
         tel.getStyleClass().add("vet-card-contact");
         if (inactivo) tel.setStyle("-fx-text-fill: #bdbdbd;");
-        Label exp = new Label("🕐  Experiencia profesional");
+
+        Label exp = new Label("💼  Experiencia profesional");
         exp.getStyleClass().add("vet-card-contact");
         if (inactivo) exp.setStyle("-fx-text-fill: #bdbdbd;");
-        HBox contactRow = new HBox(20, tel, exp);
 
         HBox chips = new HBox(6);
         for (String s : new String[]{"Baño", "Corte", "Uñas"}) {
@@ -139,10 +147,22 @@ public class EstilistasController implements Initializable {
             chips.getChildren().add(chip);
         }
 
-        VBox rightCol = new VBox(10, header, contactRow, chips);
+        // expAndChips alineado al 50 % del ancho → coincide con el inicio del botón "Modificar"
+        VBox expAndChips = new VBox(8, exp, chips);
+
+        ColumnConstraints cc1 = new ColumnConstraints();
+        cc1.setPercentWidth(50);
+        ColumnConstraints cc2 = new ColumnConstraints();
+        cc2.setPercentWidth(50);
+        GridPane contactRow = new GridPane();
+        contactRow.getColumnConstraints().addAll(cc1, cc2);
+        contactRow.add(tel, 0, 0);
+        contactRow.add(expAndChips, 1, 0);
+
+        VBox rightCol = new VBox(10, header, contactRow);
         HBox.setHgrow(rightCol, Priority.ALWAYS);
 
-        HBox body = new HBox(20, leftCol, rightCol);
+        HBox body = new HBox(40, leftCol, rightCol);
         body.getStyleClass().add("estilista-card-body");
         body.setStyle("-fx-padding: 20 20 14 20;");
         body.setAlignment(Pos.TOP_LEFT);
@@ -162,7 +182,7 @@ public class EstilistasController implements Initializable {
                 "-fx-font-weight: bold;" +
                 "-fx-background-radius: 8;" +
                 "-fx-border-color: transparent;" +
-                "-fx-padding: 7 12 7 12;" +
+                "-fx-padding: 3 12 3 12;" +
                 "-fx-cursor: hand;");
         btnVer.setOnMouseEntered(e2 -> btnVer.setOpacity(0.88));
         btnVer.setOnMouseExited(e2 -> btnVer.setOpacity(1.0));
@@ -178,7 +198,7 @@ public class EstilistasController implements Initializable {
                 "-fx-text-fill: " + color + ";" +
                 "-fx-font-size: 12px;" +
                 "-fx-font-weight: bold;" +
-                "-fx-padding: 7 12 7 12;" +
+                "-fx-padding: 3 12 3 12;" +
                 "-fx-cursor: hand;" +
                 "-fx-background-insets: 0;");
         btnAgenda.setOnMouseEntered(e2 -> btnAgenda.setOpacity(0.80));
@@ -196,7 +216,7 @@ public class EstilistasController implements Initializable {
                 "-fx-text-fill: " + color + ";" +
                 "-fx-font-size: 12px;" +
                 "-fx-font-weight: bold;" +
-                "-fx-padding: 7 12 7 12;" +
+                "-fx-padding: 3 12 3 12;" +
                 "-fx-cursor: hand;" +
                 "-fx-background-insets: 0;");
         btnEditar.setOnMouseEntered(e2 -> { if (!inactivo) btnEditar.setOpacity(0.80); });
@@ -215,7 +235,7 @@ public class EstilistasController implements Initializable {
                     "-fx-text-fill: #27ae60;" +
                     "-fx-font-size: 12px;" +
                     "-fx-font-weight: bold;" +
-                    "-fx-padding: 7 12 7 12;" +
+                    "-fx-padding: 3 12 3 12;" +
                     "-fx-cursor: hand;" +
                     "-fx-background-insets: 0;");
             btnAccion.setOnAction(ev -> reactivarEstilista(e));
@@ -230,7 +250,7 @@ public class EstilistasController implements Initializable {
                     "-fx-text-fill: #c0392b;" +
                     "-fx-font-size: 12px;" +
                     "-fx-font-weight: bold;" +
-                    "-fx-padding: 7 12 7 12;" +
+                    "-fx-padding: 3 12 3 12;" +
                     "-fx-cursor: hand;" +
                     "-fx-background-insets: 0;");
             btnAccion.setOnAction(ev -> desactivarEstilista(e));
@@ -242,34 +262,18 @@ public class EstilistasController implements Initializable {
         for (javafx.scene.Node node : botonesRow.getChildren()) {
             HBox.setHgrow(node, Priority.ALWAYS);
             ((Button) node).setMaxWidth(Double.MAX_VALUE);
+            ((Button) node).setPrefHeight(28);
+            ((Button) node).setMinHeight(28);
         }
 
-        VBox bottomSection = new VBox(10, horario, botonesRow);
+        VBox bottomSection = new VBox(12, horario, botonesRow);
         bottomSection.setStyle("-fx-padding: 12 20 16 20;");
 
         VBox card = new VBox(body, sep, bottomSection);
         card.getStyleClass().add("estilista-card");
+        card.setMaxWidth(Double.MAX_VALUE);
         if (inactivo) card.setStyle("-fx-background-color: #fafafa; -fx-opacity: 0.9;");
         return card;
-    }
-
-    private Button crearBtnOutline(String text, String color) {
-        Button btn = new Button(text);
-        btn.setStyle(
-                "-fx-background-color: transparent;" +
-                "-fx-border-color: " + color + ";" +
-                "-fx-border-width: 1.5;" +
-                "-fx-border-radius: 8;" +
-                "-fx-background-radius: 8;" +
-                "-fx-text-fill: " + color + ";" +
-                "-fx-font-size: 13px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-padding: 7 14 7 14;" +
-                "-fx-cursor: hand;" +
-                "-fx-background-insets: 0;");
-        btn.setOnMouseEntered(e -> btn.setOpacity(0.80));
-        btn.setOnMouseExited(e -> btn.setOpacity(1.0));
-        return btn;
     }
 
     private String iniciales(Estilista e) {
@@ -372,13 +376,11 @@ public class EstilistasController implements Initializable {
     }
 
     private void desactivarEstilista(Estilista e) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Desactivar Estilista");
-        confirm.setHeaderText(null);
-        confirm.setContentText("¿Desactivar a " + e.getNombreCompleto() + "?\n"
-                + "Su historial de servicios se conservará, pero no podrá acceder al sistema.");
-        Optional<ButtonType> result = confirm.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (ConfirmDialog.mostrar(
+                "Desactivar Estilista", "⚠",
+                "¿Desactivar a " + e.getNombreCompleto() + "?\n"
+                        + "Su historial de servicios se conservará, pero no podrá acceder al sistema.",
+                "Desactivar", "#e67e22")) {
             try {
                 new EstilistaService().desactivar(e.getCedula());
                 cargarDatos();
@@ -389,13 +391,11 @@ public class EstilistasController implements Initializable {
     }
 
     private void reactivarEstilista(Estilista e) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Reactivar Estilista");
-        confirm.setHeaderText(null);
-        confirm.setContentText("¿Reactivar a " + e.getNombreCompleto() + "?\n"
-                + "Volverá a tener acceso al sistema.");
-        Optional<ButtonType> result = confirm.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (ConfirmDialog.mostrar(
+                "Reactivar Estilista", "✅",
+                "¿Reactivar a " + e.getNombreCompleto() + "?\n"
+                        + "Volverá a tener acceso al sistema.",
+                "Reactivar", "#27ae60")) {
             try {
                 new EstilistaService().reactivar(e.getCedula());
                 cargarDatos();

@@ -228,7 +228,7 @@ public class PropietariosController implements Initializable {
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
-            stage.setMaxHeight(720);
+            stage.setMaxHeight(700);
             stage.showAndWait();
             cargarDatos();
         } catch (Exception e) {
@@ -249,7 +249,7 @@ public class PropietariosController implements Initializable {
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
-            stage.setMaxHeight(720);
+            stage.setMaxHeight(700);
             stage.showAndWait();
             cargarDatos();
         } catch (Exception e) {
@@ -271,7 +271,7 @@ public class PropietariosController implements Initializable {
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
-            stage.setMaxHeight(720);
+            stage.setMaxHeight(700);
             stage.showAndWait();
         } catch (Exception e) {
             mostrarAlerta("Error al abrir detalle: " + e.getMessage());

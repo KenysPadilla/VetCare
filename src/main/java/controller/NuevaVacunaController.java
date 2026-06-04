@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Vacuna;
 import service.VacunaService;
+import ui.NumericFormatter;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -30,7 +31,8 @@ public class NuevaVacunaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // nothing to pre-load
+        NumericFormatter.apply(txtStock);
+        NumericFormatter.apply(txtPrecio);
     }
 
     public void setModoEdicion(Vacuna v) {
@@ -40,7 +42,7 @@ public class NuevaVacunaController implements Initializable {
         txtLaboratorio.setText(v.getLaboratorio() != null ? v.getLaboratorio() : "");
         txtLote.setText(v.getLote() != null ? v.getLote() : "");
         txtStock.setText(String.valueOf(v.getStockDisponible()));
-        txtPrecio.setText(String.valueOf(v.getPrecio()));
+        txtPrecio.setText(String.valueOf((long) v.getPrecio()));
         dpVencimiento.setValue(v.getFechaVencimiento());
         btnGuardar.setText("Actualizar");
     }
@@ -62,8 +64,8 @@ public class NuevaVacunaController implements Initializable {
             v.setLaboratorio(laboratorio);
             String lote = txtLote.getText().trim();
             v.setLote(lote.isEmpty() ? null : lote);
-            v.setStockDisponible(Integer.parseInt(txtStock.getText().trim()));
-            v.setPrecio(Double.parseDouble(txtPrecio.getText().trim()));
+            v.setStockDisponible((int) NumericFormatter.toLong(txtStock));
+            v.setPrecio(NumericFormatter.toDouble(txtPrecio));
             v.setFechaVencimiento(dpVencimiento.getValue());
 
             VacunaService svc = new VacunaService();

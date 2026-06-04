@@ -19,11 +19,14 @@ import javafx.scene.control.TableView;
 import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Medicamento;
 import service.MedicamentoService;
+import ui.NumericFormatter;
 import ui.StyleManager;
 
 import java.net.URL;
@@ -46,7 +49,7 @@ public class MedicamentosController implements Initializable {
     @FXML private TableView<Medicamento> tablaMedicamentos;
     @FXML private TableColumn<Medicamento, String>      colId;
     @FXML private TableColumn<Medicamento, String>      colNombre;
-    @FXML private TableColumn<Medicamento, String>      colPrincipio;
+    @FXML private TableColumn<Medicamento, String>      colCategoria;
     @FXML private TableColumn<Medicamento, String>      colConcentracion;
     @FXML private TableColumn<Medicamento, String>      colStock;
     @FXML private TableColumn<Medicamento, String>      colPrecio;
@@ -55,6 +58,8 @@ public class MedicamentosController implements Initializable {
     @FXML private TableColumn<Medicamento, Medicamento> colAcciones;
     @FXML private Button btnEditar;
     @FXML private Button btnStock;
+    @FXML private javafx.scene.layout.HBox bannerStockBajo;
+    @FXML private Label lblBannerStockBajo;
 
     private final MedicamentoService service = new MedicamentoService();
     private final List<Medicamento> todosLosMedicamentos = new ArrayList<>();
@@ -98,8 +103,24 @@ public class MedicamentosController implements Initializable {
             }
         });
 
-        colPrincipio.setCellValueFactory(data -> new SimpleStringProperty(
-                data.getValue().getDescripcion() != null ? data.getValue().getDescripcion() : "—"));
+        colCategoria.setCellValueFactory(data -> new SimpleStringProperty(
+                data.getValue().getCategoria() != null ? data.getValue().getCategoria() : ""));
+        colCategoria.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(String cat, boolean empty) {
+                super.updateItem(cat, empty);
+                if (empty || cat == null || cat.isBlank()) { setGraphic(null); return; }
+                Label badge = new Label(cat);
+                badge.setStyle(
+                        "-fx-background-color: rgba(139,92,246,0.13);" +
+                        "-fx-text-fill: #7c3aed;" +
+                        "-fx-font-size: 11px; -fx-font-weight: bold;" +
+                        "-fx-background-radius: 999; -fx-padding: 3 10 3 10;");
+                HBox cell = new HBox(badge);
+                cell.setAlignment(Pos.CENTER_LEFT);
+                setGraphic(cell);
+            }
+        });
+
         colConcentracion.setCellValueFactory(data -> new SimpleStringProperty(
                 data.getValue().getConcentracion() != null ? data.getValue().getConcentracion() : "—"));
 
@@ -108,16 +129,41 @@ public class MedicamentosController implements Initializable {
         colStock.setCellFactory(col -> new TableCell<>() {
             @Override protected void updateItem(String s, boolean empty) {
                 super.updateItem(s, empty);
-                setText(empty || s == null ? null : s);
-                if (empty || s == null) return;
+                setText(null);
+                if (empty || s == null) { setGraphic(null); return; }
                 int stock = Integer.parseInt(s);
-                String color = stock == 0 ? "#e53e3e" : (stock <= 5 ? "#e67e22" : "#27ae60");
-                setStyle("-fx-font-weight: bold; -fx-text-fill: " + color + ";");
+                String barColor = stock <= 5 ? "#e53e3e" : "#27ae60";
+                String numColor = stock <= 5 ? "#e53e3e" : "#27ae60";
+
+                int maxRef = todosLosMedicamentos.stream()
+                        .mapToInt(Medicamento::getStockDisponible).max().orElse(200);
+                double pct = maxRef > 0 ? Math.min(1.0, (double) stock / maxRef) : 0;
+
+                Region barBg = new Region();
+                barBg.setPrefHeight(6); barBg.setMaxHeight(6);
+                barBg.setPrefWidth(72);
+                barBg.setStyle("-fx-background-color: #e8ecef; -fx-background-radius: 3;");
+
+                Region barFill = new Region();
+                barFill.setPrefHeight(6); barFill.setMaxHeight(6);
+                barFill.setPrefWidth(Math.max(stock > 0 ? 5 : 0, 72 * pct));
+                barFill.setStyle("-fx-background-color: " + barColor + "; -fx-background-radius: 3;");
+
+                StackPane bar = new StackPane(barBg, barFill);
+                bar.setAlignment(Pos.CENTER_LEFT);
+                bar.setPrefWidth(72);
+
+                Label num = new Label(s);
+                num.setStyle("-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: " + numColor + "; -fx-min-width: 24;");
+
+                HBox cell = new HBox(8, bar, num);
+                cell.setAlignment(Pos.CENTER_LEFT);
+                setGraphic(cell);
             }
         });
 
         colPrecio.setCellValueFactory(data -> new SimpleStringProperty(
-                String.format("$%.2f", data.getValue().getPrecio())));
+                NumericFormatter.formatCurrency(data.getValue().getPrecio())));
 
         colVencimiento.setCellValueFactory(data -> new SimpleStringProperty(
                 data.getValue().getFechaVencimiento() != null
@@ -129,13 +175,27 @@ public class MedicamentosController implements Initializable {
             @Override protected void updateItem(String estado, boolean empty) {
                 super.updateItem(estado, empty);
                 if (empty || estado == null) { setGraphic(null); return; }
-                Label badge = new Label(estado);
-                badge.getStyleClass().add(switch (estado) {
-                    case "Disponible" -> "badge-confirmado";
-                    case "Stock bajo" -> "badge-pendiente";
-                    case "Sin stock"  -> "badge-critico";
-                    default           -> "badge-inactivo";   // Vencido
-                });
+                String texto = "Disponible".equals(estado) ? "Normal" : estado;
+                Label badge = new Label(texto);
+                String style = switch (estado) {
+                    case "Disponible" ->
+                        "-fx-background-color: #edf9f2; -fx-text-fill: #27ae60;" +
+                        "-fx-font-size: 11px; -fx-font-weight: bold;" +
+                        "-fx-background-radius: 12; -fx-padding: 4 12 4 12;";
+                    case "Stock bajo" ->
+                        "-fx-background-color: #fde8e8; -fx-text-fill: #e53e3e;" +
+                        "-fx-font-size: 11px; -fx-font-weight: bold;" +
+                        "-fx-background-radius: 12; -fx-padding: 4 12 4 12;";
+                    case "Sin stock" ->
+                        "-fx-background-color: #fff0f0; -fx-text-fill: #c53030;" +
+                        "-fx-font-size: 11px; -fx-font-weight: bold;" +
+                        "-fx-background-radius: 12; -fx-padding: 4 12 4 12;";
+                    default ->
+                        "-fx-background-color: #f0f2f4; -fx-text-fill: #6b7f8e;" +
+                        "-fx-font-size: 11px; -fx-font-weight: bold;" +
+                        "-fx-background-radius: 12; -fx-padding: 4 12 4 12;";
+                };
+                badge.setStyle(style);
                 HBox cell = new HBox(badge);
                 cell.setAlignment(Pos.CENTER);
                 cell.setMaxWidth(Double.MAX_VALUE);
@@ -283,18 +343,30 @@ public class MedicamentosController implements Initializable {
     }
 
     private void actualizarEstadisticas() {
-        int disponibles = 0, sinStock = 0, vencidos = 0;
+        int disponibles = 0, sinStock = 0, vencidos = 0, stockBajo = 0;
         for (Medicamento m : todosLosMedicamentos) {
             switch (m.calcularEstado()) {
-                case "Disponible", "Stock bajo" -> disponibles++;
-                case "Sin stock"               -> sinStock++;
-                case "Vencido"                 -> vencidos++;
+                case "Disponible" -> disponibles++;
+                case "Stock bajo" -> { disponibles++; stockBajo++; }
+                case "Sin stock"  -> sinStock++;
+                case "Vencido"    -> vencidos++;
             }
         }
         lblStatTotal.setText(String.valueOf(todosLosMedicamentos.size()));
         lblStatDisponibles.setText(String.valueOf(disponibles));
         lblStatAgotados.setText(String.valueOf(sinStock));
         lblStatPorVencer.setText(String.valueOf(vencidos));
+
+        if (stockBajo > 0) {
+            String texto = stockBajo + (stockBajo == 1 ? " medicamento" : " medicamentos")
+                    + " con stock bajo el mínimo requerido. Se recomienda reabastecer.";
+            lblBannerStockBajo.setText(texto);
+            bannerStockBajo.setVisible(true);
+            bannerStockBajo.setManaged(true);
+        } else {
+            bannerStockBajo.setVisible(false);
+            bannerStockBajo.setManaged(false);
+        }
     }
 
     @FXML private void handleBuscar() { aplicarFiltros(); }

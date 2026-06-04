@@ -15,8 +15,11 @@ import service.EstilistaService;
 import service.PacienteService;
 import service.ServicioEsteticoService;
 
+import util.ComboBoxFilter;
+
 import java.net.URL;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -55,8 +58,10 @@ public class NuevaMotiladaController implements Initializable {
         cbLargo.getItems().addAll("Corto", "Mediano", "Largo");
 
         try {
-            cbPaciente.getItems().setAll(new PacienteService().listarTodos());
-            cbEstilista.getItems().setAll(new EstilistaService().listarParaMotilada());
+            List<Paciente>  pacientes  = new PacienteService().listarTodos();
+            List<Estilista> estilistas = new EstilistaService().listarParaMotilada();
+            ComboBoxFilter.apply(cbPaciente,  pacientes,  Object::toString);
+            ComboBoxFilter.apply(cbEstilista, estilistas, Object::toString);
         } catch (java.sql.SQLException e) {
             mostrarMensaje("Error al cargar datos: " + e.getMessage(), "#D32F2F");
         }

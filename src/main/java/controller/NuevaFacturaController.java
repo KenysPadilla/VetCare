@@ -12,6 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -21,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import model.Cirugia;
@@ -29,7 +31,6 @@ import model.DetalleFactura;
 import model.ExamenLab;
 import model.Factura;
 import model.Internacion;
-import model.InternacionMedicamento;
 import model.Paciente;
 import model.Propietario;
 import model.ServicioEstetico;
@@ -45,6 +46,8 @@ import service.PacienteService;
 import service.PropietarioService;
 import service.ServicioEsteticoService;
 import service.VacunacionService;
+
+import util.ComboBoxFilter;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -70,8 +73,9 @@ public class NuevaFacturaController implements Initializable {
     @FXML private TableColumn<ServicioFacturable, Boolean>   colSeleccionar;
     @FXML private TableColumn<ServicioFacturable, String>    colTipoServicio;
     @FXML private TableColumn<ServicioFacturable, String>    colDescServicio;
-    @FXML private TableColumn<ServicioFacturable, String>    colFechaServicio;
+    @FXML private TableColumn<ServicioFacturable, Integer>   colCantidadServicio;
     @FXML private TableColumn<ServicioFacturable, String>    colCostoServicio;
+    @FXML private TableColumn<ServicioFacturable, String>    colSubtotalServicio;
 
     // ── Tabla de conceptos confirmados ──
     @FXML private TableView<DetalleFactura>            tablaDetalles;
@@ -94,10 +98,42 @@ public class NuevaFacturaController implements Initializable {
         try {
             // ── Conceptos table ──
             colConcepto.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+            colConcepto.setCellFactory(col -> {
+                Text text = new Text();
+                text.wrappingWidthProperty().bind(col.widthProperty().subtract(16));
+                text.setStyle("-fx-font-size: 12px;");
+                TableCell<DetalleFactura, String> cell = new TableCell<>() {
+                    @Override protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        text.setText((empty || item == null) ? null : item);
+                        setGraphic(empty ? null : text);
+                        setPadding(new Insets(6, 8, 6, 8));
+                    }
+                };
+                return cell;
+            });
             colTipo.setCellValueFactory(new PropertyValueFactory<>("tipoConcepto"));
-            colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-            colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioUnitario"));
-            colSubtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
+
+            // Lambdas explícitas en lugar de PropertyValueFactory para evitar fallos
+            // de reflexión con primitivos (int, double) en JavaFX 21
+            colCantidad.setCellValueFactory(data ->
+                    new javafx.beans.property.SimpleObjectProperty<>(data.getValue().getCantidad()));
+            colPrecio.setCellValueFactory(data ->
+                    new javafx.beans.property.SimpleObjectProperty<>(data.getValue().getPrecioUnitario()));
+            colPrecio.setCellFactory(col -> new TableCell<>() {
+                @Override protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? null : ui.NumericFormatter.formatCurrency(item));
+                }
+            });
+            colSubtotal.setCellValueFactory(data ->
+                    new javafx.beans.property.SimpleObjectProperty<>(data.getValue().getSubtotal()));
+            colSubtotal.setCellFactory(col -> new TableCell<>() {
+                @Override protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? null : ui.NumericFormatter.formatCurrency(item));
+                }
+            });
 
             // ── Services table ──
             tablaServicios.setEditable(true);
@@ -105,9 +141,26 @@ public class NuevaFacturaController implements Initializable {
             colSeleccionar.setCellFactory(CheckBoxTableCell.forTableColumn(colSeleccionar));
             colTipoServicio.setCellValueFactory(new PropertyValueFactory<>("tipo"));
             colDescServicio.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-            colFechaServicio.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+            colDescServicio.setCellFactory(col -> {
+                Text text = new Text();
+                text.wrappingWidthProperty().bind(col.widthProperty().subtract(16));
+                text.setStyle("-fx-font-size: 12px;");
+                TableCell<ServicioFacturable, String> cell = new TableCell<>() {
+                    @Override protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        text.setText((empty || item == null) ? null : item);
+                        setGraphic(empty ? null : text);
+                        setPadding(new Insets(6, 8, 6, 8));
+                    }
+                };
+                return cell;
+            });
+            colCantidadServicio.setCellValueFactory(data ->
+                    new javafx.beans.property.SimpleObjectProperty<>(1));
             colCostoServicio.setCellValueFactory(data ->
-                    new SimpleStringProperty(String.format("$%.2f", data.getValue().getCosto())));
+                    new SimpleStringProperty(ui.NumericFormatter.formatCurrency(data.getValue().getCosto())));
+            colSubtotalServicio.setCellValueFactory(data ->
+                    new SimpleStringProperty(ui.NumericFormatter.formatCurrency(data.getValue().getCosto())));
 
             // ── StringConverters ──
             cbPropietario.setConverter(new StringConverter<Propietario>() {
@@ -127,7 +180,8 @@ public class NuevaFacturaController implements Initializable {
 
             // ── Propietarios ──
             try {
-                cbPropietario.getItems().setAll(new PropietarioService().listarTodos());
+                List<Propietario> propietarios = new PropietarioService().listarTodos();
+                ComboBoxFilter.apply(cbPropietario, propietarios, Object::toString);
             } catch (java.sql.SQLException e) {
                 mostrarMensaje("Error al cargar propietarios: " + e.getMessage(), "#D32F2F");
             }
@@ -221,45 +275,28 @@ public class NuevaFacturaController implements Initializable {
             }
         } catch (Exception e) { e.printStackTrace(); }
 
-        // Internaciones + medicamentos administrados
+        // Internaciones — se cobra únicamente la estancia (días × costo_diario).
+        // Los medicamentos administrados se facturan como líneas MEDICAMENTO individuales.
         try {
             InternacionService intSvc = new InternacionService();
-            DateTimeFormatter fmtShort = DateTimeFormatter.ofPattern("dd/MM/yy");
             for (Internacion i : intSvc.listarPorPaciente(id)) {
                 if (i.getFechaHoraIngreso() == null) continue;
 
-                LocalDate ingreso  = i.getFechaHoraIngreso().toLocalDate();
+                LocalDate ingreso   = i.getFechaHoraIngreso().toLocalDate();
                 boolean   enCurso  = i.getFechaHoraEgreso() == null;
                 LocalDate egreso   = enCurso ? LocalDate.now() : i.getFechaHoraEgreso().toLocalDate();
                 long      dias     = Math.max(1, ChronoUnit.DAYS.between(ingreso, egreso));
                 double    costoDias = dias * i.getCostoDia();
 
-                String egresoStr  = enCurso ? "En curso" : i.getFechaHoraEgreso().format(fmtShort);
-                double costoMeds  = i.calcularCostoMedicamentos();
-                double costoTotal = costoDias + costoMeds;
                 String desc = "Internación: " + nvl(i.getMotivo(), "sin motivo")
-                        + " | " + dias + " día" + (dias != 1 ? "s" : "")
-                        + " × $" + String.format("%,.0f", i.getCostoDia()) + "/día"
-                        + (costoMeds > 0 ? " | Medicamentos: $" + String.format("%,.0f", costoMeds) : "")
-                        + " | Ingreso: " + ingreso.format(fmtShort)
-                        + " | Egreso: " + egresoStr
-                        + (enCurso ? " (provisional)" : "");
+                        + "  —  " + ui.NumericFormatter.formatCurrency(costoDias)
+                        + (enCurso ? " (provisional)" : "")
+                        + "\n" + dias + " día" + (dias != 1 ? "s" : "")
+                        + " × " + ui.NumericFormatter.formatCurrency(i.getCostoDia()) + "/día";
 
                 tablaServicios.getItems().add(
-                        new ServicioFacturable("Internación", desc, i.getFechaHoraIngreso().format(FMT), costoTotal));
-
-                // Medicamentos administrados durante la internación (ítems separados)
-                for (InternacionMedicamento im : intSvc.listarMedicamentosPorInternacion(i.getId())) {
-                    if (im.getMedicamento() == null) continue;
-                    String medDesc = "Med internación: " + im.getMedicamento().getNombre()
-                            + (im.getCantidad() > 1 ? " x" + im.getCantidad() : "");
-                    String medFecha = im.getFechaAplicacion() != null
-                            ? im.getFechaAplicacion().format(fmtShort)
-                            : i.getFechaHoraIngreso().format(FMT);
-                    double precioMed = im.getMedicamento().getPrecio() * im.getCantidad();
-                    tablaServicios.getItems().add(
-                            new ServicioFacturable("Medicamento", medDesc, medFecha, precioMed));
-                }
+                        new ServicioFacturable("Internación", desc,
+                                i.getFechaHoraIngreso().format(FMT), costoDias));
             }
         } catch (Exception e) { e.printStackTrace(); }
 
@@ -300,7 +337,7 @@ public class NuevaFacturaController implements Initializable {
             lblServiciosInfo.setText("No hay servicios registrados para este paciente");
         } else {
             lblServiciosInfo.setText(tablaServicios.getItems().size()
-                    + " servicio(s) encontrado(s) — selecciona los que deseas incluir");
+                    + " servicio(s) — desmarca los que NO deseas cobrar y presiona \"Agregar seleccionados\"");
         }
     }
 
@@ -314,16 +351,11 @@ public class NuevaFacturaController implements Initializable {
         return mapa;
     }
 
+    /** Pre-marca todos los servicios como seleccionados.
+     *  Los conceptos de la factura se llenan únicamente al presionar "Agregar seleccionados". */
     private void autoAgregarTodosServicios() {
         for (ServicioFacturable sf : tablaServicios.getItems()) {
-            DetalleFactura det = new DetalleFactura();
-            det.setDescripcion(sf.getDescripcion());
-            det.setTipoConcepto(sf.getTipo().toUpperCase());
-            det.setCantidad(1);
-            det.setPrecioUnitario(sf.getCosto());
-            det.setSubtotal(det.calcularSubtotal());
-            detallesActuales.add(det);
-            tablaDetalles.getItems().add(det);
+            sf.setSeleccionado(true);
         }
     }
 
@@ -356,7 +388,6 @@ public class NuevaFacturaController implements Initializable {
                 detallesActuales.add(det);
                 tablaDetalles.getItems().add(det);
             }
-            sf.setSeleccionado(false);
         }
 
         actualizarTotales();
@@ -371,41 +402,42 @@ public class NuevaFacturaController implements Initializable {
         final String labelStyle = "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #2d5a3d;";
 
         // ── Campos ────────────────────────────────────────────────────
-        TextField txtDesc = new TextField();
-        txtDesc.setPromptText("Ej: Revisión especial, Procedimiento adicional...");
-        txtDesc.setPrefHeight(38); txtDesc.setStyle(fieldStyle);
-
         ComboBox<String> cbTipo = new ComboBox<>();
         cbTipo.getItems().addAll(
                 "CONSULTA", "INTERNACIÓN", "CIRUGÍA", "LABORATORIO",
                 "VACUNACIÓN", "ESTÉTICA", "MEDICAMENTO", "OTRO");
         cbTipo.setValue("CONSULTA");
-        cbTipo.setPrefHeight(38); cbTipo.setMaxWidth(Double.MAX_VALUE);
+        cbTipo.setPrefHeight(36); cbTipo.setMaxWidth(Double.MAX_VALUE);
+
+        TextField txtCantidad = new TextField("1");
+        txtCantidad.setPrefHeight(36); txtCantidad.setPrefWidth(80);
+        txtCantidad.setStyle(fieldStyle);
 
         TextField txtOtroTipo = new TextField();
         txtOtroTipo.setPromptText("Especificar tipo de servicio...");
-        txtOtroTipo.setPrefHeight(38); txtOtroTipo.setStyle(fieldStyle);
+        txtOtroTipo.setPrefHeight(36); txtOtroTipo.setStyle(fieldStyle);
         Label lOtroTipo = new Label("Especificar tipo *"); lOtroTipo.setStyle(labelStyle);
         VBox vbOtro = new VBox(5, lOtroTipo, txtOtroTipo);
         vbOtro.setVisible(false); vbOtro.setManaged(false);
 
-        TextField txtCantidad = new TextField("1");
-        txtCantidad.setPrefHeight(38); txtCantidad.setPrefWidth(85);
-        txtCantidad.setStyle(fieldStyle);
+        TextField txtDesc = new TextField();
+        txtDesc.setPromptText("Ej: Revisión especial, Procedimiento adicional...");
+        txtDesc.setPrefHeight(36); txtDesc.setStyle(fieldStyle);
 
         TextField txtPrecio = new TextField();
-        txtPrecio.setPromptText("0.00");
-        txtPrecio.setPrefHeight(38); txtPrecio.setStyle(fieldStyle);
+        txtPrecio.setPromptText("Ej: 50000");
+        txtPrecio.setPrefHeight(36); txtPrecio.setStyle(fieldStyle);
+        ui.NumericFormatter.apply(txtPrecio);
 
         Label lblSubtotal = new Label("$0.00");
-        lblSubtotal.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #27ae60;");
+        lblSubtotal.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #27ae60;");
 
         // ── Subtotal en tiempo real ───────────────────────────────────
         Runnable recalcular = () -> {
             try {
-                int c    = Integer.parseInt(txtCantidad.getText().trim());
-                double p = Double.parseDouble(txtPrecio.getText().trim());
-                lblSubtotal.setText("$" + String.format("%,.2f", c * p));
+                int    c = Integer.parseInt(txtCantidad.getText().trim());
+                double p = ui.NumericFormatter.toDouble(txtPrecio);
+                lblSubtotal.setText(ui.NumericFormatter.formatCurrency(c * p));
             } catch (NumberFormatException ignored) {
                 lblSubtotal.setText("$0.00");
             }
@@ -413,15 +445,16 @@ public class NuevaFacturaController implements Initializable {
         txtCantidad.textProperty().addListener((obs, o, n) -> recalcular.run());
         txtPrecio.textProperty().addListener((obs, o, n) -> recalcular.run());
 
-        // ── Layout ───────────────────────────────────────────────────
-        Label lDesc   = new Label("Descripción *");      lDesc.setStyle(labelStyle);
-        Label lTipo   = new Label("Tipo de concepto");   lTipo.setStyle(labelStyle);
-        Label lCant   = new Label("Cantidad");           lCant.setStyle(labelStyle);
-        Label lPrecio = new Label("Precio unitario *");  lPrecio.setStyle(labelStyle);
+        // ── Layout  (orden: Tipo+Cantidad → Descripción → Precio → Subtotal) ──
+        Label lTipo   = new Label("Tipo de concepto");  lTipo.setStyle(labelStyle);
+        Label lCant   = new Label("Cantidad");          lCant.setStyle(labelStyle);
+        Label lDesc   = new Label("Descripción *");     lDesc.setStyle(labelStyle);
+        Label lPrecio = new Label("Precio unitario *"); lPrecio.setStyle(labelStyle);
 
         VBox vbTipo = new VBox(5, lTipo, cbTipo);
         HBox.setHgrow(vbTipo, Priority.ALWAYS);
-        HBox rowTC = new HBox(12, vbTipo, new VBox(5, lCant, txtCantidad));
+        VBox vbCant = new VBox(5, lCant, txtCantidad);
+        HBox rowTC = new HBox(12, vbTipo, vbCant);
 
         Label lSubTexto = new Label("Subtotal estimado:");
         lSubTexto.setStyle("-fx-font-size: 13px; -fx-text-fill: #6b7f8e;");
@@ -429,19 +462,20 @@ public class NuevaFacturaController implements Initializable {
         HBox.setHgrow(spacer, Priority.ALWAYS);
         HBox rowSub = new HBox(lSubTexto, spacer, lblSubtotal);
         rowSub.setAlignment(Pos.CENTER_LEFT);
+        rowSub.setStyle("-fx-background-color: #f8fafb; -fx-background-radius: 8; -fx-padding: 10 14 10 14;");
 
         Separator sep = new Separator();
-        sep.setStyle("-fx-opacity: 0.4;");
+        sep.setStyle("-fx-opacity: 0.3;");
 
-        VBox content = new VBox(14,
-                new VBox(5, lDesc, txtDesc),
+        VBox content = new VBox(12,
                 rowTC,
                 vbOtro,
+                new VBox(5, lDesc, txtDesc),
                 new VBox(5, lPrecio, txtPrecio),
                 sep,
                 rowSub);
-        content.setPadding(new Insets(20, 20, 8, 20));
-        content.setPrefWidth(420);
+        content.setPadding(new Insets(20, 20, 10, 20));
+        content.setPrefWidth(440);
 
         // ── Dialog ───────────────────────────────────────────────────
         ButtonType btnAgregar = new ButtonType("Agregar", ButtonBar.ButtonData.OK_DONE);
@@ -455,17 +489,17 @@ public class NuevaFacturaController implements Initializable {
         Node btnOk = dialog.getDialogPane().lookupButton(btnAgregar);
         btnOk.setStyle("-fx-background-color: #2b87a0; -fx-text-fill: white; "
                 + "-fx-font-weight: bold; -fx-font-size: 13px; "
-                + "-fx-background-radius: 8; -fx-cursor: hand;");
-        ((Region) btnOk).setPrefHeight(36);
-        ((Region) btnOk).setMinHeight(36);
-        ((Region) btnOk).setMaxHeight(36);
+                + "-fx-background-radius: 8; -fx-padding: 3 22 3 22; -fx-cursor: hand;");
+        ((Region) btnOk).setPrefHeight(28);
+        ((Region) btnOk).setMinHeight(28);
+        ((Region) btnOk).setMaxHeight(28);
         Node btnCan = dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
         btnCan.setStyle("-fx-background-color: white; -fx-text-fill: #6b7f8e; "
                 + "-fx-border-color: rgba(0,0,0,0.15); -fx-border-radius: 8; -fx-border-width: 1; "
-                + "-fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand;");
-        ((Region) btnCan).setPrefHeight(36);
-        ((Region) btnCan).setMinHeight(36);
-        ((Region) btnCan).setMaxHeight(36);
+                + "-fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 3 22 3 22; -fx-cursor: hand;");
+        ((Region) btnCan).setPrefHeight(28);
+        ((Region) btnCan).setMinHeight(28);
+        ((Region) btnCan).setMaxHeight(28);
 
         // Mostrar/ocultar campo "Otro" según selección de tipo
         cbTipo.valueProperty().addListener((obs, o, n) -> {
@@ -500,7 +534,7 @@ public class NuevaFacturaController implements Initializable {
                 det.setDescripcion(txtDesc.getText().trim());
                 det.setTipoConcepto(tipo);
                 det.setCantidad(Integer.parseInt(txtCantidad.getText().trim()));
-                det.setPrecioUnitario(Double.parseDouble(txtPrecio.getText().trim()));
+                det.setPrecioUnitario(ui.NumericFormatter.toDouble(txtPrecio));
                 det.setSubtotal(det.calcularSubtotal());
                 return det;
             } catch (NumberFormatException e) {
@@ -556,9 +590,9 @@ public class NuevaFacturaController implements Initializable {
         double sub = detallesActuales.stream()
                 .mapToDouble(DetalleFactura::calcularSubtotal)
                 .sum();
-        lblSubtotal.setText("$" + String.format("%.2f", sub));
-        lblIva.setText("$"      + String.format("%.2f", sub * 0.19));
-        lblTotal.setText("$"    + String.format("%.2f", sub * 1.19));
+        lblSubtotal.setText(ui.NumericFormatter.formatCurrency(sub));
+        lblIva.setText(ui.NumericFormatter.formatCurrency(sub * 0.19));
+        lblTotal.setText(ui.NumericFormatter.formatCurrency(sub * 1.19));
     }
 
     private void cerrarVentana() {

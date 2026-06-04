@@ -1,13 +1,13 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Consulta;
 import service.ConsultaService;
+import ui.NumericFormatter;
 
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
@@ -50,7 +50,8 @@ public class ModificarConsultaController {
         txtSintomas.setText(c.getSintomas() != null ? c.getSintomas() : "");
         txtDiagnostico.setText(c.getDiagnostico() != null ? c.getDiagnostico() : "");
         txtTratamiento.setText(c.getTratamiento() != null ? c.getTratamiento() : "");
-        txtCosto.setText(String.format("%.2f", c.getCosto()));
+        NumericFormatter.apply(txtCosto);
+        txtCosto.setText(String.valueOf((long) c.getCosto()));
     }
 
     public void setOnGuardado(Runnable callback) {
@@ -67,13 +68,7 @@ public class ModificarConsultaController {
             return;
         }
 
-        double costo;
-        try {
-            costo = Double.parseDouble(txtCosto.getText().trim().replace(",", "."));
-        } catch (NumberFormatException e) {
-            mostrarMensaje("El costo debe ser un número válido.", "#D32F2F");
-            return;
-        }
+        double costo = NumericFormatter.toDouble(txtCosto);
 
         consulta.setSintomas(sintomas);
         consulta.setDiagnostico(diagnostico);
