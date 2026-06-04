@@ -9,26 +9,16 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/**
- * Hace buscable cualquier ComboBox: al escribir filtra los items en tiempo
- * real y muestra sólo las coincidencias que contienen el texto escrito.
- */
+
 public final class ComboBoxFilter {
 
     private ComboBoxFilter() {}
 
-    /**
-     * Aplica búsqueda en tiempo real a un ComboBox con objetos.
-     *
-     * @param cb       ComboBox a configurar (queda en modo editable)
-     * @param allItems lista completa de items
-     * @param display  extrae el texto de búsqueda de cada item
-     */
+    
     public static <T> void apply(ComboBox<T> cb, List<T> allItems,
                                  Function<T, String> display) {
         cb.setEditable(true);
 
-        // Sin converter, JavaFX devuelve el String del editor en lugar del objeto T.
         cb.setConverter(new StringConverter<T>() {
             @Override public String toString(T item) {
                 return item == null ? "" : display.apply(item);
@@ -61,7 +51,6 @@ public final class ComboBoxFilter {
         });
     }
 
-    /** Sobrecarga para ComboBox&lt;String&gt;. */
     public static void apply(ComboBox<String> cb, List<String> allItems) {
         apply(cb, allItems, s -> s);
     }

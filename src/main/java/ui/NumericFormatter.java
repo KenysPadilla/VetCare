@@ -24,7 +24,6 @@ public class NumericFormatter {
             if (newVal == null) return;
             String digits = newVal.replaceAll("[^0-9]", "");
             String formatted = digits.isEmpty() ? "" : addThousandSeparators(digits);
-            // evitar recursión
             if (!formatted.equals(newVal)) {
                 field.setText(formatted);
                 field.positionCaret(formatted.length());
