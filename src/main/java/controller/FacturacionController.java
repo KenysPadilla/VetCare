@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -28,6 +27,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import service.FacturaService;
 import ui.ConfirmDialog;
 import ui.NumericFormatter;
+import ui.PagoDialog;
 import ui.StyleManager;
 
 import java.net.URL;
@@ -45,7 +45,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class FacturacionController implements Initializable {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML private TextField txtBuscar;
@@ -252,12 +251,12 @@ public class FacturacionController implements Initializable {
     }
 
     private void cargarGraficaIngresos() {
-        YearMonth mesActual  = YearMonth.now();
+        YearMonth mesActual   = YearMonth.now();
         YearMonth mesAnterior = mesActual.minusMonths(1);
         int diasEnMes = mesActual.lengthOfMonth();
         int mesNum    = mesActual.getMonthValue();
         int anioNum   = mesActual.getYear();
-        String mesCorto = mesActual.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+        String mesCorto = mesActual.getMonth().getDisplayName(TextStyle.SHORT, new Locale("es", "ES"));
 
         double[] ingresosPorDia = new double[diasEnMes + 1];
         double totalMesAnterior = 0;
@@ -274,9 +273,8 @@ public class FacturacionController implements Initializable {
         }
 
         double maxDia = 0;
-        int diaMax = 1;
         for (int d = 1; d <= diasEnMes; d++) {
-            if (ingresosPorDia[d] > maxDia) { maxDia = ingresosPorDia[d]; diaMax = d; }
+            if (ingresosPorDia[d] > maxDia) maxDia = ingresosPorDia[d];
         }
 
         contenedorBarras.getChildren().clear();
@@ -285,8 +283,8 @@ public class FacturacionController implements Initializable {
         for (int d = 1; d <= diasEnMes; d++) {
             Region barra = new Region();
             HBox.setHgrow(barra, Priority.ALWAYS);
-            double altura = (maxDia > 0) ? (ingresosPorDia[d] / maxDia) * ALTURA_MAX : 2.0;
-            double alturaFinal = Math.max(altura, 2.0);
+            double alturaFinal = Math.max(
+                    maxDia > 0 ? (ingresosPorDia[d] / maxDia) * ALTURA_MAX : 2.0, 2.0);
             barra.setPrefHeight(alturaFinal);
             barra.setMaxHeight(alturaFinal);
             String color = (d == diaHoy) ? "#2b87a0" : "#e8f4f8";
@@ -436,13 +434,9 @@ public class FacturacionController implements Initializable {
             mostrarAlerta("Solo las facturas pendientes pueden marcarse como pagadas.");
             return;
         }
-        ChoiceDialog<String> dlgMetodo = new ChoiceDialog<>("EFECTIVO",
-                java.util.List.of("EFECTIVO", "TARJETA", "TRANSFERENCIA", "OTRO"));
-        dlgMetodo.setTitle("Registrar Pago");
-        dlgMetodo.setHeaderText("Factura #" + sel.getId()
-                + " — " + NumericFormatter.formatCurrency(sel.getTotal()));
-        dlgMetodo.setContentText("Método de pago:");
-        Optional<String> metodo = dlgMetodo.showAndWait();
+        Optional<String> metodo = PagoDialog.mostrar(
+                "Factura #" + sel.getId(),
+                NumericFormatter.formatCurrency(sel.getTotal()));
         if (metodo.isEmpty()) return;
         try {
             service.pagar(sel.getId(), metodo.get());

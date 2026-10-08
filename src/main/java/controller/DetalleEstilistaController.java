@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import model.Estilista;
 
 public class DetalleEstilistaController {
-
     @FXML private Label lblHeaderNombre;
     @FXML private Label lblNombreCompleto;
     @FXML private Label lblCedula;

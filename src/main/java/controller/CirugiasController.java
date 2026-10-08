@@ -37,7 +37,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class CirugiasController implements Initializable {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML private TextField txtBuscar;

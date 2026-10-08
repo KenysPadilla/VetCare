@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface IDAO<T> {
-
     void guardar(T entidad) throws SQLException;
 
     void actualizar(T entidad) throws SQLException;

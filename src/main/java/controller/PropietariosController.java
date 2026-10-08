@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class PropietariosController implements Initializable {
-
     private static final String[] AVATAR_COLORS = {
             "#2b87a0", "#27ae60", "#8b5cf6", "#e67e22",
             "#e53e3e", "#4db6d4", "#f5a623", "#2980b9"

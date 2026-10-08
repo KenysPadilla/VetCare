@@ -8,7 +8,6 @@ import model.Vacunacion;
 import ui.NumericFormatter;
 
 public class DetalleVacunacionController {
-
     @FXML private Label   lblHeaderPaciente;
     @FXML private Label   lblNombrePac;
     @FXML private Label   lblEspecie;

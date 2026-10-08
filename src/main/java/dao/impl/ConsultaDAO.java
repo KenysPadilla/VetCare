@@ -12,7 +12,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ConsultaDAO implements IDAO<Consulta> {
-
     private Connection conexion;
 
     private static final String SQL_JOIN =
@@ -189,7 +188,8 @@ public class ConsultaDAO implements IDAO<Consulta> {
         vet.setEspecialidad(rs.getString("vet_especialidad"));
         consulta.setVeterinario(vet);
 
-        consulta.setFechaHora(rs.getTimestamp("fecha_hora").toLocalDateTime());
+        java.sql.Timestamp fechaHora = rs.getTimestamp("fecha_hora");
+        consulta.setFechaHora(fechaHora != null ? fechaHora.toLocalDateTime() : null);
         consulta.setSintomas(rs.getString("sintomas"));
         consulta.setDiagnostico(rs.getString("diagnostico"));
         consulta.setTratamiento(rs.getString("tratamiento"));

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class SolicitudCitaService {
-
     private static final Logger LOG = Logger.getLogger(SolicitudCitaService.class.getName());
 
     private final SolicitudCitaDAO solicitudDAO    = new SolicitudCitaDAO();
@@ -23,7 +22,6 @@ public class SolicitudCitaService {
     }
 
     public boolean aceptarSolicitud(SolicitudCita solicitudCita) throws SQLException {
-
         ArrayList<Veterinario> veterinarios = veterinarioDAO.listarTodos();
         if (veterinarios == null || veterinarios.isEmpty()) {
             throw new IllegalStateException(

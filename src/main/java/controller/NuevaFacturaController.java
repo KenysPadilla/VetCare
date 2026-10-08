@@ -59,7 +59,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class NuevaFacturaController implements Initializable {
-
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yy");
 
     @FXML private ComboBox<Propietario> cbPropietario;
@@ -92,7 +91,6 @@ public class NuevaFacturaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-
             colConcepto.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
             colConcepto.setCellFactory(col -> {
                 Text text = new Text();
@@ -168,6 +166,7 @@ public class NuevaFacturaController implements Initializable {
                 @Override public Paciente fromString(String s) { return null; }
             });
 
+            cbMetodoPago.setVisibleRowCount(3);
             cbMetodoPago.getItems().addAll("Efectivo", "Tarjeta", "Transferencia");
 
             try {
@@ -373,6 +372,7 @@ public class NuevaFacturaController implements Initializable {
         final String labelStyle = "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #2d5a3d;";
 
         ComboBox<String> cbTipo = new ComboBox<>();
+        cbTipo.setVisibleRowCount(6);
         cbTipo.getItems().addAll(
                 "CONSULTA", "INTERNACIÓN", "CIRUGÍA", "LABORATORIO",
                 "VACUNACIÓN", "ESTÉTICA", "MEDICAMENTO", "OTRO");

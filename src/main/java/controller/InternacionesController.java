@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class InternacionesController implements Initializable {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private enum EstadoClinico {

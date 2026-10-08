@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevaMotiladaController implements Initializable {
-
     @FXML private ComboBox<Paciente>  cbPaciente;
     @FXML private ComboBox<Estilista> cbEstilista;
     @FXML private DatePicker          dpFecha;
@@ -37,11 +36,14 @@ public class NuevaMotiladaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        cbHora.setVisibleRowCount(6);
         cbHora.getItems().addAll(
                 "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
                 "11:00", "11:30", "14:00", "14:30", "15:00", "15:30", "16:00");
 
+        cbEstiloCorte.setVisibleRowCount(4);
         cbEstiloCorte.getItems().addAll("Higiénico", "Estético", "Raza", "Personalizado");
+        cbLargo.setVisibleRowCount(3);
         cbLargo.getItems().addAll("Corto", "Mediano", "Largo");
 
         try {

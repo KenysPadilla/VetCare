@@ -3,7 +3,6 @@ package util;
 import model.Usuario;
 
 public final class Sesion {
-
     private static Usuario usuarioActual;
 
     private Sesion() {}

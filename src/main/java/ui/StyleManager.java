@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import java.util.Objects;
 
 public final class StyleManager {
-
     private static final String APP_CSS = "/css/app.css";
 
     private static final String CHIP_BASE =

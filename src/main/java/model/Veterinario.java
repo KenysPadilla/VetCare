@@ -1,7 +1,6 @@
 package model;
 
 public class Veterinario extends Persona {
-
     private String especialidad;
     private String numeroLicencia;
     private boolean activo = true;

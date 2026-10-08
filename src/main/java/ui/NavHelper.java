@@ -3,7 +3,6 @@ package ui;
 import javafx.scene.control.Button;
 
 public final class NavHelper {
-
     private static final String NAV_ITEM = "nav-item";
     private static final String NAV_ACTIVE = "nav-item-active";
 
@@ -32,5 +31,4 @@ public final class NavHelper {
             IconHelper.setNavIconActive(btn, false);
         }
     }
-
 }

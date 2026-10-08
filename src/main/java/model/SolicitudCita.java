@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class SolicitudCita {
-
     private int id;
     private String nombrePropietario;
     private String telefono;

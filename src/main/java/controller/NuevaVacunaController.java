@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NuevaVacunaController implements Initializable {
-
     @FXML private Label      lblTitulo;
     @FXML private TextField  txtNombre;
     @FXML private TextField  txtLaboratorio;

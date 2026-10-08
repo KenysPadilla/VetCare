@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevoUsuarioController implements Initializable {
-
     @FXML private TextField        txtUsername;
     @FXML private ComboBox<String> cbRol;
     @FXML private VBox             pnlEmpleado;
@@ -49,6 +48,7 @@ public class NuevoUsuarioController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        cbRol.setVisibleRowCount(4);
         cbRol.getItems().addAll("ADMIN", "VETERINARIO", "ESTILISTA", "RECEPCIONISTA");
         cbRol.setOnAction(e -> actualizarPorRol());
     }

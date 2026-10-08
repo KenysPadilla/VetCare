@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class CitaDAO implements IDAO<Cita> {
-
     private Connection conexion;
 
     public CitaDAO() {
@@ -220,7 +219,8 @@ public class CitaDAO implements IDAO<Cita> {
         vet.setEspecialidad(rs.getString("vet_especialidad"));
         c.setVeterinario(vet);
 
-        c.setFechaHora(rs.getTimestamp("fecha_hora").toLocalDateTime());
+        java.sql.Timestamp fechaHora = rs.getTimestamp("fecha_hora");
+        c.setFechaHora(fechaHora != null ? fechaHora.toLocalDateTime() : null);
         c.setTipoCita(rs.getString("tipo_cita"));
         c.setEstadoCita(rs.getString("estado_cita"));
         c.setMotivo(rs.getString("motivo"));

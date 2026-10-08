@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetalleInternacionController {
-
     @FXML private Label   lblHeaderPaciente;
     @FXML private Label   lblNombrePac;
     @FXML private Label   lblEspecie;

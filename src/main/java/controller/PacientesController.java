@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class PacientesController implements Initializable {
-
     @FXML private TextField txtBuscar;
     @FXML private ComboBox<String> cbEspecie;
     @FXML private Label lblFiltro;

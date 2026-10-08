@@ -8,7 +8,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class PropietarioDAO implements IDAO<Propietario> {
-
     private Connection conexion;
 
     public PropietarioDAO() {

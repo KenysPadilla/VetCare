@@ -9,7 +9,6 @@ import ui.NumericFormatter;
 import java.time.LocalDate;
 
 public class DetalleVacunaController {
-
     @FXML private Label lblHeaderNombre;
     @FXML private Label lblNombre;
     @FXML private Label lblLaboratorio;

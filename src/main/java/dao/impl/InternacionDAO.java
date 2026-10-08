@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class InternacionDAO implements IDAO<Internacion> {
-
     private Connection conexion;
 
     public InternacionDAO() {
@@ -230,5 +229,4 @@ public class InternacionDAO implements IDAO<Internacion> {
         internacion.setCostoMedicamentosTotal(rs.getDouble("costo_medicamentos"));
         return internacion;
     }
-
 }

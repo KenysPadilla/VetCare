@@ -32,7 +32,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class UsuariosController implements Initializable {
-
     @FXML private TextField txtBuscar;
     @FXML private ComboBox<String> cbRol;
     @FXML private Label lblStatTotal;
@@ -146,7 +145,6 @@ public class UsuariosController implements Initializable {
                         : "-fx-font-weight: bold; -fx-text-fill: #1a2e3b;");
             }
         });
-
     }
 
     private Button crearChip(String texto, String cssClass) {

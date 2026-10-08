@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ExamenLabService {
-
     private IDAO<ExamenLab> dao;
 
     public ExamenLabService() {

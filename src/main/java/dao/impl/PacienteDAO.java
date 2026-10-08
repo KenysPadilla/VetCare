@@ -9,7 +9,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class PacienteDAO implements IDAO<Paciente> {
-
     private Connection conexion;
 
     public PacienteDAO() {

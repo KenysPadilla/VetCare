@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevaInternacionController implements Initializable {
-
     @FXML private ComboBox<Paciente>    cbPaciente;
     @FXML private ComboBox<Veterinario> cbVeterinario;
     @FXML private ComboBox<Consulta>    cbConsulta;
@@ -38,7 +37,6 @@ public class NuevaInternacionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         cbConsulta.setConverter(new StringConverter<Consulta>() {
             @Override
             public String toString(Consulta c) {

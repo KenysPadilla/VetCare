@@ -13,7 +13,6 @@ import service.CirugiaService;
 import java.sql.SQLException;
 
 public class RegistrarResultadoCirugiaController {
-
     @FXML private Label lblHeaderCirugia;
     @FXML private ToggleButton btnExitosa;
     @FXML private ToggleButton btnComplicacion;

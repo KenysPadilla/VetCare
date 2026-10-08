@@ -12,7 +12,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ExamenLabDAO implements IDAO<ExamenLab> {
-
     private Connection conexion;
 
     public ExamenLabDAO() {
@@ -180,8 +179,7 @@ public class ExamenLabDAO implements IDAO<ExamenLab> {
         examenLab.setFechaHora(fechaHora != null ? fechaHora.toLocalDateTime() : null);
 
         examenLab.setTipoExamen(rs.getString("tipo_examen"));
-        try { examenLab.setPrioridad(rs.getString("prioridad")); }
-        catch (SQLException ignorada) { examenLab.setPrioridad("NORMAL"); }
+        examenLab.setPrioridad(rs.getString("prioridad") != null ? rs.getString("prioridad") : "NORMAL");
         examenLab.setResultado(rs.getString("resultado"));
         examenLab.setObservaciones(rs.getString("observaciones"));
         examenLab.setCosto(rs.getDouble("costo"));

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class CitaService {
-
     private static final Logger LOG = Logger.getLogger(CitaService.class.getName());
 
     private IDAO<Cita> dao;
@@ -34,16 +33,14 @@ public class CitaService {
                     "No se pueden agendar citas para el día actual " +
                     "ni para fechas pasadas. La fecha mínima es mañana.");
         }
-        if (cita.getFechaHora() != null) {
-            boolean disponible = ((CitaDAO) dao).verificarDisponibilidad(
-                    cita.getVeterinario().getCedula(), cita.getFechaHora());
-            if (!disponible) {
-                throw new IllegalStateException(
-                        "El veterinario ya tiene una cita programada en esa hora.");
-            }
+        boolean disponible = ((CitaDAO) dao).verificarDisponibilidad(
+                cita.getVeterinario().getCedula(), cita.getFechaHora());
+        if (!disponible) {
+            throw new IllegalStateException(
+                    "El veterinario ya tiene una cita programada en esa hora.");
         }
         dao.guardar(cita);
-        publicarEnFirebase(cita.getFechaHora() != null ? cita.getFechaHora().toLocalDate() : null);
+        publicarEnFirebase(cita.getFechaHora().toLocalDate());
     }
 
     public ArrayList<Cita> listarTodos() throws SQLException {

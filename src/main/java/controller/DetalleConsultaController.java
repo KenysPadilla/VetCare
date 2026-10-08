@@ -8,7 +8,6 @@ import model.Consulta;
 import ui.NumericFormatter;
 
 public class DetalleConsultaController {
-
     @FXML private Label   lblHeaderPaciente;
     @FXML private Label   lblNombrePac;
     @FXML private Label   lblEspecie;

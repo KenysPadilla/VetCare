@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ConsultasController implements Initializable {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML private TextField txtBuscar;

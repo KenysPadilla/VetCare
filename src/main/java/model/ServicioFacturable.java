@@ -4,7 +4,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 public class ServicioFacturable {
-
     private final BooleanProperty seleccionado = new SimpleBooleanProperty(false);
     private final String tipo;
     private final String descripcion;

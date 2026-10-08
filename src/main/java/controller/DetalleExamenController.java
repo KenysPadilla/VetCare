@@ -10,7 +10,6 @@ import ui.NumericFormatter;
 import java.time.format.DateTimeFormatter;
 
 public class DetalleExamenController {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML private Label   lblHeaderSub;

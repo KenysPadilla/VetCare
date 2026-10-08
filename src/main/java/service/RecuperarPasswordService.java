@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 public class RecuperarPasswordService {
-
     private final UsuarioDAO usuarioDAO;
 
     private final EmailService emailService;
@@ -21,7 +20,6 @@ public class RecuperarPasswordService {
 
     public void solicitarRecuperacion(String nombreUsuario, String correo)
             throws RecuperarPasswordException, SQLException {
-
         Usuario usuario = usuarioDAO.buscarPorNombreUsuario(nombreUsuario);
         if (usuario == null) {
             throw new RecuperarPasswordException("Usuario no encontrado.");
@@ -40,7 +38,6 @@ public class RecuperarPasswordService {
 
     public void verificarCodigo(String nombreUsuario, String codigoIngresado)
             throws RecuperarPasswordException, SQLException {
-
         Usuario usuario = usuarioDAO.buscarPorNombreUsuario(nombreUsuario);
         if (usuario == null || usuario.getCodigoRecuperacion() == null) {
             throw new RecuperarPasswordException(
@@ -58,7 +55,6 @@ public class RecuperarPasswordService {
 
     public void cambiarPassword(String nombreUsuario, String nuevaPassword)
             throws RecuperarPasswordException, SQLException {
-
         if (nuevaPassword == null || nuevaPassword.trim().isEmpty()) {
             throw new RecuperarPasswordException("La contrasena no puede estar vacia.");
         }

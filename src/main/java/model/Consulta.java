@@ -3,7 +3,6 @@ package model;
 import java.time.LocalDateTime;
 
 public class Consulta {
-
     private int id;
     private Cita cita;
     private Paciente paciente;

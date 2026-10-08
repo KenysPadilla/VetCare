@@ -12,7 +12,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class VacunacionDAO implements IDAO<Vacunacion> {
-
     private Connection conexion;
 
     public VacunacionDAO() {

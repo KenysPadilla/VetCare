@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class InternacionService {
-
     private IDAO<Internacion> dao;
 
     public InternacionService() {

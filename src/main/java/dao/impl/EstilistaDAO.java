@@ -8,7 +8,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class EstilistaDAO implements IDAO<Estilista> {
-
     private Connection conexion;
 
     public EstilistaDAO() {

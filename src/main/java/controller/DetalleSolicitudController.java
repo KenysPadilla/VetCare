@@ -8,7 +8,6 @@ import model.SolicitudCita;
 import java.time.format.DateTimeFormatter;
 
 public class DetalleSolicitudController {
-
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML private Label lblHeaderSub;

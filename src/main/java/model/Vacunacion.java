@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Vacunacion {
-
     private int id;
     private Paciente paciente;
     private Veterinario veterinario;

@@ -10,7 +10,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class FacturaDAO implements IDAO<Factura> {
-
     private Connection conexion;
 
     public FacturaDAO() {

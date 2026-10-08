@@ -8,7 +8,6 @@ import model.Cirugia;
 import ui.NumericFormatter;
 
 public class DetalleCirugiaController {
-
     @FXML private Label   lblHeaderPaciente;
     @FXML private Label   lblNombrePac;
     @FXML private Label   lblEspecie;

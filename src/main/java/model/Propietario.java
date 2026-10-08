@@ -1,7 +1,6 @@
 package model;
 
 public class Propietario extends Persona {
-
     private String direccion;
 
     public Propietario() {

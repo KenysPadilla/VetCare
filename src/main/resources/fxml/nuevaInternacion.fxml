@@ -59,15 +59,14 @@
             </VBox>
         </ScrollPane>
 
-        <VBox spacing="10" styleClass="form-footer">
-            <Label fx:id="lblMensaje" styleClass="form-message" text="" />
-            <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="form-actions">
-                <Button onAction="#handleGuardar"
-                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" text="Guardar" />
-                <Button onAction="#handleCancelar"
-                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" text="Cancelar" />
-            </HBox>
-        </VBox>
+        <Label fx:id="lblMensaje" styleClass="form-message form-message-row" text="" />
+
+        <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="detail-footer">
+            <Button onAction="#handleGuardar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" text="Guardar" />
+            <Button onAction="#handleCancelar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" text="Cancelar" />
+        </HBox>
 
     </VBox>
 

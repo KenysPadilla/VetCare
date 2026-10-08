@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ServiciosEsteticosController implements Initializable {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter HORA_FMT = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -140,7 +139,6 @@ public class ServiciosEsteticosController implements Initializable {
             TableColumn<ServicioEstetico, ServicioEstetico> cAcciones,
             TableColumn<ServicioEstetico, ServicioEstetico> cOperaciones,
             boolean esBano) {
-
         cId.setCellValueFactory(data -> new SimpleStringProperty(
                 String.format("%s-%03d", esBano ? "B" : "M", data.getValue().getId())));
         cId.setCellFactory(col -> new TableCell<>() {

@@ -81,6 +81,10 @@
     -fx-text-fill: #EB5757;
 }
 
+.form-message-row {
+    -fx-padding: 2 24 2 24;
+}
+
 .form-message-info {
     -fx-font-size: 12px;
     -fx-text-fill: #2b87a0;

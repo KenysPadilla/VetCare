@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NuevoEstilistaController implements Initializable {
-
     @FXML private TextField        txtCedula;
     @FXML private TextField        txtNombre;
     @FXML private TextField        txtApellido;
@@ -29,6 +28,7 @@ public class NuevoEstilistaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        cbEspecialidad.setVisibleRowCount(3);
         cbEspecialidad.getItems().addAll("Baño", "Motilada", "Ambos");
     }
 

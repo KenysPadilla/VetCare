@@ -8,7 +8,6 @@ import model.ServicioEstetico;
 import ui.NumericFormatter;
 
 public class DetalleMotiladaController {
-
     @FXML private Label lblHeaderPaciente;
     @FXML private Label lblNombrePac;
     @FXML private Label lblEspecie;

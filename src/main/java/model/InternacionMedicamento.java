@@ -3,7 +3,6 @@ package model;
 import java.time.LocalDate;
 
 public class InternacionMedicamento {
-
     private int id;
     private Internacion internacion;
     private Medicamento medicamento;

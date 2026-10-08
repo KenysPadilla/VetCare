@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PropietarioService {
-
     private IDAO<Propietario> dao;
 
     public PropietarioService() {

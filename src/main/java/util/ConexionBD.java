@@ -8,8 +8,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConexionBD {
-
-    private static ConexionBD instancia;
+    private static volatile ConexionBD instancia;
     private Connection conexion;
 
     private ConexionBD() {
@@ -19,7 +18,6 @@ public class ConexionBD {
     private void conectar() {
         try (InputStream input = ConexionBD.class
                 .getResourceAsStream("/config.properties")) {
-
             if (input == null) {
                 throw new RuntimeException(
                         "No se encontró config.properties en el classpath.");

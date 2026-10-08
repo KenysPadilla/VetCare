@@ -8,7 +8,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class VeterinarioDAO implements IDAO<Veterinario> {
-
     private Connection conexion;
 
     public VeterinarioDAO() {

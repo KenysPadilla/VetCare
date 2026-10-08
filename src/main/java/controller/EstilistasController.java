@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class EstilistasController implements Initializable {
-
     private static final String[] CARD_COLORS = {
             "#e67e22", "#8b5cf6", "#e53e3e", "#27ae60"
     };

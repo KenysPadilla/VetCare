@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class DetallePropietarioController {
-
     @FXML private Label lblHeaderNombre;
     @FXML private Label lblNombreCompleto;
     @FXML private Label lblCedula;

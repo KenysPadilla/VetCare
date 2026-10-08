@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class VacunasController implements Initializable {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("MM/yyyy");
     private static final int STOCK_MINIMO = 10;
 

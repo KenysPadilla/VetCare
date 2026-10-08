@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class VeterinariosController implements Initializable {
-
     private static final String[] CARD_COLORS = {
             "#2b87a0", "#27ae60", "#8b5cf6", "#e67e22", "#e53e3e", "#2980b9"
     };
@@ -46,7 +45,6 @@ public class VeterinariosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         ColumnConstraints col = new ColumnConstraints();
         col.setPercentWidth(33.33);
         col.setHgrow(Priority.ALWAYS);

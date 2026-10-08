@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevaCirugiaController implements Initializable {
-
     @FXML private ComboBox<Paciente>    cbPaciente;
     @FXML private ComboBox<Veterinario> cbVeterinario;
     @FXML private TextField             txtTipo;
@@ -35,6 +34,7 @@ public class NuevaCirugiaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        cbAnestesia.setVisibleRowCount(3);
         cbAnestesia.getItems().addAll("General", "Local", "Sedación");
         NumericFormatter.apply(txtCosto);
 

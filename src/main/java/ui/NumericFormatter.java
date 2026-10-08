@@ -7,7 +7,6 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 public class NumericFormatter {
-
     private static final DecimalFormat CURRENCY_FMT;
     static {
         DecimalFormatSymbols sym = new DecimalFormatSymbols(new Locale("es", "CO"));

@@ -1,7 +1,6 @@
 package model;
 
 public class DetalleFactura {
-
     private int id;
     private Factura factura;
     private String descripcion;

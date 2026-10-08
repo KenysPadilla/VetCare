@@ -1,7 +1,6 @@
 package model;
 
 public abstract class Persona {
-
     private String cedula;
     private String nombre;
     private String apellido;

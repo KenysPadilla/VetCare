@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevoExamenController implements Initializable {
-
     @FXML private ComboBox<Paciente>    cbPaciente;
     @FXML private CheckBox              chkSinConsulta;
     @FXML private ComboBox<Consulta>    cbConsulta;
@@ -41,7 +40,6 @@ public class NuevoExamenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         cbPaciente.setConverter(new StringConverter<Paciente>() {
             @Override public String toString(Paciente p) { return p == null ? "" : p.getNombre() + " (" + p.getEspecie() + ")"; }
             @Override public Paciente fromString(String s) { return null; }
@@ -79,10 +77,10 @@ public class NuevoExamenController implements Initializable {
         ComboBoxFilter.apply(cbTipoExamen, Arrays.asList(
                 "Hemograma", "Uroanálisis", "Cultivo", "Coprológico", "Rayos X", "Ecografía"));
 
+        cbPrioridad.setVisibleRowCount(2);
         cbPrioridad.getItems().addAll("NORMAL", "URGENTE");
         cbPrioridad.getSelectionModel().selectFirst();
 
-        cbConsulta.setDisable(true);
         NumericFormatter.apply(txtCosto);
     }
 
@@ -93,9 +91,12 @@ public class NuevoExamenController implements Initializable {
         cbConsulta.setValue(null);
         cbVeterinario.setValue(null);
 
-        if (pac == null || chkSinConsulta.isSelected()) return;
+        if (pac == null) {
+            cbConsulta.setPromptText("Seleccione un paciente primero");
+            return;
+        }
+        if (chkSinConsulta.isSelected()) return;
 
-        cbConsulta.setDisable(false);
         cbConsulta.setPromptText("Cargando...");
         try {
             List<Consulta> consultas = new ConsultaService().listarPorPaciente(pac.getId());

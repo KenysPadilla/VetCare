@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevaCitaController implements Initializable {
-
     @FXML private ComboBox<Paciente>    cbPaciente;
     @FXML private Label                 lblEspecie;
     @FXML private Label                 lblRaza;
@@ -71,11 +70,13 @@ public class NuevaCitaController implements Initializable {
             System.err.println("Error cargando veterinarios: " + e.getMessage());
         }
 
+        cbHora.setVisibleRowCount(6);
         cbHora.getItems().addAll(
                 "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
                 "11:00", "11:30", "14:00", "14:30", "15:00", "15:30",
                 "16:00", "16:30", "17:00");
 
+        cbTipo.setVisibleRowCount(4);
         cbTipo.getItems().addAll("Consulta General", "Vacunación", "Cirugía", "Control");
 
         dpFecha.setDayCellFactory(picker -> new DateCell() {
@@ -135,7 +136,7 @@ public class NuevaCitaController implements Initializable {
             return;
         }
 
-        if (dpFecha.getValue() == null || !dpFecha.getValue().isAfter(LocalDate.now())) {
+        if (citaEnEdicion == null && !dpFecha.getValue().isAfter(LocalDate.now())) {
             mostrarMensaje("La fecha debe ser a partir de mañana.", "#D32F2F");
             return;
         }

@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Factura {
-
     public static final double TASA_IVA = 0.19;
     private int id;
     private Propietario propietario;

@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class FirebasePolling {
-
     private static final Logger LOG = Logger.getLogger(FirebasePolling.class.getName());
     private static ScheduledExecutorService executor;
     private static final FirebaseService firebaseService = new FirebaseService();

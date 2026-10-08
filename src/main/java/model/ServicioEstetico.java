@@ -3,7 +3,6 @@ package model;
 import java.time.LocalDateTime;
 
 public class ServicioEstetico {
-
     private int id;
     private String tipoServicio;
     private Paciente paciente;

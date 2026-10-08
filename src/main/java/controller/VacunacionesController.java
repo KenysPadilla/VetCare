@@ -33,7 +33,6 @@ import ui.NumericFormatter;
 import ui.StyleManager;
 
 public class VacunacionesController implements Initializable {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML private TextField txtBuscar;

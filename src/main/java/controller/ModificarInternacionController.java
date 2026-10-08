@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ModificarInternacionController implements Initializable {
-
     @FXML private Label    lblHeaderSubtitle;
     @FXML private Label    lblPaciente;
     @FXML private Label    lblVeterinario;

@@ -11,7 +11,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class CirugiaDAO implements IDAO<Cirugia> {
-
     private Connection conexion;
 
     public CirugiaDAO() {
@@ -146,9 +145,9 @@ public class CirugiaDAO implements IDAO<Cirugia> {
         c.setAnestesia(rs.getString("anestesia"));
         c.setDescripcion(rs.getString("descripcion"));
         c.setResultado(rs.getString("resultado"));
-        c.setDuracion(rs.getInt("duracion"));
         c.setCosto(rs.getDouble("costo"));
         try {
+            c.setDuracion(rs.getInt("duracion"));
             String estadoCirugia = rs.getString("estado");
             c.setEstado(estadoCirugia != null ? estadoCirugia : "Programada");
             java.sql.Timestamp horaInicio = rs.getTimestamp("hora_inicio");

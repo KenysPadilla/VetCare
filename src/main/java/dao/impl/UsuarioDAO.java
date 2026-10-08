@@ -8,7 +8,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class UsuarioDAO implements IDAO<Usuario> {
-
     private Connection conexion;
 
     public UsuarioDAO() {
@@ -93,9 +92,7 @@ public class UsuarioDAO implements IDAO<Usuario> {
                 usuario.setEmail(rs.getString("email_display"));
                 usuario.setTelefono(rs.getString("telefono_display"));
                 usuario.setCedula(rs.getString("cedula_empleado"));
-                try {
-                    usuario.setActivo(rs.getInt("activo_efectivo") == 1);
-                } catch (SQLException ignorado) {}
+                usuario.setActivo(rs.getInt("activo_efectivo") == 1);
                 lista.add(usuario);
             }
         }
@@ -200,9 +197,7 @@ public class UsuarioDAO implements IDAO<Usuario> {
         java.sql.Timestamp expiracion = rs.getTimestamp("expiracion_codigo");
         usuario.setExpiracionCodigo(expiracion != null ? expiracion.toLocalDateTime() : null);
 
-        try {
-            usuario.setCedulaEmpleado(rs.getString("cedula_empleado"));
-        } catch (SQLException ignorado) {}
+        usuario.setCedulaEmpleado(rs.getString("cedula_empleado"));
 
         return usuario;
     }

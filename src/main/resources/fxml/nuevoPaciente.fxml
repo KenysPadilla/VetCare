@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -30,9 +31,52 @@
             <VBox spacing="10" styleClass="form-body-scroll">
 
                 <Label text="PROPIETARIO" styleClass="form-section-header" />
-                <VBox spacing="6" styleClass="field-group">
-                    <Label text="Propietario (opcional)" styleClass="field-label" />
-                    <ComboBox fx:id="cbPropietario" prefWidth="400" promptText="Sin propietario (opcional)" />
+                <CheckBox fx:id="chkSinPropietario" onAction="#handleTogglePropietario"
+                          text="Sin propietario"
+                          style="-fx-font-size: 12px; -fx-text-fill: #5a7585; -fx-cursor: hand;" />
+
+                <VBox fx:id="vboxConPropietario" spacing="6" styleClass="field-group">
+                    <Label text="Propietario existente" styleClass="field-label" />
+                    <ComboBox fx:id="cbPropietario" prefWidth="400" promptText="Seleccionar propietario..." />
+                    <HBox alignment="CENTER" maxWidth="Infinity"
+                          onMouseClicked="#handleToggleNuevoPropietario"
+                          style="-fx-border-color: #a8d4f0; -fx-border-style: dashed; -fx-border-radius: 6; -fx-background-color: #f0f8ff; -fx-background-radius: 6; -fx-padding: 12; -fx-cursor: hand;">
+                        <Label fx:id="lblToggleProp" text="＋  Registrar nuevo propietario"
+                               style="-fx-text-fill: #1a7abf; -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;" />
+                    </HBox>
+
+                    <VBox fx:id="panelNuevoProp" spacing="8" visible="false" managed="false">
+                        <Separator style="-fx-opacity: 0.4;" />
+                        <Label text="DATOS DEL NUEVO PROPIETARIO" styleClass="form-section-header" />
+                        <VBox spacing="4">
+                            <Label text="Cédula *" styleClass="field-label" />
+                            <TextField fx:id="txtNuevaCedula" prefHeight="36" promptText="Número de cédula" />
+                        </VBox>
+                        <HBox spacing="10">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Nombre *" styleClass="field-label" />
+                                <TextField fx:id="txtNuevoNombre" prefHeight="36" promptText="Nombre(s)" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Apellido *" styleClass="field-label" />
+                                <TextField fx:id="txtNuevoApellido" prefHeight="36" promptText="Apellido(s)" />
+                            </VBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Teléfono" styleClass="field-label" />
+                                <TextField fx:id="txtNuevoTelefono" prefHeight="36" promptText="Número de contacto" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Correo" styleClass="field-label" />
+                                <TextField fx:id="txtNuevoCorreo" prefHeight="36" promptText="correo@ejemplo.com" />
+                            </VBox>
+                        </HBox>
+                        <VBox spacing="4">
+                            <Label text="Dirección" styleClass="field-label" />
+                            <TextField fx:id="txtNuevaDireccion" prefHeight="36" promptText="Dirección de residencia" />
+                        </VBox>
+                    </VBox>
                 </VBox>
 
                 <Separator style="-fx-opacity: 0.4;" />
@@ -81,18 +125,17 @@
                         <TextField fx:id="txtMicrochip" prefHeight="40" prefWidth="190" promptText="Código microchip" />
                     </VBox>
                 </HBox>
-        </VBox>
+            </VBox>
         </ScrollPane>
 
-        <VBox styleClass="form-footer">
-            <Label fx:id="lblMensaje" text="" styleClass="form-message" />
-            <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="form-actions">
-                <Button fx:id="btnGuardar" onAction="#handleGuardar" text="Guardar"
-                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" />
-                <Button onAction="#handleCancelar" text="Cancelar"
-                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" />
-            </HBox>
-        </VBox>
+        <Label fx:id="lblMensaje" text="" styleClass="form-message form-message-row" />
+
+        <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="detail-footer">
+            <Button fx:id="btnGuardar" onAction="#handleGuardar" text="Guardar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" />
+            <Button onAction="#handleCancelar" text="Cancelar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" />
+        </HBox>
 
     </VBox>
 </AnchorPane>

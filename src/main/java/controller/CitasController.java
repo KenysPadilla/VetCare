@@ -41,7 +41,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class CitasController implements Initializable {
-
     private static final DateTimeFormatter HORA_FMT      = DateTimeFormatter.ofPattern("HH:mm");
     private static final DateTimeFormatter FECHA_HORA_FMT = DateTimeFormatter.ofPattern("dd/MM/yy  HH:mm");
     private static final DateTimeFormatter DIA_FMT        = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("es", "ES"));

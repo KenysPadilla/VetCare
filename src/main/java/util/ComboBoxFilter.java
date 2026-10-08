@@ -9,12 +9,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-
 public final class ComboBoxFilter {
-
     private ComboBoxFilter() {}
 
-    
     public static <T> void apply(ComboBox<T> cb, List<T> allItems,
                                  Function<T, String> display) {
         cb.setEditable(true);
@@ -26,7 +23,7 @@ public final class ComboBoxFilter {
             @Override public T fromString(String text) {
                 if (text == null || text.isBlank()) return null;
                 String lower = text.toLowerCase();
-                // exacto primero, luego parcial
+
                 return allItems.stream()
                         .filter(i -> display.apply(i).equalsIgnoreCase(text))
                         .findFirst()
@@ -36,6 +33,7 @@ public final class ComboBoxFilter {
             }
         });
 
+        cb.setVisibleRowCount(6);
         cb.getItems().setAll(allItems);
         cb.getEditor().addEventHandler(KeyEvent.KEY_RELEASED, ev -> {
             if (ev.getCode() == KeyCode.ENTER || ev.getCode() == KeyCode.ESCAPE) return;

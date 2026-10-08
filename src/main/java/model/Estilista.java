@@ -1,7 +1,6 @@
 package model;
 
 public class Estilista extends Persona {
-
     private String especialidadEstetica;
     private boolean activo = true;
 

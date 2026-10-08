@@ -7,7 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class SolicitudCitaDAO {
-
     private final Connection conexion;
 
     public SolicitudCitaDAO() {

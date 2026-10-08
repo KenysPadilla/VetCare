@@ -10,7 +10,6 @@ import ui.NumericFormatter;
 import java.time.LocalDate;
 
 public class DetalleMedicamentoController {
-
     @FXML private Label lblHeaderNombre;
     @FXML private Label lblNombre;
     @FXML private Label lblFabricante;

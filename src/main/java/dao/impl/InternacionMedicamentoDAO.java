@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class InternacionMedicamentoDAO {
-
     private static final String F = "|";
     private static final String R = "\n";
 

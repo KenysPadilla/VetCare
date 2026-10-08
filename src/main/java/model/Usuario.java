@@ -1,7 +1,6 @@
 package model;
 
 public class Usuario {
-
     private String cedula;
     private String nombre;
     private String apellido;

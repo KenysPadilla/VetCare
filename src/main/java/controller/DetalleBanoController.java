@@ -8,7 +8,6 @@ import model.ServicioEstetico;
 import ui.NumericFormatter;
 
 public class DetalleBanoController {
-
     @FXML private Label   lblHeaderPaciente;
     @FXML private Label   lblNombrePac;
     @FXML private Label   lblEspecie;
@@ -23,7 +22,6 @@ public class DetalleBanoController {
     @FXML private TextArea taObservaciones;
 
     public void setServicio(ServicioEstetico s) {
-
         String nomPac = (s.getPaciente() != null && s.getPaciente().getNombre() != null)
                 ? s.getPaciente().getNombre() : "—";
         lblHeaderPaciente.setText("Paciente: " + nomPac);

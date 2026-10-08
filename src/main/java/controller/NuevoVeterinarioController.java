@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NuevoVeterinarioController implements Initializable {
-
     @FXML private TextField txtCedula;
     @FXML private TextField txtNombre;
     @FXML private TextField txtApellido;

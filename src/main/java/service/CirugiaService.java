@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CirugiaService {
-
     private IDAO<Cirugia> dao;
 
     public CirugiaService() {

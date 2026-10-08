@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 
 public class ModificarConsultaController {
-
     @FXML private Label   lblHeaderSubtitle;
     @FXML private Label   lblPaciente;
     @FXML private Label   lblVeterinario;

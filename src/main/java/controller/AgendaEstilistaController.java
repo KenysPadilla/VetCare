@@ -18,7 +18,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class AgendaEstilistaController {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter HORA_FMT  = DateTimeFormatter.ofPattern("HH:mm");
 

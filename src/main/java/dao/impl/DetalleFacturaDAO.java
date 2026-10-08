@@ -9,7 +9,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DetalleFacturaDAO implements IDAO<DetalleFactura> {
-
     private Connection conexion;
 
     public DetalleFacturaDAO() {

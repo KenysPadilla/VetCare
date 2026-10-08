@@ -3,7 +3,6 @@ package model;
 import java.time.LocalDateTime;
 
 public class ExamenLab {
-
     private int id;
     private Paciente paciente;
     private Veterinario veterinario;

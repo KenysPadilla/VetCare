@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.function.Consumer;
 
 public final class ModalHelper {
-
     private ModalHelper() {
     }
 

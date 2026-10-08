@@ -27,7 +27,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class HistorialClinicoController implements Initializable {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML private Label lblHeaderPaciente;

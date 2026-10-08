@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevaVacunacionController implements Initializable {
-
     @FXML private ComboBox<Paciente>    cbPaciente;
     @FXML private ComboBox<Vacuna>      cbVacuna;
     @FXML private ComboBox<Veterinario> cbVeterinario;

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Internacion {
-
     private int id;
     private Paciente paciente;
     private Veterinario veterinario;

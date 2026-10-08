@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevoMedicamentoController implements Initializable {
-
     @FXML private TextField        txtNombre;
     @FXML private TextField        txtPrincipio;
     @FXML private TextField        txtConcentracion;

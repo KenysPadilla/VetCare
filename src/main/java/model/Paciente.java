@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Paciente {
-
     private int id;
     private String nombre;
     private String especie;

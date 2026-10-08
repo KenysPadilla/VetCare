@@ -25,7 +25,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class RecuperarPasswordController implements Initializable {
-
     @FXML private TextField txtUsuario;
     @FXML private TextField txtCorreo;
     @FXML private Button    btnEnviar;

@@ -60,20 +60,26 @@
                     <TextField fx:id="txtDireccion" prefHeight="40" promptText="Dirección de residencia" />
                 </VBox>
 
-                <VBox fx:id="panelMascota" spacing="10">
+                <HBox alignment="CENTER" maxWidth="Infinity"
+                      onMouseClicked="#handleToggleMascota"
+                      style="-fx-border-color: #a8d4f0; -fx-border-style: dashed; -fx-border-radius: 6; -fx-background-color: #f0f8ff; -fx-background-radius: 6; -fx-padding: 12; -fx-cursor: hand;">
+                    <Label fx:id="lblToggleMascota" text="＋  Registrar mascota"
+                           style="-fx-text-fill: #1a7abf; -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;" />
+                </HBox>
+
+                <VBox fx:id="panelMascota" spacing="10" visible="false" managed="false">
                     <Separator style="-fx-opacity: 0.4;" />
                     <Label text="DATOS DE LA MASCOTA" styleClass="form-section-header" />
-                    <Label text="Registra la mascota del propietario. El nombre es obligatorio." styleClass="form-subtitle" />
 
                     <VBox spacing="6" styleClass="field-group">
-                        <Label text="Nombre de la mascota" styleClass="field-label" />
+                        <Label text="Nombre de la mascota *" styleClass="field-label" />
                         <TextField fx:id="txtNombreMascota" prefHeight="40" promptText="Nombre de la mascota" />
                     </VBox>
 
                     <HBox spacing="14">
                         <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
-                            <Label text="Especie" styleClass="field-label" />
-                            <ComboBox fx:id="cbEspecie" maxWidth="Infinity" prefHeight="40" promptText="Seleccionar..." />
+                            <Label text="Especie *" styleClass="field-label" />
+                            <ComboBox fx:id="cbEspecie" maxWidth="Infinity" prefHeight="40" promptText="Buscar especie..." />
                             <TextField fx:id="txtEspecieOtro" prefHeight="40" promptText="Escribe la especie..." managed="false" visible="false" />
                         </VBox>
                         <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
@@ -84,8 +90,9 @@
 
                     <HBox spacing="14">
                         <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
-                            <Label text="Raza" styleClass="field-label" />
-                            <TextField fx:id="txtRaza" prefHeight="40" promptText="Raza (opcional)" />
+                            <Label text="Raza *" styleClass="field-label" />
+                            <ComboBox fx:id="cbRaza" maxWidth="Infinity" prefHeight="40" promptText="Buscar raza..." />
+                            <TextField fx:id="txtRazaOtra" prefHeight="40" promptText="Especifica la raza..." managed="false" visible="false" />
                         </VBox>
                         <VBox spacing="6" styleClass="field-group" HBox.hgrow="ALWAYS">
                             <Label text="Peso (kg)" styleClass="field-label" />
@@ -105,18 +112,17 @@
                     </HBox>
                 </VBox>
 
-        </VBox>
+            </VBox>
         </ScrollPane>
 
-        <VBox styleClass="form-footer">
-            <Label fx:id="lblMensaje" text="" styleClass="form-message" />
-            <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="form-actions">
-                <Button fx:id="btnGuardar" onAction="#handleGuardar" text="Guardar"
-                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" />
-                <Button onAction="#handleCancelar" text="Cancelar"
-                        prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" />
-            </HBox>
-        </VBox>
+        <Label fx:id="lblMensaje" text="" styleClass="form-message form-message-row" />
+
+        <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="detail-footer">
+            <Button fx:id="btnGuardar" onAction="#handleGuardar" text="Guardar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cerrar" />
+            <Button onAction="#handleCancelar" text="Cancelar"
+                    prefHeight="28" minHeight="28" maxHeight="28" prefWidth="140" styleClass="btn-cancelar" />
+        </HBox>
 
     </VBox>
 </AnchorPane>

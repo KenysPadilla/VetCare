@@ -3,20 +3,23 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Paciente;
 import model.Propietario;
 import service.PacienteService;
 import service.PropietarioService;
-
 import util.ComboBoxFilter;
+import util.ConexionBD;
 
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
@@ -91,7 +94,17 @@ public class NuevoPacienteController implements Initializable {
         "Mestizo", "Otra"
     );
 
+    @FXML private CheckBox              chkSinPropietario;
+    @FXML private VBox                  vboxConPropietario;
     @FXML private ComboBox<Propietario> cbPropietario;
+    @FXML private Label                 lblToggleProp;
+    @FXML private VBox                  panelNuevoProp;
+    @FXML private TextField             txtNuevaCedula;
+    @FXML private TextField             txtNuevoNombre;
+    @FXML private TextField             txtNuevoApellido;
+    @FXML private TextField             txtNuevoTelefono;
+    @FXML private TextField             txtNuevoCorreo;
+    @FXML private TextField             txtNuevaDireccion;
     @FXML private TextField             txtNombre;
     @FXML private ComboBox<String>      cbEspecie;
     @FXML private TextField             txtEspecieOtro;
@@ -111,10 +124,12 @@ public class NuevoPacienteController implements Initializable {
         try {
             List<Propietario> propietarios = new PropietarioService().listarTodos();
             ComboBoxFilter.apply(cbPropietario, propietarios, Object::toString);
+            cbPropietario.setVisibleRowCount(6);
         } catch (SQLException e) {
             System.err.println("Error cargando propietarios: " + e.getMessage());
         }
 
+        cbEspecie.setVisibleRowCount(6);
         cbEspecie.setEditable(true);
         cbEspecie.getItems().addAll(TODAS_LAS_ESPECIES);
         cbEspecie.getEditor().addEventHandler(KeyEvent.KEY_RELEASED, ev -> {
@@ -135,11 +150,12 @@ public class NuevoPacienteController implements Initializable {
             if (!esOtro) txtEspecieOtro.clear();
         });
 
+        cbSexo.setVisibleRowCount(2);
         cbSexo.getItems().addAll("Macho", "Hembra");
 
+        cbRaza.setVisibleRowCount(6);
         cbRaza.setEditable(true);
         cbRaza.getItems().addAll(TODAS_LAS_RAZAS);
-
         cbRaza.getEditor().addEventHandler(KeyEvent.KEY_RELEASED, ev -> {
             String texto = cbRaza.getEditor().getText();
             String lower = texto == null ? "" : texto.toLowerCase();
@@ -151,13 +167,49 @@ public class NuevoPacienteController implements Initializable {
             cbRaza.getEditor().positionCaret(texto == null ? 0 : texto.length());
             if (!filtradas.isEmpty()) cbRaza.show();
         });
-
         cbRaza.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             boolean esOtra = "Otra".equals(newVal);
             txtRazaOtra.setVisible(esOtra);
             txtRazaOtra.setManaged(esOtra);
             if (!esOtra) txtRazaOtra.clear();
         });
+    }
+
+    @FXML
+    private void handleTogglePropietario() {
+        boolean sinProp = chkSinPropietario.isSelected();
+        vboxConPropietario.setVisible(!sinProp);
+        vboxConPropietario.setManaged(!sinProp);
+        if (sinProp) {
+            cbPropietario.setValue(null);
+            cerrarPanelNuevoProp();
+        }
+    }
+
+    @FXML
+    private void handleToggleNuevoPropietario() {
+        boolean expandir = !panelNuevoProp.isVisible();
+        panelNuevoProp.setVisible(expandir);
+        panelNuevoProp.setManaged(expandir);
+        lblToggleProp.setText(expandir ? "✕ Cancelar nuevo propietario" : "＋ Registrar nuevo propietario");
+        cbPropietario.setDisable(expandir);
+        cbPropietario.setValue(null);
+        chkSinPropietario.setDisable(expandir);
+        if (!expandir) {
+            cerrarPanelNuevoProp();
+        }
+    }
+
+    private void cerrarPanelNuevoProp() {
+        panelNuevoProp.setVisible(false);
+        panelNuevoProp.setManaged(false);
+        lblToggleProp.setText("＋ Registrar nuevo propietario");
+        txtNuevaCedula.clear();
+        txtNuevoNombre.clear();
+        txtNuevoApellido.clear();
+        txtNuevoTelefono.clear();
+        txtNuevoCorreo.clear();
+        txtNuevaDireccion.clear();
     }
 
     public void setModoEdicion(Paciente pac) {
@@ -171,8 +223,15 @@ public class NuevoPacienteController implements Initializable {
                     break;
                 }
             }
+        } else {
+            chkSinPropietario.setSelected(true);
+            vboxConPropietario.setVisible(false);
+            vboxConPropietario.setManaged(false);
         }
+        chkSinPropietario.setDisable(true);
         cbPropietario.setDisable(true);
+        lblToggleProp.setVisible(false);
+        lblToggleProp.setManaged(false);
 
         txtNombre.setText(pac.getNombre());
 
@@ -235,7 +294,6 @@ public class NuevoPacienteController implements Initializable {
 
         try {
             Paciente pac = new Paciente();
-            pac.setPropietario(cbPropietario.getValue());
             pac.setNombre(txtNombre.getText().trim());
             pac.setEspecie(especieVal);
             pac.setRaza(razaVal);
@@ -246,15 +304,57 @@ public class NuevoPacienteController implements Initializable {
             pac.setFechaNacimiento(dpFechaNacimiento.getValue());
             pac.setMicrochip(txtMicrochip.getText().trim());
 
-            if (pacienteEnEdicion == null) {
-                new PacienteService().guardar(pac);
-                mostrarMensaje("Paciente guardado exitosamente.", "#1B6B2F");
+            if (panelNuevoProp.isVisible()) {
+                String cedula   = txtNuevaCedula.getText().trim();
+                String nombre   = txtNuevoNombre.getText().trim();
+                String apellido = txtNuevoApellido.getText().trim();
+                if (cedula.isEmpty() || nombre.isEmpty() || apellido.isEmpty()) {
+                    mostrarMensaje("Cédula, nombre y apellido del propietario son obligatorios.", "#D32F2F");
+                    return;
+                }
+                Propietario nuevoProp = new Propietario(
+                        cedula, nombre, apellido,
+                        txtNuevoTelefono.getText().trim(),
+                        txtNuevoCorreo.getText().trim(),
+                        txtNuevaDireccion.getText().trim()
+                );
+                Connection con = ConexionBD.getInstancia().getConexion();
+                con.setAutoCommit(false);
+                try {
+                    new PropietarioService().guardar(nuevoProp);
+                    pac.setPropietario(nuevoProp);
+                    new PacienteService().guardar(pac);
+                    con.commit();
+                } catch (Exception ex) {
+                    try { con.rollback(); } catch (SQLException ignored) {}
+                    mostrarMensaje("Error al guardar: " + ex.getMessage(), "#D32F2F");
+                    return;
+                } finally {
+                    try { con.setAutoCommit(true); } catch (SQLException ignored) {}
+                }
+
+            } else if (chkSinPropietario.isSelected()) {
+                pac.setPropietario(null);
+                if (pacienteEnEdicion == null) {
+                    new PacienteService().guardar(pac);
+                } else {
+                    pac.setId(pacienteEnEdicion.getId());
+                    new PacienteService().actualizar(pac);
+                }
+
             } else {
-                pac.setId(pacienteEnEdicion.getId());
-                new PacienteService().actualizar(pac);
-                mostrarMensaje("Paciente actualizado exitosamente.", "#1B6B2F");
+                pac.setPropietario(cbPropietario.getValue());
+                if (pacienteEnEdicion == null) {
+                    new PacienteService().guardar(pac);
+                } else {
+                    pac.setId(pacienteEnEdicion.getId());
+                    new PacienteService().actualizar(pac);
+                }
             }
+
+            mostrarMensaje("Guardado exitosamente.", "#1B6B2F");
             ((Stage) lblMensaje.getScene().getWindow()).close();
+
         } catch (NumberFormatException e) {
             mostrarMensaje("El peso debe ser un número válido.", "#D32F2F");
         } catch (SQLException e) {

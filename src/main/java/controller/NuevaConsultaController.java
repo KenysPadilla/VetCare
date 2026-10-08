@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class NuevaConsultaController implements Initializable {
-
     @FXML private CheckBox               chkSinCita;
     @FXML private VBox                   vboxConCita;
     @FXML private VBox                   vboxSinCita;
@@ -60,7 +59,6 @@ public class NuevaConsultaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         cbCita.setConverter(new StringConverter<Cita>() {
             @Override
             public String toString(Cita c) {

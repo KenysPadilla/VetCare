@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PacienteService {
-
     private IDAO<Paciente> dao;
 
     public PacienteService() {

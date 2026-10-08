@@ -9,7 +9,6 @@ import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public final class IconHelper {
-
     public static final Color NAV_MUTED  = Color.web("#6b7f8e");
     public static final Color NAV_ACTIVE = Color.WHITE;
     public static final Color INPUT_MUTED = Color.web("#6b7f8e");
@@ -57,5 +56,4 @@ public final class IconHelper {
             fi.setIconColor(color);
         }
     }
-
 }

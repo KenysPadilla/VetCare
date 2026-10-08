@@ -25,7 +25,6 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 public class FirebaseService {
-
     private static final Logger LOG = Logger.getLogger(FirebaseService.class.getName());
 
     private static volatile boolean inicializado = false;

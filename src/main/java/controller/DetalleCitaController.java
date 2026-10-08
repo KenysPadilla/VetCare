@@ -8,7 +8,6 @@ import model.Cita;
 import java.time.format.DateTimeFormatter;
 
 public class DetalleCitaController {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter HORA_FMT  = DateTimeFormatter.ofPattern("HH:mm");
 

@@ -3,7 +3,6 @@ package model;
 import java.time.LocalDate;
 
 public class Vacuna {
-
     private int id;
     private String nombre;
     private String laboratorio;

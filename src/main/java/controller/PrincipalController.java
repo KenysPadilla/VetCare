@@ -50,7 +50,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class PrincipalController implements Initializable {
-
     @FXML private Label lblTituloPagina;
     @FXML private Label lblUsuarioActual;
     @FXML private Label lblRolActual;

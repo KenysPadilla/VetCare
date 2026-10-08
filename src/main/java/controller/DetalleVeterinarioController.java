@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import model.Veterinario;
 
 public class DetalleVeterinarioController {
-
     @FXML private Label lblHeaderNombre;
     @FXML private Label lblNombreCompleto;
     @FXML private Label lblCedula;

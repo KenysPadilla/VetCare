@@ -6,7 +6,6 @@ import java.sql.*;
 import java.time.LocalDate;
 
 public class ReporteDAO {
-
     private Connection conexion;
 
     public ReporteDAO() {

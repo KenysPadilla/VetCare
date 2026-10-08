@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MedicamentosController implements Initializable {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML private TextField txtBuscar;
@@ -212,7 +211,6 @@ public class MedicamentosController implements Initializable {
                 setGraphic(empty || item == null ? null : btnVer);
             }
         });
-
     }
 
     private Button crearChip(String texto, String cssClass) {

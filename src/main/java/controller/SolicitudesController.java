@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SolicitudesController implements Initializable {
-
     private static final DateTimeFormatter FECHA_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML private TableView<SolicitudCita> tablaSolicitudes;
@@ -142,7 +141,6 @@ public class SolicitudesController implements Initializable {
             try {
                 firebaseService.importarSolicitudesNuevas();
             } catch (Exception ignored) {
-
             }
             Platform.runLater(this::cargarDatos);
         });
